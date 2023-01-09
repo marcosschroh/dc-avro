@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "dc-avro"
+version = "0.1.0"
+description = ""
+authors = ["Marcos Schroh <marcos.schroh@kpn.com>"]
+readme = "README.md"
+packages = [{include = "dc_avro"}]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+aiofiles = "^22.1.0"
+httpx = "^0.23.3"
+dataclasses-avroschema = {extras = ["pydantic"], version = "^0.34.6"}
+typer = {extras = ["all"], version = "^0.7.0"}
+
+
+[tool.poetry.group.dev.dependencies]
+commitizen = "^2.39.1"
+ruff = "^0.0.215"
+black = "^22.12.0"
+mypy = "^0.991"
+mkdocs = "^1.4.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,7 @@
+#!/bin/sh
+
+./scripts/clean
+
+# # uploading to pypi
+python setup.py sdist bdist_wheel
+twine upload dist/* -u $TWINE_USERNAME -p $TWINE_PASSWORD
