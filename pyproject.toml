@@ -10,7 +10,7 @@ packages = [{include = "dc_avro"}]
 python = "^3.7"
 aiofiles = "^22.1.0"
 httpx = "^0.23.3"
-dataclasses-avroschema = {extras = ["pydantic"], version = "^0.34.6"}
+dataclasses-avroschema = {extras = ["pydantic"], version = "^0.35.0"}
 typer = {extras = ["all"], version = "^0.7.0"}
 
 
