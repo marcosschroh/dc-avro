@@ -9,7 +9,7 @@ from dc_avro import JsonDict, exceptions
 from dc_avro._schema_utils import (
     get_resource_from_path,
     get_resource_from_url,
-    validate_schema,
+    validate,
 )
 
 
@@ -52,7 +52,7 @@ def test_get_resource_from_invalid_path() -> None:
 
 
 def test_validate_resource(example_shema_json) -> None:
-    assert validate_schema(example_shema_json)
+    assert validate(schema=example_shema_json)
 
 
 def test_invalid_schema_format(example_shema_json) -> None:
@@ -61,7 +61,7 @@ def test_invalid_schema_format(example_shema_json) -> None:
     schema = json.dumps(example_shema_json)
 
     with pytest.raises(exceptions.InvalidSchema) as exc_info:
-        validate_schema(schema)
+        validate(schema=schema)
 
     expected_error = f"Schema {schema} is an unknown type.\n Make sure that its type is a python dictionary"
     assert exc_info.value.args[0] == expected_error
@@ -69,7 +69,7 @@ def test_invalid_schema_format(example_shema_json) -> None:
 
 def test_innvalid_schema(invalid_example_shema_json) -> None:
     with pytest.raises(exceptions.InvalidSchema) as exc_info:
-        validate_schema(invalid_example_shema_json)
+        validate(schema=invalid_example_shema_json)
 
     expected_error = f"Schema {invalid_example_shema_json} is not valid.\n Error: `Default value <1> must match schema type: boolean`"
     assert exc_info.value.args[0] == expected_error

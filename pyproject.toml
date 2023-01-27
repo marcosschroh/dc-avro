@@ -13,7 +13,6 @@ httpx = "^0.23.3"
 dataclasses-avroschema = {extras = ["pydantic"], version = "^0.34.6"}
 typer = {extras = ["all"], version = "^0.7.0"}
 
-
 [tool.poetry.group.dev.dependencies]
 commitizen = "^2.39.1"
 ruff = "^0.0.215"
@@ -22,10 +21,14 @@ mypy = "^0.991"
 mkdocs = "^1.4.2"
 pytest = "^7.2.0"
 pytest-cov = "^4.0.0"
+mkdocs-material = "^9.0.6"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+dc-avro = "dc_avro.main:app"
 
 [tool.ruff]
 line-length = 88
@@ -59,3 +62,12 @@ exclude = [
 
 [tool.ruff.pydocstyle]
 convention = "google"
+
+[tool.commitizen]
+version = "0.1.0"
+tag_format = "$version"
+version_files = [
+    "pyproject.toml:version",
+]
+update_changelog_on_bump = true
+major_version_zero = true
