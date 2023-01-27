@@ -1,9 +1,0 @@
-#!/bin/sh -e
-
-export PREFIX=""
-if [ -d '.venv' ] ; then
-    export PREFIX=".venv/bin/"
-fi
-
-${PREFIX}black dc_avro tests
-${PREFIX}ruff dc_avro tests --fix
