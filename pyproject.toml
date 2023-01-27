@@ -13,7 +13,6 @@ httpx = "^0.23.3"
 dataclasses-avroschema = {extras = ["pydantic"], version = "^0.34.6"}
 typer = {extras = ["all"], version = "^0.7.0"}
 
-
 [tool.poetry.group.dev.dependencies]
 commitizen = "^2.39.1"
 ruff = "^0.0.215"
@@ -26,6 +25,9 @@ pytest-cov = "^4.0.0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+dc-avro = "dc_avro.main:app"
 
 [tool.ruff]
 line-length = 88
