@@ -1,0 +1,6 @@
+class InvalidSchema(Exception):
+    ...
+
+
+class JsonRequired(Exception):
+    ...

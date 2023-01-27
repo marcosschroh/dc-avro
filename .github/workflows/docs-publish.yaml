@@ -2,30 +2,38 @@ name: Publish documentation
 
 on:
   push:
-    branches: ["master"]
+    branches:
+      - master
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    
+      with:
+        fetch-depth: 0
+
     - name: Setup python
       uses: actions/setup-python@v4
       with:
         python-version: '3.x'
 
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+      with:
+        version: latest
+        virtualenvs-in-project: true
+        virtualenvs-create: true
+
     - name: Install Dependencies
       run: |
-        pip install mkdocs mkdocs-material
-
+        poetry install
     - name: Build docs
       run: |
-        mkdocs build
-
+        poetry run mkdocs build
     - name: Push doc to Github Page
-      uses: peaceiris/actions-gh-pages@v3
-      with:
+      uses: peaceiris/actions-gh-pages@v2
+      env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         PUBLISH_BRANCH: gh-pages
         PUBLISH_DIR: ./site
