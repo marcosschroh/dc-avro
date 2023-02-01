@@ -12,6 +12,8 @@
       
       
       
+        <link rel="next" href="commands/">
+      
       <link rel="icon" href="assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.6">
     
@@ -282,13 +284,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
-    Features
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#development" class="md-nav__link">
     Development
   </a>
@@ -299,6 +294,21 @@
   
 </nav>
       
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="commands/" class="md-nav__link">
+        Commands
+      </a>
     </li>
   
 
@@ -339,13 +349,6 @@
         <li class="md-nav__item">
   <a href="#usage" class="md-nav__link">
     Usage
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
-    Features
   </a>
   
 </li>
@@ -408,18 +411,9 @@ Valid<span class="w"> </span>schema!!<span class="w"> </span>👍<span class="w"
 <span class="o">}</span>
 </code></pre></div>
 <p>To see all the commands execute <code>dc-avro --help</code></p>
-<h2 id="features">Features</h2>
-<ul>
-<li>[x] Validate <code>schemas</code></li>
-<li>[] Generate <code>models</code> from <code>schemas</code></li>
-<li>[] View diff between <code>schemas</code></li>
-<li>[] Generate fake data from <code>schema</code></li>
-<li>[] Encode data with <code>schema</code></li>
-</ul>
 <h2 id="development">Development</h2>
 <ol>
-<li>Create a <code>virtualenv</code>: <code>python3.7 -m venv venv &amp;&amp; source venv/bin/activate</code></li>
-<li>Install requirements: <code>pip install -r requirements.txt</code></li>
+<li>Install requirements: <code>poetry install</code></li>
 <li>Code linting: <code>./scripts/format</code></li>
 <li>Run tests: <code>./scripts/test</code></li>
 </ol>
