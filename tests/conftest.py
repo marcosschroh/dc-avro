@@ -35,3 +35,34 @@ def invalid_example_shema_json():
 @pytest.fixture
 def invalid_resource():
     return load("invalid_resource.txt")
+
+
+@pytest.fixture
+def model_generator_output_command():
+    result = """from dataclasses_avroschema import AvroModel
+from dataclasses_avroschema import types
+import dataclasses
+import enum
+import typing
+
+
+class FavoriteColor(enum.Enum):
+    BLUE = "BLUE"
+    YELLOW = "YELLOW"
+    GREEN = "GREEN"
+
+
+@dataclasses.dataclass
+class UserAdvance(AvroModel):
+    name: str
+    age: int
+    pets: typing.List
+    accounts: typing.Dict
+    favorite_colors: FavoriteColor
+    md5: types.Fixed = types.Fixed(16)
+    has_car: bool = False
+    country: str = "Argentina"
+    address: typing.Optional = None
+
+"""
+    return result

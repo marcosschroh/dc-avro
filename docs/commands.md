@@ -1,0 +1,197 @@
+# Commands
+
+This section describes all the commands supported by this library together with `dataclasses-avroschema`. To show the commands we will work with the following schema:
+
+```python
+{
+    'type': 'record',
+    'name': 'UserAdvance',
+    'fields': [
+        {'name': 'name', 'type': 'string'},
+        {'name': 'age', 'type': 'long'},
+        {'name': 'pets', 'type': {'type': 'array', 'items': 'string', 'name': 'pet'}},
+        {'name': 'accounts', 'type': {'type': 'map', 'values': 'long', 'name': 'account'}},
+        {'name': 'favorite_colors', 'type': {'type': 'enum', 'name': 'FavoriteColor', 'symbols': ['BLUE', 'YELLOW', 'GREEN']}},
+        {'name': 'has_car', 'type': 'boolean', 'default': False},
+        {'name': 'country', 'type': 'string', 'default': 'Argentina'},
+        {'name': 'address', 'type': ['null', 'string'], 'default': None},
+        {'name': 'md5', 'type': {'type': 'fixed', 'name': 'md5', 'size': 16}}
+    ]
+}
+```
+
+!!! note
+    All the commands can be executed using a `path` or a `url`
+
+## Validate schemas
+
+The previous schema is a valid one. If we assume that we have a `schema.avsc` in the file system which contains the previous schema we can validate it:
+
+```bash
+dc-avro validate-schema --path schema.avsc
+```
+
+resulting in
+
+```bash
+Valid schema!! 👍 
+
+{
+    'type': 'record',
+    'name': 'UserAdvance',
+    'fields': [
+        {'name': 'name', 'type': 'string'},
+        {'name': 'age', 'type': 'long'},
+        {'name': 'pets', 'type': {'type': 'array', 'items': 'string', 'name': 'pet'}},
+        {'name': 'accounts', 'type': {'type': 'map', 'values': 'long', 'name': 'account'}},
+        {'name': 'favorite_colors', 'type': {'type': 'enum', 'name': 'FavoriteColor', 'symbols': ['BLUE', 'YELLOW', 'GREEN']}},
+        {'name': 'has_car', 'type': 'boolean', 'default': False},
+        {'name': 'country', 'type': 'string', 'default': 'Argentina'},
+        {'name': 'address', 'type': ['null', 'string'], 'default': None},
+        {'name': 'md5', 'type': {'type': 'fixed', 'name': 'md5', 'size': 16}}
+    ]
+}
+```
+
+If the previous schema is stored in a `schema registry`, for example in `https://schema-registry/schema/1` we can validate it using the `--url`:
+
+```bash
+dc-avro validate-schema --url https://schema-registry/schema/1
+```
+
+resulting in
+
+```bash
+Valid schema!! 👍 
+
+{
+    'type': 'record',
+    'name': 'UserAdvance',
+    'fields': [
+        {'name': 'name', 'type': 'string'},
+        {'name': 'age', 'type': 'long'},
+        {'name': 'pets', 'type': {'type': 'array', 'items': 'string', 'name': 'pet'}},
+        {'name': 'accounts', 'type': {'type': 'map', 'values': 'long', 'name': 'account'}},
+        {'name': 'favorite_colors', 'type': {'type': 'enum', 'name': 'FavoriteColor', 'symbols': ['BLUE', 'YELLOW', 'GREEN']}},
+        {'name': 'has_car', 'type': 'boolean', 'default': False},
+        {'name': 'country', 'type': 'string', 'default': 'Argentina'},
+        {'name': 'address', 'type': ['null', 'string'], 'default': None},
+        {'name': 'md5', 'type': {'type': 'fixed', 'name': 'md5', 'size': 16}}
+    ]
+}
+```
+
+If an schema is invalid, for example the folling one:
+
+```bash
+{
+    "type": "record",
+    "name": "UserAdvance",
+    "fields": [
+      {"name": "name", "type": "string"},
+      {"name": "age", "type": "long"},
+      {"name": "pets", "type": {"type": "array", "items": "string", "name": "pet"}},
+      { "name": "accounts", "type": { "type": "map", "values": "long", "name": "account"}},
+      {"name": "favorite_colors", "type": {"type": "enum", "name": "FavoriteColor", "symbols": ["BLUE", "YELLOW", "GREEN"]}},
+      {"name": "has_car", "type": "boolean", "default": 1}, # ERROR!!!!
+      { "name": "country", "type": "string", "default": "Argentina"},
+      {"name": "address", "type": ["null", "string"], "default": 10},
+      {"name": "md5", "type": {"type": "fixed", "name": "md5", "size": 16}}
+    ]
+  }
+```
+
+The result will be:
+
+```bash
+InvalidSchema: Schema {'type': 'record', 'name': 'UserAdvance', 'fields': [{'name': 'name', 'type': 'string'}, {'name': 'age', 
+'type': 'long'}, {'name': 'pets', 'type': {'type': 'array', 'items': 'string', 'name': 'pet'}}, {'name': 'accounts', 'type': 
+{'type': 'map', 'values': 'long', 'name': 'account'}}, {'name': 'favorite_colors', 'type': {'type': 'enum', 'name': 
+'FavoriteColor', 'symbols': ['BLUE', 'YELLOW', 'GREEN']}}, {'name': 'has_car', 'type': 'boolean', 'default': 1}, {'name': 
+'country', 'type': 'string', 'default': 'Argentina'}, {'name': 'address', 'type': ['null', 'string'], 'default': 10}, {'name': 
+'md5', 'type': {'type': 'fixed', 'name': 'md5', 'size': 16}}]} is not valid.
+ Error: `Default value <1> must match schema type: boolean`
+```
+
+## Generate models from schemas
+
+Python models can be generated using the command `generate-model`. This command also works with `path` and `url`. It is also possible to provide the `base-class` that will be use in the `models`. This base class can be `[AvroModel|BaseModel|AvroBaseModel]`
+
+=== "dataclass models"
+
+    ```python
+    dc-avro generate-model --path schema.avsc
+
+    from dataclasses_avroschema import AvroModel
+    from dataclasses_avroschema import types
+    import dataclasses
+    import enum
+    import typing
+
+
+    class FavoriteColor(enum.Enum):
+        BLUE = "BLUE"
+        YELLOW = "YELLOW"
+        GREEN = "GREEN"
+
+
+    @dataclasses.dataclass
+    class UserAdvance(AvroModel):
+        name: str
+        age: int
+        pets: typing.List
+        accounts: typing.Dict
+        favorite_colors: FavoriteColor
+        md5: types.Fixed = types.Fixed(16)
+        has_car: bool = False
+        country: str = "Argentina"
+        address: typing.Optional = None
+    ```
+
+=== "Pydantic models"
+
+    ```python
+    dc-avro generate-model --path schema.avsc --base-class BaseModel
+
+    from dataclasses_avroschema import types
+    from pydantic import BaseModel
+    import enum
+    import typing
+
+
+    class FavoriteColor(enum.Enum):
+        BLUE = "BLUE"
+        YELLOW = "YELLOW"
+        GREEN = "GREEN"
+
+
+    class UserAdvance(BaseModel):
+        name: str
+        age: int
+        pets: typing.List
+        accounts: typing.Dict
+        favorite_colors: FavoriteColor
+        md5: types.Fixed = types.Fixed(16)
+        has_car: bool = False
+        country: str = "Argentina"
+        address: typing.Optional = None
+    ```
+
+!!! note
+    If you want to save the result to a local file you can execute `dc-avro generate-model --path schema.avsc > my-models.py`
+
+## View diff between schemas
+
+🚧🚧🚧🚧🚧
+
+## Generate fake data from schema
+
+🚧🚧🚧🚧🚧
+
+## Serialize data with schema
+
+🚧🚧🚧🚧🚧
+
+## Deserialize data with schema
+
+🚧🚧🚧🚧🚧
