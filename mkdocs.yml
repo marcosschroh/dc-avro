@@ -27,6 +27,7 @@ repo_url: https://github.com/marcosschroh/dc-avro
 
 nav:
   - Introduction: 'index.md'
+  - Commands: 'commands.md'
 
 markdown_extensions:
   - pymdownx.highlight

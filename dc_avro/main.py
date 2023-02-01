@@ -2,6 +2,7 @@ from typing import Optional
 
 import rich
 import typer
+from dataclasses_avroschema import BaseClassEnum, ModelGenerator
 
 from . import _schema_utils
 from ._types import JsonDict
@@ -25,8 +26,17 @@ def get_resource(*, path: Optional[str] = None, url: Optional[str] = None) -> Js
 def generate_model(
     path: str = typer.Option(None),
     url: str = typer.Option(None),
+    base_class: BaseClassEnum = typer.Option(
+        BaseClassEnum.AVRO_MODEL,
+        help="Model base class",
+    ),
 ):
-    print("Hello!!")
+    resource = get_resource(path=path, url=url)
+    _schema_utils.validate(schema=resource)
+
+    model_generator = ModelGenerator(base_class=base_class.value)
+    result = model_generator.render(schema=resource)
+    console.print(result)
 
 
 @app.command()

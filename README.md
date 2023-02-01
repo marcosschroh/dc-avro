@@ -48,14 +48,13 @@ To see all the commands execute `dc-avro --help`
 ## Features
 
 * [x] Validate `schemas`
-* [] Generate `models` from `schemas`
+* [x] Generate `models` from `schemas`
 * [] View diff between `schemas`
 * [] Generate fake data from `schema`
 * [] Encode data with `schema`
 
 ## Development
 
-1. Create a `virtualenv`: `python3.7 -m venv venv && source venv/bin/activate`
-2. Install requirements: `pip install -r requirements.txt`
-3. Code linting: `./scripts/format`
-4. Run tests: `./scripts/test`
+1. Install requirements: `poetry install`
+2. Code linting: `./scripts/format`
+3. Run tests: `./scripts/test`
