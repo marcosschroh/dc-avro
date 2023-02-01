@@ -5,6 +5,20 @@ description = ""
 authors = ["Marcos Schroh <marcos.schroh@kpn.com>"]
 readme = "README.md"
 packages = [{include = "dc_avro"}]
+license = "MIT"
+keywords = ["avro", "avro schemas", "dataclasses", "dataclasses-avroschema", "pydantic"]
+classifiers = [
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Topic :: System :: Networking",
+    "Topic :: System :: Distributed Computing",
+]
 
 [tool.poetry.dependencies]
 python = "^3.7"
