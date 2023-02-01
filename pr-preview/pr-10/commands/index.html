@@ -446,8 +446,9 @@
 <h2 id="validate-schemas">Validate schemas</h2>
 <p>The previous schema is a valid one. If we assume that we have a <code>schema.avsc</code> in the file system which contains the previous schema we can validate it:</p>
 <div class="highlight"><pre><span></span><code>dc-avro<span class="w"> </span>validate-schema<span class="w"> </span>--path<span class="w"> </span>schema.avsc
-
-Valid<span class="w"> </span>schema!!<span class="w"> </span>👍<span class="w"> </span>
+</code></pre></div>
+<p>resulting in</p>
+<div class="highlight"><pre><span></span><code>Valid<span class="w"> </span>schema!!<span class="w"> </span>👍<span class="w"> </span>
 
 <span class="o">{</span>
 <span class="w">    </span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span><span class="s1">&#39;record&#39;</span>,
@@ -467,8 +468,9 @@ Valid<span class="w"> </span>schema!!<span class="w"> </span>👍<span class="w"
 </code></pre></div>
 <p>If the previous schema is stored in a <code>schema registry</code>, for example in <code>https://schema-registry/schema/1</code> we can validate it using the <code>--url</code>:</p>
 <div class="highlight"><pre><span></span><code>dc-avro<span class="w"> </span>validate-schema<span class="w"> </span>--url<span class="w"> </span>https://schema-registry/schema/1
-
-Valid<span class="w"> </span>schema!!<span class="w"> </span>👍<span class="w"> </span>
+</code></pre></div>
+<p>resulting in</p>
+<div class="highlight"><pre><span></span><code>Valid<span class="w"> </span>schema!!<span class="w"> </span>👍<span class="w"> </span>
 
 <span class="o">{</span>
 <span class="w">    </span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span><span class="s1">&#39;record&#39;</span>,
@@ -517,59 +519,59 @@ Valid<span class="w"> </span>schema!!<span class="w"> </span>👍<span class="w"
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">dataclass models</label><label for="__tabbed_1_2">Pydantic models</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code>dc-avro<span class="w"> </span>generate-model<span class="w"> </span>--path<span class="w"> </span>schema.avsc
+<div class="highlight"><pre><span></span><code><span class="n">dc</span><span class="o">-</span><span class="n">avro</span> <span class="n">generate</span><span class="o">-</span><span class="n">model</span> <span class="o">--</span><span class="n">path</span> <span class="n">schema</span><span class="o">.</span><span class="n">avsc</span>
 
-from<span class="w"> </span>dataclasses_avroschema<span class="w"> </span>import<span class="w"> </span>AvroModel
-from<span class="w"> </span>dataclasses_avroschema<span class="w"> </span>import<span class="w"> </span>types
-import<span class="w"> </span>dataclasses
-import<span class="w"> </span>enum
-import<span class="w"> </span>typing
-
-
-class<span class="w"> </span>FavoriteColor<span class="o">(</span>enum.Enum<span class="o">)</span>:
-<span class="w">    </span><span class="nv">BLUE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;BLUE&quot;</span>
-<span class="w">    </span><span class="nv">YELLOW</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;YELLOW&quot;</span>
-<span class="w">    </span><span class="nv">GREEN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;GREEN&quot;</span>
+<span class="kn">from</span> <span class="nn">dataclasses_avroschema</span> <span class="kn">import</span> <span class="n">AvroModel</span>
+<span class="kn">from</span> <span class="nn">dataclasses_avroschema</span> <span class="kn">import</span> <span class="n">types</span>
+<span class="kn">import</span> <span class="nn">dataclasses</span>
+<span class="kn">import</span> <span class="nn">enum</span>
+<span class="kn">import</span> <span class="nn">typing</span>
 
 
-@dataclasses.dataclass
-class<span class="w"> </span>UserAdvance<span class="o">(</span>AvroModel<span class="o">)</span>:
-<span class="w">    </span>name:<span class="w"> </span>str
-<span class="w">    </span>age:<span class="w"> </span>int
-<span class="w">    </span>pets:<span class="w"> </span>typing.List
-<span class="w">    </span>accounts:<span class="w"> </span>typing.Dict
-<span class="w">    </span>favorite_colors:<span class="w"> </span>FavoriteColor
-<span class="w">    </span>md5:<span class="w"> </span>types.Fixed<span class="w"> </span><span class="o">=</span><span class="w"> </span>types.Fixed<span class="o">(</span><span class="m">16</span><span class="o">)</span>
-<span class="w">    </span>has_car:<span class="w"> </span><span class="nv">bool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>False
-<span class="w">    </span>country:<span class="w"> </span><span class="nv">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Argentina&quot;</span>
-<span class="w">    </span>address:<span class="w"> </span>typing.Optional<span class="w"> </span><span class="o">=</span><span class="w"> </span>None
+<span class="k">class</span> <span class="nc">FavoriteColor</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">BLUE</span> <span class="o">=</span> <span class="s2">&quot;BLUE&quot;</span>
+    <span class="n">YELLOW</span> <span class="o">=</span> <span class="s2">&quot;YELLOW&quot;</span>
+    <span class="n">GREEN</span> <span class="o">=</span> <span class="s2">&quot;GREEN&quot;</span>
+
+
+<span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
+<span class="k">class</span> <span class="nc">UserAdvance</span><span class="p">(</span><span class="n">AvroModel</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">age</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">pets</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span>
+    <span class="n">accounts</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Dict</span>
+    <span class="n">favorite_colors</span><span class="p">:</span> <span class="n">FavoriteColor</span>
+    <span class="n">md5</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">Fixed</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">Fixed</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
+    <span class="n">has_car</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">country</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Argentina&quot;</span>
+    <span class="n">address</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span> <span class="o">=</span> <span class="kc">None</span>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code>dc-avro<span class="w"> </span>generate-model<span class="w"> </span>--path<span class="w"> </span>schema.avsc<span class="w"> </span>--base-class<span class="w"> </span>BaseModel
+<div class="highlight"><pre><span></span><code><span class="n">dc</span><span class="o">-</span><span class="n">avro</span> <span class="n">generate</span><span class="o">-</span><span class="n">model</span> <span class="o">--</span><span class="n">path</span> <span class="n">schema</span><span class="o">.</span><span class="n">avsc</span> <span class="o">--</span><span class="n">base</span><span class="o">-</span><span class="k">class</span> <span class="nc">BaseModel</span>
 
-from<span class="w"> </span>dataclasses_avroschema<span class="w"> </span>import<span class="w"> </span>types
-from<span class="w"> </span>pydantic<span class="w"> </span>import<span class="w"> </span>BaseModel
-import<span class="w"> </span>enum
-import<span class="w"> </span>typing
-
-
-class<span class="w"> </span>FavoriteColor<span class="o">(</span>enum.Enum<span class="o">)</span>:
-<span class="w">    </span><span class="nv">BLUE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;BLUE&quot;</span>
-<span class="w">    </span><span class="nv">YELLOW</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;YELLOW&quot;</span>
-<span class="w">    </span><span class="nv">GREEN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;GREEN&quot;</span>
+<span class="kn">from</span> <span class="nn">dataclasses_avroschema</span> <span class="kn">import</span> <span class="n">types</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">import</span> <span class="nn">enum</span>
+<span class="kn">import</span> <span class="nn">typing</span>
 
 
-class<span class="w"> </span>UserAdvance<span class="o">(</span>BaseModel<span class="o">)</span>:
-<span class="w">    </span>name:<span class="w"> </span>str
-<span class="w">    </span>age:<span class="w"> </span>int
-<span class="w">    </span>pets:<span class="w"> </span>typing.List
-<span class="w">    </span>accounts:<span class="w"> </span>typing.Dict
-<span class="w">    </span>favorite_colors:<span class="w"> </span>FavoriteColor
-<span class="w">    </span>md5:<span class="w"> </span>types.Fixed<span class="w"> </span><span class="o">=</span><span class="w"> </span>types.Fixed<span class="o">(</span><span class="m">16</span><span class="o">)</span>
-<span class="w">    </span>has_car:<span class="w"> </span><span class="nv">bool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>False
-<span class="w">    </span>country:<span class="w"> </span><span class="nv">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Argentina&quot;</span>
-<span class="w">    </span>address:<span class="w"> </span>typing.Optional<span class="w"> </span><span class="o">=</span><span class="w"> </span>None
+<span class="k">class</span> <span class="nc">FavoriteColor</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">BLUE</span> <span class="o">=</span> <span class="s2">&quot;BLUE&quot;</span>
+    <span class="n">YELLOW</span> <span class="o">=</span> <span class="s2">&quot;YELLOW&quot;</span>
+    <span class="n">GREEN</span> <span class="o">=</span> <span class="s2">&quot;GREEN&quot;</span>
+
+
+<span class="k">class</span> <span class="nc">UserAdvance</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">age</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">pets</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span>
+    <span class="n">accounts</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Dict</span>
+    <span class="n">favorite_colors</span><span class="p">:</span> <span class="n">FavoriteColor</span>
+    <span class="n">md5</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">Fixed</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">Fixed</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
+    <span class="n">has_car</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">country</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Argentina&quot;</span>
+    <span class="n">address</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span> <span class="o">=</span> <span class="kc">None</span>
 </code></pre></div>
 </div>
 </div>
