@@ -1,11 +1,12 @@
+import ast
 from typing import Optional
 
 import rich
 import typer
-from dataclasses_avroschema import BaseClassEnum, ModelGenerator
+from dataclasses_avroschema import BaseClassEnum, ModelGenerator, serialization
 
 from . import _schema_utils
-from ._types import JsonDict
+from ._types import JsonDict, SerializationType
 
 app = typer.Typer()
 console = rich.console.Console()
@@ -54,10 +55,20 @@ def schema_diff(source: str, target: str):
 
 @app.command()
 def serialize(
+    data: str = typer.Argument(None, callback=ast.literal_eval),
     path: str = typer.Option(None),
     url: str = typer.Option(None),
+    serialization_type: SerializationType = typer.Option(
+        SerializationType.AVRO,
+    ),
 ):
-    print("Hello!!")
+    resource = get_resource(path=path, url=url)
+    _schema_utils.validate(schema=resource)
+
+    output = serialization.serialize(
+        data, resource, serialization_type=serialization_type
+    )
+    console.print(output)
 
 
 @app.command()

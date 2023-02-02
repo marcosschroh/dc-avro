@@ -180,15 +180,37 @@ Python models can be generated using the command `generate-model`. This command 
 !!! note
     If you want to save the result to a local file you can execute `dc-avro generate-model --path schema.avsc > my-models.py`
 
+## Serialize data with schema
+
+We can serialize data with schemas either in `avro` or `avro-json`, for example:
+
+```python title="event"
+{'name': 'bond', 'age': 50, 'pets': ['dog', 'cat'], 'accounts': {'key': 1}, 'has_car': False, 'favorite_colors': 'BLUE', 'country': 'Argentina', 'address': None, 'md5': b'u00ffffffffffffx'}
+```
+
+=== "avro serialization"
+
+    ```python
+    run dc-avro serialize "{'name': 'bond', 'age': 50, 'pets': ['dog', 'cat'], 'accounts': {'key': 1}, 'has_car': False, 'favorite_colors': 'BLUE', 'country': 'Argentina', 'address': None, 'md5': b'u00ffffffffffffx'}" --path ./tests/schemas/example.avsc
+
+    b'\x08bondd\x04\x06dog\x06cat\x00\x02\x06key\x02\x00\x00\x00\x12Argentina\x00u00ffffffffffffx'
+    ``` 
+
+=== "avro-json serialization"
+    ```python
+    dc-avro serialize "{'name': 'bond', 'age': 50, 'pets': ['dog', 'cat'], 'accounts': {'key': 1}, 'has_car': False, 'favorite_colors': 'BLUE', 'country': 'Argentina', 'address': None, 'md5': b'u00ffffffffffffx'}" --path ./tests/schemas/example.avsc --serialization-type avro-json
+
+    b'{"name": "bond", "age": 50, "pets": ["dog", "cat"], "accounts": {"key": 1}, "favorite_colors": "BLUE", "has_car": false, "country": "Argentina", "address": null, "md5": "u00ffffffffffffx"}'
+    ```
+
+!!! note
+    The data provided to the command must be wrapped in quotes as it is interpreted as a string and then converted to a python `dict`
+
 ## View diff between schemas
 
 🚧🚧🚧🚧🚧
 
 ## Generate fake data from schema
-
-🚧🚧🚧🚧🚧
-
-## Serialize data with schema
 
 🚧🚧🚧🚧🚧
 
