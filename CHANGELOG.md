@@ -1,3 +1,9 @@
+## 0.4.0 (2023-02-02)
+
+### Feat
+
+- serialization command added
+
 ## 0.3.0 (2023-02-01)
 
 ### Feat
