@@ -636,9 +636,19 @@
 </code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><span class="n">dc</span><span class="o">-</span><span class="n">avro</span> <span class="n">serialize</span> <span class="s2">&quot; --path ./tests/schemas/example.avsc --serialization-type avro-json</span>
+<div class="highlight"><pre><span></span><code><span class="n">dc</span><span class="o">-</span><span class="n">avro</span> <span class="n">deserialize</span> <span class="s1">&#39;{&quot;name&quot;: &quot;bond&quot;, &quot;age&quot;: 50, &quot;pets&quot;: [&quot;dog&quot;, &quot;cat&quot;], &quot;accounts&quot;: {&quot;key&quot;: 1}, &quot;favorite_colors&quot;: &quot;BLUE&quot;, &quot;has_car&quot;: false, &quot;country&quot;:  &quot;Argentina&quot;, &quot;address&quot;: null, &quot;md5&quot;: &quot;u00ffffffffffffx&quot;}&#39;</span> <span class="o">--</span><span class="n">path</span> <span class="o">./</span><span class="n">tests</span><span class="o">/</span><span class="n">schemas</span><span class="o">/</span><span class="n">example</span><span class="o">.</span><span class="n">avsc</span> <span class="o">--</span><span class="n">serialization</span><span class="o">-</span><span class="nb">type</span> <span class="n">avro</span><span class="o">-</span><span class="n">json</span>
 
-<span class="sa">b</span><span class="s1">&#39;{&quot;name&quot;: &quot;bond&quot;, &quot;age&quot;: 50, &quot;pets&quot;: [&quot;dog&quot;, &quot;cat&quot;], &quot;accounts&quot;: {&quot;key&quot;: 1}, &quot;favorite_colors&quot;: &quot;BLUE&quot;, &quot;has_car&quot;: false, &quot;country&quot;: &quot;Argentina&quot;, &quot;address&quot;: null, &quot;md5&quot;: &quot;u00ffffffffffffx&quot;}&#39;</span>
+<span class="p">{</span>
+    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;bond&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+    <span class="s1">&#39;pets&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;dog&#39;</span><span class="p">,</span> <span class="s1">&#39;cat&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;accounts&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+    <span class="s1">&#39;favorite_colors&#39;</span><span class="p">:</span> <span class="s1">&#39;BLUE&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;has_car&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Argentina&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;address&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s1">&#39;md5&#39;</span><span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;u00ffffffffffffx&#39;</span>
+<span class="p">}</span>
 </code></pre></div>
 </div>
 </div>
