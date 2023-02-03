@@ -1,3 +1,4 @@
+import ast
 import os
 from unittest import mock
 
@@ -165,6 +166,106 @@ def test_serialize_two_options_invalid(SCHEMA_DIR: str):
         app,
         [
             "serialize",
+            "{}",
+            "--path",
+            os.path.join(SCHEMA_DIR, "invalid_example.avsc"),
+            "--url",
+            "https://some.url",
+        ],
+    )
+    assert result.exit_code == 2
+
+
+@pytest.mark.parametrize(
+    "event, serialization_type",
+    [
+        # (
+        #     'b"\x08bondd\x04\x06dog\x06cat\x00\x02\x06key\x02\x00\x00\x00\x12Argentina\x00u00ffffffffffffx"',
+        #     SerializationType.AVRO,
+        # ),
+        (
+            '{"name": "bond", "age": 50, "pets": ["dog", "cat"], "accounts": {"key": 1}, "favorite_colors": "BLUE", "has_car": false, "country":  "Argentina", "address": null, "md5": "u00ffffffffffffx"}',
+            SerializationType.AVRO_JSON,
+        ),
+    ],
+)
+def test_deserialize_from_path(SCHEMA_DIR: str, event: str, serialization_type: str):
+    data = {
+        "name": "bond",
+        "age": 50,
+        "pets": ["dog", "cat"],
+        "accounts": {"key": 1},
+        "has_car": False,
+        "favorite_colors": "BLUE",
+        "country": "Argentina",
+        "address": None,
+        "md5": b"u00ffffffffffffx",
+    }
+    result = runner.invoke(
+        app,
+        [
+            "deserialize",
+            event,
+            "--path",
+            os.path.join(SCHEMA_DIR, "example.avsc"),
+            "--serialization-type",
+            serialization_type,
+        ],
+    )
+    assert result.exit_code == 0
+    assert data == ast.literal_eval(result.stdout)
+
+
+@pytest.mark.parametrize(
+    "event, serialization_type",
+    [
+        # (
+        #     b"\x08bondd\x04\x06dog\x06cat\x00\x02\x06key\x02\x00\x00\x00\x12Argentina\x00u00ffffffffffffx",
+        #     SerializationType.AVRO,
+        # ),
+        (
+            b'{"name": "bond", "age": 50, "pets": ["dog", "cat"], "accounts": {"key": 1}, "favorite_colors": "BLUE", "has_car": false, "country":  "Argentina", "address": null, "md5": "u00ffffffffffffx"}',
+            SerializationType.AVRO_JSON,
+        ),
+    ],
+)
+def test_deserialize_from_url(
+    example_shema_json: JsonDict, event: bytes, serialization_type: str
+):
+    data = {
+        "name": "bond",
+        "age": 50,
+        "pets": ["dog", "cat"],
+        "accounts": {"key": 1},
+        "has_car": False,
+        "favorite_colors": "BLUE",
+        "country": "Argentina",
+        "address": None,
+        "md5": b"u00ffffffffffffx",
+    }
+
+    responnse = Response(status_code=codes.OK, json=example_shema_json)
+    with mock.patch("dc_avro.main._schema_utils.httpx.get", return_value=responnse):
+        result = runner.invoke(
+            app,
+            [
+                "deserialize",
+                event,
+                "--url",
+                url,
+                "--serialization-type",
+                serialization_type,
+            ],
+        )
+        assert result.exit_code == 0
+        assert data == ast.literal_eval(result.stdout)
+
+
+def test_deserialize_two_options_invalid(SCHEMA_DIR: str):
+    result = runner.invoke(
+        app,
+        [
+            "deserialize",
             "{}",
             "--path",
             os.path.join(SCHEMA_DIR, "invalid_example.avsc"),
