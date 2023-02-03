@@ -72,6 +72,29 @@ def serialize(
 
 
 @app.command()
+def deserialize(
+    event: str,
+    path: str = typer.Option(None),
+    url: str = typer.Option(None),
+    serialization_type: SerializationType = typer.Option(
+        SerializationType.AVRO,
+    ),
+):
+    resource = get_resource(path=path, url=url)
+    _schema_utils.validate(schema=resource)
+
+    data = (
+        ast.literal_eval(event)
+        if serialization_type == SerializationType.AVRO.value
+        else event.encode()
+    )
+    output = serialization.deserialize(
+        data, resource, serialization_type=serialization_type
+    )
+    console.print(output)
+
+
+@app.command()
 def validate_schema(
     path: str = typer.Option(None, help="Path to the local schema"),
     url: str = typer.Option(None, help="Schema url"),

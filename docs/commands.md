@@ -117,7 +117,9 @@ InvalidSchema: Schema {'type': 'record', 'name': 'UserAdvance', 'fields': [{'nam
 
 Python models can be generated using the command `generate-model`. This command also works with `path` and `url`. It is also possible to provide the `base-class` that will be use in the `models`. This base class can be `[AvroModel|BaseModel|AvroBaseModel]`
 
-=== "dataclass models"
+[![asciicast](https://asciinema.org/a/557200.svg)](https://asciinema.org/a/557200)
+
+=== "Dataclass models"
 
     ```python
     dc-avro generate-model --path schema.avsc
@@ -182,9 +184,9 @@ Python models can be generated using the command `generate-model`. This command 
 
 ## Serialize data with schema
 
-We can serialize data with schemas either in `avro` or `avro-json`, for example:
+We can `serialize` data with schemas either in `avro` or `avro-json`, for example:
 
-```python title="event"
+```python title="Event"
 {'name': 'bond', 'age': 50, 'pets': ['dog', 'cat'], 'accounts': {'key': 1}, 'has_car': False, 'favorite_colors': 'BLUE', 'country': 'Argentina', 'address': None, 'md5': b'u00ffffffffffffx'}
 ```
 
@@ -198,22 +200,60 @@ We can serialize data with schemas either in `avro` or `avro-json`, for example:
 
 === "avro-json serialization"
     ```python
-    dc-avro serialize "{'name': 'bond', 'age': 50, 'pets': ['dog', 'cat'], 'accounts': {'key': 1}, 'has_car': False, 'favorite_colors': 'BLUE', 'country': 'Argentina', 'address': None, 'md5': b'u00ffffffffffffx'}" --path ./tests/schemas/example.avsc --serialization-type avro-json
+    dc-avro deserialize '{"name": "bond", "age": 50, "pets": ["dog", "cat"], "accounts": {"key": 1}, "favorite_colors": "BLUE", "has_car": false, "country":  "Argentina", "address": null, "md5": "u00ffffffffffffx"}' --path ./tests/schemas/example.avsc --serialization-type avro-json
+
+    {
+        'name': 'bond',
+        'age': 50,
+        'pets': ['dog', 'cat'],
+        'accounts': {'key': 1},
+        'favorite_colors': 'BLUE',
+        'has_car': False,
+        'country': 'Argentina',
+        'address': None,
+        'md5': b'u00ffffffffffffx'
+    }
+    ```
+
+!!! note
+    The data provided to the command must be wrapped in quotes as it is interpreted as a string and then converted to a python `dict`
+
+## Deserialize data with schema
+
+We can `deserialize` data with schemas either in `avro` or `avro-json`, for example:
+
+=== "avro deserialization"
+
+    ```python
+    run dc-avro deserialize 'b"\x08bondd\x04\x06dog\x06cat\x00\x02\x06key\x02\x00\x00\x00\x12Argentina\x00u00ffffffffffffx"' --path ./tests/schemas/example.avsc
+
+    {
+        'name': 'bond',
+        'age': 50,
+        'pets': ['dog', 'cat'],
+        'accounts': {'key': 1},
+        'favorite_colors': 'BLUE',
+        'has_car': False,
+        'country': 'Argentina',
+        'address': None,
+        'md5': b'u00ffffffffffffx'
+    }
+    ``` 
+
+=== "avro-json deserialization"
+    ```python
+    dc-avro serialize " --path ./tests/schemas/example.avsc --serialization-type avro-json
 
     b'{"name": "bond", "age": 50, "pets": ["dog", "cat"], "accounts": {"key": 1}, "favorite_colors": "BLUE", "has_car": false, "country": "Argentina", "address": null, "md5": "u00ffffffffffffx"}'
     ```
 
 !!! note
-    The data provided to the command must be wrapped in quotes as it is interpreted as a string and then converted to a python `dict`
+    For  `avro deserialization` you have to include the character `b` in the string to indicate that the actual value is `bytes`
 
 ## View diff between schemas
 
 🚧🚧🚧🚧🚧
 
 ## Generate fake data from schema
-
-🚧🚧🚧🚧🚧
-
-## Deserialize data with schema
 
 🚧🚧🚧🚧🚧
