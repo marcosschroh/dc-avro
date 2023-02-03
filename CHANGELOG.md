@@ -1,3 +1,9 @@
+## 0.5.0 (2023-02-03)
+
+### Feat
+
+- deserialization command added
+
 ## 0.4.0 (2023-02-02)
 
 ### Feat
