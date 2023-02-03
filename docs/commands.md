@@ -193,7 +193,7 @@ We can `serialize` data with schemas either in `avro` or `avro-json`, for exampl
 === "avro serialization"
 
     ```python
-    run dc-avro serialize "{'name': 'bond', 'age': 50, 'pets': ['dog', 'cat'], 'accounts': {'key': 1}, 'has_car': False, 'favorite_colors': 'BLUE', 'country': 'Argentina', 'address': None, 'md5': b'u00ffffffffffffx'}" --path ./tests/schemas/example.avsc
+    dc-avro serialize "{'name': 'bond', 'age': 50, 'pets': ['dog', 'cat'], 'accounts': {'key': 1}, 'has_car': False, 'favorite_colors': 'BLUE', 'country': 'Argentina', 'address': None, 'md5': b'u00ffffffffffffx'}" --path ./tests/schemas/example.avsc
 
     b'\x08bondd\x04\x06dog\x06cat\x00\x02\x06key\x02\x00\x00\x00\x12Argentina\x00u00ffffffffffffx'
     ``` 
@@ -225,7 +225,7 @@ We can `deserialize` data with schemas either in `avro` or `avro-json`, for exam
 === "avro deserialization"
 
     ```python
-    run dc-avro deserialize 'b"\x08bondd\x04\x06dog\x06cat\x00\x02\x06key\x02\x00\x00\x00\x12Argentina\x00u00ffffffffffffx"' --path ./tests/schemas/example.avsc
+    dc-avro deserialize 'b"\x08bondd\x04\x06dog\x06cat\x00\x02\x06key\x02\x00\x00\x00\x12Argentina\x00u00ffffffffffffx"' --path ./tests/schemas/example.avsc
 
     {
         'name': 'bond',
