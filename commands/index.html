@@ -306,6 +306,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#deserialize-data-with-schema" class="md-nav__link">
+    Deserialize data with schema
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#view-diff-between-schemas" class="md-nav__link">
     View diff between schemas
   </a>
@@ -315,13 +322,6 @@
         <li class="md-nav__item">
   <a href="#generate-fake-data-from-schema" class="md-nav__link">
     Generate fake data from schema
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#deserialize-data-with-schema" class="md-nav__link">
-    Deserialize data with schema
   </a>
   
 </li>
@@ -382,6 +382,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#deserialize-data-with-schema" class="md-nav__link">
+    Deserialize data with schema
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#view-diff-between-schemas" class="md-nav__link">
     View diff between schemas
   </a>
@@ -391,13 +398,6 @@
         <li class="md-nav__item">
   <a href="#generate-fake-data-from-schema" class="md-nav__link">
     Generate fake data from schema
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#deserialize-data-with-schema" class="md-nav__link">
-    Deserialize data with schema
   </a>
   
 </li>
@@ -516,7 +516,8 @@
 </code></pre></div>
 <h2 id="generate-models-from-schemas">Generate models from schemas</h2>
 <p>Python models can be generated using the command <code>generate-model</code>. This command also works with <code>path</code> and <code>url</code>. It is also possible to provide the <code>base-class</code> that will be use in the <code>models</code>. This base class can be <code>[AvroModel|BaseModel|AvroBaseModel]</code></p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">dataclass models</label><label for="__tabbed_1_2">Pydantic models</label></div>
+<p><a href="https://asciinema.org/a/557200"><img alt="asciicast" src="https://asciinema.org/a/557200.svg" /></a></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Dataclass models</label><label for="__tabbed_1_2">Pydantic models</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="n">dc</span><span class="o">-</span><span class="n">avro</span> <span class="n">generate</span><span class="o">-</span><span class="n">model</span> <span class="o">--</span><span class="n">path</span> <span class="n">schema</span><span class="o">.</span><span class="n">avsc</span>
@@ -581,8 +582,8 @@
 <p>If you want to save the result to a local file you can execute <code>dc-avro generate-model --path schema.avsc &gt; my-models.py</code></p>
 </div>
 <h2 id="serialize-data-with-schema">Serialize data with schema</h2>
-<p>We can serialize data with schemas either in <code>avro</code> or <code>avro-json</code>, for example:</p>
-<div class="highlight"><span class="filename">event</span><pre><span></span><code><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;bond&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s1">&#39;pets&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;dog&#39;</span><span class="p">,</span> <span class="s1">&#39;cat&#39;</span><span class="p">],</span> <span class="s1">&#39;accounts&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="s1">&#39;has_car&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;favorite_colors&#39;</span><span class="p">:</span> <span class="s1">&#39;BLUE&#39;</span><span class="p">,</span> <span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Argentina&#39;</span><span class="p">,</span> <span class="s1">&#39;address&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;md5&#39;</span><span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;u00ffffffffffffx&#39;</span><span class="p">}</span>
+<p>We can <code>serialize</code> data with schemas either in <code>avro</code> or <code>avro-json</code>, for example:</p>
+<div class="highlight"><span class="filename">Event</span><pre><span></span><code><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;bond&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s1">&#39;pets&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;dog&#39;</span><span class="p">,</span> <span class="s1">&#39;cat&#39;</span><span class="p">],</span> <span class="s1">&#39;accounts&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="s1">&#39;has_car&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;favorite_colors&#39;</span><span class="p">:</span> <span class="s1">&#39;BLUE&#39;</span><span class="p">,</span> <span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Argentina&#39;</span><span class="p">,</span> <span class="s1">&#39;address&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;md5&#39;</span><span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;u00ffffffffffffx&#39;</span><span class="p">}</span>
 </code></pre></div>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">avro serialization</label><label for="__tabbed_2_2">avro-json serialization</label></div>
 <div class="tabbed-content">
@@ -593,9 +594,19 @@
 </code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><span class="n">dc</span><span class="o">-</span><span class="n">avro</span> <span class="n">serialize</span> <span class="s2">&quot;{&#39;name&#39;: &#39;bond&#39;, &#39;age&#39;: 50, &#39;pets&#39;: [&#39;dog&#39;, &#39;cat&#39;], &#39;accounts&#39;: {&#39;key&#39;: 1}, &#39;has_car&#39;: False, &#39;favorite_colors&#39;: &#39;BLUE&#39;, &#39;country&#39;: &#39;Argentina&#39;, &#39;address&#39;: None, &#39;md5&#39;: b&#39;u00ffffffffffffx&#39;}&quot;</span> <span class="o">--</span><span class="n">path</span> <span class="o">./</span><span class="n">tests</span><span class="o">/</span><span class="n">schemas</span><span class="o">/</span><span class="n">example</span><span class="o">.</span><span class="n">avsc</span> <span class="o">--</span><span class="n">serialization</span><span class="o">-</span><span class="nb">type</span> <span class="n">avro</span><span class="o">-</span><span class="n">json</span>
+<div class="highlight"><pre><span></span><code><span class="n">dc</span><span class="o">-</span><span class="n">avro</span> <span class="n">deserialize</span> <span class="s1">&#39;{&quot;name&quot;: &quot;bond&quot;, &quot;age&quot;: 50, &quot;pets&quot;: [&quot;dog&quot;, &quot;cat&quot;], &quot;accounts&quot;: {&quot;key&quot;: 1}, &quot;favorite_colors&quot;: &quot;BLUE&quot;, &quot;has_car&quot;: false, &quot;country&quot;:  &quot;Argentina&quot;, &quot;address&quot;: null, &quot;md5&quot;: &quot;u00ffffffffffffx&quot;}&#39;</span> <span class="o">--</span><span class="n">path</span> <span class="o">./</span><span class="n">tests</span><span class="o">/</span><span class="n">schemas</span><span class="o">/</span><span class="n">example</span><span class="o">.</span><span class="n">avsc</span> <span class="o">--</span><span class="n">serialization</span><span class="o">-</span><span class="nb">type</span> <span class="n">avro</span><span class="o">-</span><span class="n">json</span>
 
-<span class="sa">b</span><span class="s1">&#39;{&quot;name&quot;: &quot;bond&quot;, &quot;age&quot;: 50, &quot;pets&quot;: [&quot;dog&quot;, &quot;cat&quot;], &quot;accounts&quot;: {&quot;key&quot;: 1}, &quot;favorite_colors&quot;: &quot;BLUE&quot;, &quot;has_car&quot;: false, &quot;country&quot;: &quot;Argentina&quot;, &quot;address&quot;: null, &quot;md5&quot;: &quot;u00ffffffffffffx&quot;}&#39;</span>
+<span class="p">{</span>
+    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;bond&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+    <span class="s1">&#39;pets&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;dog&#39;</span><span class="p">,</span> <span class="s1">&#39;cat&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;accounts&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+    <span class="s1">&#39;favorite_colors&#39;</span><span class="p">:</span> <span class="s1">&#39;BLUE&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;has_car&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Argentina&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;address&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s1">&#39;md5&#39;</span><span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;u00ffffffffffffx&#39;</span>
+<span class="p">}</span>
 </code></pre></div>
 </div>
 </div>
@@ -604,11 +615,41 @@
 <p class="admonition-title">Note</p>
 <p>The data provided to the command must be wrapped in quotes as it is interpreted as a string and then converted to a python <code>dict</code></p>
 </div>
+<h2 id="deserialize-data-with-schema">Deserialize data with schema</h2>
+<p>We can <code>deserialize</code> data with schemas either in <code>avro</code> or <code>avro-json</code>, for example:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">avro deserialization</label><label for="__tabbed_3_2">avro-json deserialization</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="n">run</span> <span class="n">dc</span><span class="o">-</span><span class="n">avro</span> <span class="n">deserialize</span> <span class="s1">&#39;b&quot;</span><span class="se">\x08</span><span class="s1">bondd</span><span class="se">\x04\x06</span><span class="s1">dog</span><span class="se">\x06</span><span class="s1">cat</span><span class="se">\x00\x02\x06</span><span class="s1">key</span><span class="se">\x02\x00\x00\x00\x12</span><span class="s1">Argentina</span><span class="se">\x00</span><span class="s1">u00ffffffffffffx&quot;&#39;</span> <span class="o">--</span><span class="n">path</span> <span class="o">./</span><span class="n">tests</span><span class="o">/</span><span class="n">schemas</span><span class="o">/</span><span class="n">example</span><span class="o">.</span><span class="n">avsc</span>
+
+<span class="p">{</span>
+    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;bond&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+    <span class="s1">&#39;pets&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;dog&#39;</span><span class="p">,</span> <span class="s1">&#39;cat&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;accounts&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+    <span class="s1">&#39;favorite_colors&#39;</span><span class="p">:</span> <span class="s1">&#39;BLUE&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;has_car&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Argentina&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;address&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s1">&#39;md5&#39;</span><span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;u00ffffffffffffx&#39;</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="n">dc</span><span class="o">-</span><span class="n">avro</span> <span class="n">serialize</span> <span class="s2">&quot; --path ./tests/schemas/example.avsc --serialization-type avro-json</span>
+
+<span class="sa">b</span><span class="s1">&#39;{&quot;name&quot;: &quot;bond&quot;, &quot;age&quot;: 50, &quot;pets&quot;: [&quot;dog&quot;, &quot;cat&quot;], &quot;accounts&quot;: {&quot;key&quot;: 1}, &quot;favorite_colors&quot;: &quot;BLUE&quot;, &quot;has_car&quot;: false, &quot;country&quot;: &quot;Argentina&quot;, &quot;address&quot;: null, &quot;md5&quot;: &quot;u00ffffffffffffx&quot;}&#39;</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For  <code>avro deserialization</code> you have to include the character <code>b</code> in the string to indicate that the actual value is <code>bytes</code></p>
+</div>
 <h2 id="view-diff-between-schemas">View diff between schemas</h2>
 <p>🚧🚧🚧🚧🚧</p>
 <h2 id="generate-fake-data-from-schema">Generate fake data from schema</h2>
-<p>🚧🚧🚧🚧🚧</p>
-<h2 id="deserialize-data-with-schema">Deserialize data with schema</h2>
 <p>🚧🚧🚧🚧🚧</p>
 
 
