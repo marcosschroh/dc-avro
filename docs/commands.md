@@ -242,9 +242,19 @@ We can `deserialize` data with schemas either in `avro` or `avro-json`, for exam
 
 === "avro-json deserialization"
     ```python
-    dc-avro serialize " --path ./tests/schemas/example.avsc --serialization-type avro-json
+    dc-avro deserialize '{"name": "bond", "age": 50, "pets": ["dog", "cat"], "accounts": {"key": 1}, "favorite_colors": "BLUE", "has_car": false, "country":  "Argentina", "address": null, "md5": "u00ffffffffffffx"}' --path ./tests/schemas/example.avsc --serialization-type avro-json
 
-    b'{"name": "bond", "age": 50, "pets": ["dog", "cat"], "accounts": {"key": 1}, "favorite_colors": "BLUE", "has_car": false, "country": "Argentina", "address": null, "md5": "u00ffffffffffffx"}'
+    {
+        'name': 'bond',
+        'age': 50,
+        'pets': ['dog', 'cat'],
+        'accounts': {'key': 1},
+        'favorite_colors': 'BLUE',
+        'has_car': False,
+        'country': 'Argentina',
+        'address': None,
+        'md5': b'u00ffffffffffffx'
+    }
     ```
 
 !!! note
