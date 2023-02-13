@@ -26,6 +26,7 @@ aiofiles = "^22.1.0" # remove this
 httpx = "^0.23.3"
 dataclasses-avroschema = "^0.36.1"
 typer = {extras = ["all"], version = "^0.7.0"}
+deepdiff = "^6.2.3"
 
 [tool.poetry.group.dev.dependencies]
 commitizen = "^2.39.1"
@@ -89,4 +90,8 @@ major_version_zero = true
 # After adding the file .pyi stub files we can remove this
 [[tool.mypy.overrides]]
 module = "dataclasses_avroschema"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "deepdiff"
 ignore_missing_imports = true

@@ -199,20 +199,12 @@ We can `serialize` data with schemas either in `avro` or `avro-json`, for exampl
     ``` 
 
 === "avro-json serialization"
-    ```python
-    dc-avro deserialize '{"name": "bond", "age": 50, "pets": ["dog", "cat"], "accounts": {"key": 1}, "favorite_colors": "BLUE", "has_car": false, "country":  "Argentina", "address": null, "md5": "u00ffffffffffffx"}' --path ./tests/schemas/example.avsc --serialization-type avro-json
 
-    {
-        'name': 'bond',
-        'age': 50,
-        'pets': ['dog', 'cat'],
-        'accounts': {'key': 1},
-        'favorite_colors': 'BLUE',
-        'has_car': False,
-        'country': 'Argentina',
-        'address': None,
-        'md5': b'u00ffffffffffffx'
-    }
+    ```python
+    dc-avro serialize "{'name': 'bond', 'age': 50, 'pets': ['dog', 'cat'], 'accounts': {'key': 1}, 'has_car': False, 'favorite_colors': 'BLUE', 'country': 'Argentina', 'address': None, 'md5': b'u00ffffffffffffx'}" --path ./tests/schemas/example.avsc --serialization-type avro-json
+
+    b'{"name": "bond", "age": 50, "pets": ["dog", "cat"], "accounts": {"key": 1}, "favorite_colors": "BLUE", "has_car": false, "country": 
+    "Argentina", "address": null, "md5": "u00ffffffffffffx"}'
     ```
 
 !!! note
@@ -241,6 +233,7 @@ We can `deserialize` data with schemas either in `avro` or `avro-json`, for exam
     ``` 
 
 === "avro-json deserialization"
+
     ```python
     dc-avro deserialize '{"name": "bond", "age": 50, "pets": ["dog", "cat"], "accounts": {"key": 1}, "favorite_colors": "BLUE", "has_car": false, "country":  "Argentina", "address": null, "md5": "u00ffffffffffffx"}' --path ./tests/schemas/example.avsc --serialization-type avro-json
 
@@ -262,7 +255,63 @@ We can `deserialize` data with schemas either in `avro` or `avro-json`, for exam
 
 ## View diff between schemas
 
-🚧🚧🚧🚧🚧
+Sometimes it is useful to see the difference between `avsc` files, specially for the `avro schema evolution`. You need to specify the `source` and `target` schema.
+Both of them can be using the `path` or `url`
+
+Example:
+
+The v1 schema version is in the `schema registry`:
+
+```python
+{
+    'type': 'record',
+    'name': 'UserAdvance',
+    'fields': [
+        {'name': 'name', 'type': 'string'},
+        {'name': 'age', 'type': 'long'},
+        {'name': 'pets', 'type': {'type': 'array', 'items': 'string', 'name': 'pet'}},
+        {'name': 'accounts', 'type': {'type': 'map', 'values': 'long', 'name': 'account'}},
+        {'name': 'favorite_colors', 'type': {'type': 'enum', 'name': 'FavoriteColor', 'symbols': ['BLUE', 'YELLOW', 'GREEN']}},
+        {'name': 'has_car', 'type': 'boolean', 'default': False},
+        {'name': 'country', 'type': 'string', 'default': 'Argentina'},
+        {'name': 'address', 'type': ['null', 'string'], 'default': None},
+        {'name': 'md5', 'type': {'type': 'fixed', 'name': 'md5', 'size': 16}}
+    ]
+}
+```
+
+Then a PR has been opened with the `UserAdvance v2`:
+
+```python
+{
+    "type": "record",
+    "name": "UserAdvance",
+    "fields": [
+      {"name": "name", "type": "string"},
+      {"name": "age", "type": "long"},
+      {"name": "pets", "type": { "type": "array", "items": "string", "name": "pet"}},
+      {"name": "accounts", "type": { "type": "map", "values": "long", "name": "account"}},
+      {"name": "favorite_colors", "type": {"type": "enum", "name": "FavoriteColor", "symbols": ["BLUE", "YELLOW", "GREEN"]}},
+      {"name": "has_car", "type": "boolean", "default": False},
+      {"name": "country", "type": "string", "default": "Netherlands"},
+      {"name": "address", "type": ["null", "string"], "default": None}
+    ]
+  }
+```
+
+- We can see that the `default` value for `country` has been updated from `Argentina` to `Netherlads`
+- The field `md5` has been removed
+
+If we run the `schema-diff` command we have the following result:
+
+```bash
+dc-avro schema-diff --source-path ./tests/schemas/example.avsc --target-path  ./tests/schemas/example_v2.avsc
+
+{
+    'values_changed': {"root['fields'][6]['default']": {'new_value': 'Netherlands', 'old_value': 'Argentina'}},
+    'iterable_item_removed': {"root['fields'][8]": {'name': 'md5', 'type': {'type': 'fixed', 'name': 'md5', 'size': 16}}}
+}
+```
 
 ## Generate fake data from schema
 
