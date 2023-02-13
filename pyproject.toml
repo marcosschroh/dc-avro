@@ -22,7 +22,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.7"
-aiofiles = "^22.1.0" # remove this
+aiofiles = ">=22.1,<24.0" # remove this
 httpx = "^0.23.3"
 dataclasses-avroschema = "^0.36.1"
 typer = {extras = ["all"], version = "^0.7.0"}
