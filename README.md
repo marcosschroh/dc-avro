@@ -51,7 +51,7 @@ To see all the commands execute `dc-avro --help`
 * [x] Generate `models` from `schemas`
 * [x] Data deserialization with `schema`
 * [x] Data serialization with `schema`
-* [] View diff between `schemas`
+* [x] View diff between `schemas`
 * [] Generate fake data from `schema`
 
 ## Development
