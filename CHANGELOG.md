@@ -1,3 +1,9 @@
+## 0.6.0 (2023-02-13)
+
+### Feat
+
+- schema diff command added
+
 ## 0.5.0 (2023-02-03)
 
 ### Feat
