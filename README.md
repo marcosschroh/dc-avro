@@ -2,7 +2,7 @@
 
 Command line interface from [dataclasses-avroschema](https://github.com/marcosschroh/dataclasses-avroschema) to work with `avsc` resources
 
-[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fmarcosschroh%2Fdc-avro%2Fbadge%3Fref%3Dmaster&style=flat)](https://actions-badge.atrox.dev/marcosschroh/dc-avro/goto?ref=master)
+[![Tests](https://github.com/marcosschroh/dc-avro/actions/workflows/tests.yaml/badge.svg)](https://github.com/marcosschroh/dc-avro/actions/workflows/tests.yaml)
 [![GitHub license](https://img.shields.io/github/license/marcosschroh/dc-avro.svg)](https://github.com/marcosschroh/dc-avro/blob/master/LICENSE)
 [![codecov](https://codecov.io/gh/marcosschroh/dc-avro/branch/master/graph/badge.svg)](https://codecov.io/gh/marcosschroh/dc-avro)
 ![python version](https://img.shields.io/badge/python-3.7%2B-yellowgreen)
