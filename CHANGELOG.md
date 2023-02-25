@@ -1,3 +1,14 @@
+## 0.6.1 (2023-02-25)
+
+### Feat
+
+- schema diff command added
+
+### Fix
+
+- project version due commitizen
+- dependencies updated
+
 ## 0.5.0 (2023-02-03)
 
 ### Feat
