@@ -174,7 +174,7 @@ dev = ["black", "coveralls", "mypy", "pylint", "pytest (>=5)", "pytest-cov"]
 
 [[package]]
 name = "dataclasses-avroschema"
-version = "0.36.1"
+version = "0.37.1"
 description = "Generate Avro Schemas from a Python class"
 category = "main"
 optional = false
@@ -435,7 +435,7 @@ min-versions = ["babel (==2.9.0)", "click (==7.0)", "colorama (==0.4)", "ghp-imp
 
 [[package]]
 name = "mkdocs-material"
-version = "9.0.6"
+version = "9.0.14"
 description = "Documentation that simply works"
 category = "dev"
 optional = false
@@ -895,7 +895,7 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "cc385cd9c7d58cade4320ab00d8a4ffeea8080a512ff75803f53efc01e0c2b42"
+content-hash = "4773475625f2064106f0fcbe68e9200859cee61cf7af9810a4c464acc5c9e3a0"
 
 [metadata.files]
 aiofiles = [
@@ -1010,8 +1010,8 @@ dacite = [
     {file = "dacite-1.7.0.tar.gz", hash = "sha256:683a1d72c8fa0c0341034ddabc7a5c6f6ddc188033a26784417a9429dd3ffa51"},
 ]
 dataclasses-avroschema = [
-    {file = "dataclasses-avroschema-0.36.1.tar.gz", hash = "sha256:12ea12c82cddde37df4780ffacac80acdf119433d4737f9c9cc81de5718e287b"},
-    {file = "dataclasses_avroschema-0.36.1-py2.py3-none-any.whl", hash = "sha256:f0267280e90dd7a54fd790cb14f4777337961b3da248911fb4ad9f0558860911"},
+    {file = "dataclasses-avroschema-0.37.1.tar.gz", hash = "sha256:6577a17c14700e9e280a978f2d618fd0d0502cf269d9cb4ad6790d815a102dc9"},
+    {file = "dataclasses_avroschema-0.37.1-py2.py3-none-any.whl", hash = "sha256:065224e8cee976ce7239938114e5661ea25aef54109423f27c97c80d486e95c2"},
 ]
 decli = [
     {file = "decli-0.5.2-py3-none-any.whl", hash = "sha256:d3207bc02d0169bf6ed74ccca09ce62edca0eb25b0ebf8bf4ae3fb8333e15ca0"},
@@ -1143,8 +1143,8 @@ mkdocs = [
     {file = "mkdocs-1.4.2.tar.gz", hash = "sha256:8947af423a6d0facf41ea1195b8e1e8c85ad94ac95ae307fe11232e0424b11c5"},
 ]
 mkdocs-material = [
-    {file = "mkdocs_material-9.0.6-py3-none-any.whl", hash = "sha256:4a71195ddc100dddf07d4b23b53373f36c5f0f1010fa4ea301ca7a8e949dd9e7"},
-    {file = "mkdocs_material-9.0.6.tar.gz", hash = "sha256:6065b573e38746dc267d7fc84252be31b73da955b2ce553687806b6030e51ee0"},
+    {file = "mkdocs_material-9.0.14-py3-none-any.whl", hash = "sha256:e6b1abc3527ece8522abd8fd76bf30c535f3420b20e11095fc7a8818b31385e5"},
+    {file = "mkdocs_material-9.0.14.tar.gz", hash = "sha256:eff6c2c2ebe89bb99b8bf2167f546bdd35c8d5130694d1823361d6cf9c701c22"},
 ]
 mkdocs-material-extensions = [
     {file = "mkdocs_material_extensions-1.1.1-py3-none-any.whl", hash = "sha256:e41d9f38e4798b6617ad98ca8f7f1157b1e4385ac1459ca1e4ea219b556df945"},
