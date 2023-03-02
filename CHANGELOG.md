@@ -1,3 +1,9 @@
+## 0.6.2 (2023-03-02)
+
+### Fix
+
+- dataclasses-avroschema should not have a specific version pinned
+
 ## 0.6.1 (2023-02-25)
 
 ### Feat
