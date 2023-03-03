@@ -54,7 +54,8 @@ def generate_model(
 
     model_generator = ModelGenerator(base_class=base_class.value)
     result = model_generator.render(schema=resource)
-    console.print(result)
+
+    print(result)
 
 
 @app.command()
