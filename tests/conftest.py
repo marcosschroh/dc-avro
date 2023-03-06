@@ -56,13 +56,13 @@ class FavoriteColor(enum.Enum):
 class UserAdvance(AvroModel):
     name: str
     age: int
-    pets: typing.List
-    accounts: typing.Dict
+    pets: typing.List[str]
+    accounts: typing.Dict[str, int]
     favorite_colors: FavoriteColor
     md5: types.Fixed = types.Fixed(16)
     has_car: bool = False
     country: str = "Argentina"
-    address: typing.Optional = None
+    address: typing.Optional[str] = None
 
 """
     return result

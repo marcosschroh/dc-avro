@@ -163,26 +163,26 @@ toml = ["tomli"]
 
 [[package]]
 name = "dacite"
-version = "1.7.0"
+version = "1.8.0"
 description = "Simple creation of data classes from dictionaries."
 category = "main"
 optional = false
 python-versions = ">=3.6"
 
 [package.extras]
-dev = ["black", "coveralls", "mypy", "pylint", "pytest (>=5)", "pytest-cov"]
+dev = ["black", "coveralls", "mypy", "pre-commit", "pylint", "pytest (>=5)", "pytest-benchmark", "pytest-cov"]
 
 [[package]]
 name = "dataclasses-avroschema"
-version = "0.37.1"
+version = "0.37.3"
 description = "Generate Avro Schemas from a Python class"
 category = "main"
 optional = false
 python-versions = "*"
 
 [package.dependencies]
-dacite = ">=1.6.0"
-faker = ">=8.1.1"
+dacite = ">=1.8.0"
+faker = ">=17.6.0"
 fastavro = ">=1.7.0"
 inflect = ">=5.3.0"
 pytz = "*"
@@ -190,6 +190,7 @@ stringcase = ">=1.2.0"
 typing-extensions = {version = ">=3.7.4", markers = "python_version < \"3.9\""}
 
 [package.extras]
+cli = ["dc-avro (>=0.6.1)"]
 pydantic = ["pydantic (>=1.9.0)"]
 
 [[package]]
@@ -228,7 +229,7 @@ test = ["pytest (>=6)"]
 
 [[package]]
 name = "faker"
-version = "15.3.4"
+version = "17.6.0"
 description = "Faker is a Python package that generates fake data for you."
 category = "main"
 optional = false
@@ -895,7 +896,7 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "4773475625f2064106f0fcbe68e9200859cee61cf7af9810a4c464acc5c9e3a0"
+content-hash = "54145636cec53c3c7ee14ecc00901ae375d8cbc8097793edf5525446b1af2819"
 
 [metadata.files]
 aiofiles = [
@@ -1006,12 +1007,12 @@ coverage = [
     {file = "coverage-7.0.5.tar.gz", hash = "sha256:051afcbd6d2ac39298d62d340f94dbb6a1f31de06dfaf6fcef7b759dd3860c45"},
 ]
 dacite = [
-    {file = "dacite-1.7.0-py3-none-any.whl", hash = "sha256:1cf5f7f548aecaa80c800441f8b9f4d656f7601ccc06c9c8c96ee40016a021af"},
-    {file = "dacite-1.7.0.tar.gz", hash = "sha256:683a1d72c8fa0c0341034ddabc7a5c6f6ddc188033a26784417a9429dd3ffa51"},
+    {file = "dacite-1.8.0-py3-none-any.whl", hash = "sha256:f7b1205cc5d9b62835aac8cbc1e6e37c1da862359a401f1edbe2ae08fbdc6193"},
+    {file = "dacite-1.8.0.tar.gz", hash = "sha256:6257a5e505b61a8cafee7ef3ad08cf32ee9b885718f42395d017e0a9b4c6af65"},
 ]
 dataclasses-avroschema = [
-    {file = "dataclasses-avroschema-0.37.1.tar.gz", hash = "sha256:6577a17c14700e9e280a978f2d618fd0d0502cf269d9cb4ad6790d815a102dc9"},
-    {file = "dataclasses_avroschema-0.37.1-py2.py3-none-any.whl", hash = "sha256:065224e8cee976ce7239938114e5661ea25aef54109423f27c97c80d486e95c2"},
+    {file = "dataclasses-avroschema-0.37.3.tar.gz", hash = "sha256:d29654381f6dfbe0fdecd7dcd21c205a5cd90b2293a06cb21a4178c644a4c1e8"},
+    {file = "dataclasses_avroschema-0.37.3-py2.py3-none-any.whl", hash = "sha256:3bb1f1fda5b4efceb91b58e34d5af896f3414edcfc03f3b45b5cfefd2a08b154"},
 ]
 decli = [
     {file = "decli-0.5.2-py3-none-any.whl", hash = "sha256:d3207bc02d0169bf6ed74ccca09ce62edca0eb25b0ebf8bf4ae3fb8333e15ca0"},
@@ -1026,8 +1027,8 @@ exceptiongroup = [
     {file = "exceptiongroup-1.1.0.tar.gz", hash = "sha256:bcb67d800a4497e1b404c2dd44fca47d3b7a5e5433dbab67f96c1a685cdfdf23"},
 ]
 faker = [
-    {file = "Faker-15.3.4-py3-none-any.whl", hash = "sha256:c2a2ff9dd8dfd991109b517ab98d5cb465e857acb45f6b643a0e284a9eb2cc76"},
-    {file = "Faker-15.3.4.tar.gz", hash = "sha256:2d5443724f640ce07658ca8ca8bbd40d26b58914e63eec6549727869aa67e2cc"},
+    {file = "Faker-17.6.0-py3-none-any.whl", hash = "sha256:5aaa16fa9cfde7d117eef70b6b293a705021e57158f3fa6b44ed1b70202d2065"},
+    {file = "Faker-17.6.0.tar.gz", hash = "sha256:51f37ff9df710159d6d736d0ba1c75e063430a8c806b91334d7794305b5a6114"},
 ]
 fastavro = [
     {file = "fastavro-1.7.0-cp310-cp310-macosx_10_14_x86_64.whl", hash = "sha256:ab3387a06e272980fa034f5c62f7063977b77df6416d3d30a4d3b49cc8827566"},
