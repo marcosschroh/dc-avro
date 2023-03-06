@@ -1,3 +1,9 @@
+## 0.6.3 (2023-03-06)
+
+### Fix
+
+- set markup to False when render python models
+
 ## 0.6.2 (2023-03-02)
 
 ### Fix

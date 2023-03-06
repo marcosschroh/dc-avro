@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dc-avro"
-version = "0.6.2"
+version = "0.6.3"
 description = ""
 authors = ["Marcos Schroh <marcos.schroh@kpn.com>"]
 readme = "README.md"
@@ -79,7 +79,7 @@ exclude = [
 convention = "google"
 
 [tool.commitizen]
-version = "0.6.2"
+version = "0.6.3"
 tag_format = "$version"
 version_files = [
     "pyproject.toml:version",
