@@ -8,7 +8,6 @@ packages = [{include = "dc_avro"}]
 license = "MIT"
 keywords = ["avro", "avro schemas", "dataclasses", "dataclasses-avroschema", "pydantic"]
 classifiers = [
-    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
@@ -21,7 +20,7 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.8"
 aiofiles = "^22.1.0" # remove this
 httpx = "^0.23.3"
 dataclasses-avroschema = "^0"
