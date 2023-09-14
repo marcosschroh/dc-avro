@@ -59,10 +59,13 @@ class UserAdvance(AvroModel):
     pets: typing.List[str]
     accounts: typing.Dict[str, int]
     favorite_colors: FavoriteColor
-    md5: types.Fixed = types.Fixed(16)
+    md5: types.confixed(size=16)
     has_car: bool = False
     country: str = "Argentina"
     address: typing.Optional[str] = None
+
+    class Meta:
+        field_order = ['name', 'age', 'pets', 'accounts', 'favorite_colors', 'has_car', 'country', 'address', 'md5']
 
 """
     return result
