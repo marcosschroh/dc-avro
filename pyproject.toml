@@ -6,7 +6,7 @@ authors = ["Marcos Schroh <marcos.schroh@kpn.com>"]
 readme = "README.md"
 packages = [{include = "dc_avro"}]
 license = "MIT"
-keywords = ["avro", "avro schemas", "dataclasses", "dataclasses-avroschema", "pydantic"]
+keywords = ["avro", "schemas", "dataclasses", "pydantic", "lint"]
 classifiers = [
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",

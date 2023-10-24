@@ -1,5 +1,5 @@
 import ast
-from typing import Dict, Optional
+from typing import Dict, List, Optional
 
 import rich
 import typer
@@ -8,6 +8,7 @@ from deepdiff import DeepDiff
 
 from . import _schema_utils
 from ._types import JsonDict, SerializationType
+from .exceptions import InvalidSchema, JsonRequired
 
 app = typer.Typer()
 console = rich.console.Console()
@@ -17,7 +18,7 @@ def generate_error_messages(
     path_name: Optional[str] = "--path", url_name: Optional[str] = "--url"
 ) -> Dict[str, str]:
     return {
-        "all_specified": f"You can not specicy both {path_name} and {url_name}",
+        "all_specified": f"You can not specify both {path_name} and {url_name}",
         "required": f"{path_name} or {url_name} must be specified",
     }
 
@@ -136,11 +137,40 @@ def deserialize(
 
 @app.command()
 def validate_schema(
-    path: str = typer.Option(None, help="Path to the local schema"),
-    url: str = typer.Option(None, help="Schema url"),
+    path: Optional[str] = typer.Option(None, help="Path to the local schema"),
+    url: Optional[str] = typer.Option(None, help="Schema url"),
 ):
     resource = get_resource(path=path, url=url)
 
     if _schema_utils.validate(schema=resource):
         console.print("[bold green]Valid schema!![/bold green] :+1: \n")
         console.print(resource)
+
+
+@app.command()
+def lint(files: List[str]) -> None:
+    errors: dict = {}
+    valid_schemas = []
+    for path in files:
+        try:
+            schema = _schema_utils.get_resource_from_path(path=path)
+        except JsonRequired as e:
+            errors[path] = e
+            continue
+        try:
+            _schema_utils.validate(schema=schema)
+        except InvalidSchema as e:
+            errors[path] = e
+            continue
+        valid_schemas.append(path)
+    if valid_schemas:
+        console.print(f"\n:+1: Total valid schemas: {len(valid_schemas)}")
+        for valid in valid_schemas:
+            console.print(valid)
+    if errors:
+        error_msg = f"Total errors detected: {len(errors.keys())}"
+        for error_path, error in errors.items():
+            console.print(":boom: File: " + error_path)
+            console.print(f"[red]{error}[/red]")
+        app.pretty_exceptions_show_locals = False
+        raise InvalidSchema(error_msg)

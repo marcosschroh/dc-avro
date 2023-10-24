@@ -1,0 +1,6 @@
+- id: lint-avsc
+  name: validate avro
+  description: Validate avro schemas
+  entry: dc-avro lint
+  language: python
+  files: \S+\.avsc$
