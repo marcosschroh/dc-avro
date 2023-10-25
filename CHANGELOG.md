@@ -1,3 +1,9 @@
+## 0.7.0 (2023-10-25)
+
+### Feat
+
+- Implement lint command and pre-commit mode
+
 ## 0.6.5 (2023-05-29)
 
 ### Fix
