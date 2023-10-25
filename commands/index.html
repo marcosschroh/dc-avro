@@ -317,8 +317,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#validate-schemas" class="md-nav__link">
-    Validate schemas
+  <a href="#validate-schema" class="md-nav__link">
+    Validate schema
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lint" class="md-nav__link">
+    Lint
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pre-commit" class="md-nav__link">
+    Pre-commit
   </a>
   
 </li>
@@ -393,8 +407,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#validate-schemas" class="md-nav__link">
-    Validate schemas
+  <a href="#validate-schema" class="md-nav__link">
+    Validate schema
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lint" class="md-nav__link">
+    Lint
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pre-commit" class="md-nav__link">
+    Pre-commit
   </a>
   
 </li>
@@ -453,29 +481,97 @@
 
 
 <h1 id="commands">Commands</h1>
-<p>This section describes all the commands supported by this library together with <code>dataclasses-avroschema</code>. To show the commands we will work with the following schema:</p>
+<!-- TOC -->
+<ul>
+<li><a href="#validate-schema">Validate schema</a></li>
+<li><a href="#lint">Lint</a></li>
+<li><a href="#pre-commit">Pre-commit</a></li>
+<li><a href="#generate-models-from-schemas">Generate models from schemas</a></li>
+<li><a href="#serialize-data-with-schema">Serialize data with schema</a></li>
+<li><a href="#deserialize-data-with-schema">Deserialize data with schema</a></li>
+<li><a href="#view-diff-between-schemas">View diff between schemas</a></li>
+<li><a href="#generate-fake-data-from-schema">Generate fake data from schema</a></li>
+</ul>
+<!-- TOC -->
+
+<p>This section describes all the commands supported by this library together with <code>dataclasses-avroschema</code>.
+To show the commands we will work with the following schema:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-    <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;record&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;UserAdvance&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;fields&#39;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;long&#39;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;pets&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;array&#39;</span><span class="p">,</span> <span class="s1">&#39;items&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;pet&#39;</span><span class="p">}},</span>
-        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;map&#39;</span><span class="p">,</span> <span class="s1">&#39;values&#39;</span><span class="p">:</span> <span class="s1">&#39;long&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;account&#39;</span><span class="p">}},</span>
-        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;favorite_colors&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;enum&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;FavoriteColor&#39;</span><span class="p">,</span> <span class="s1">&#39;symbols&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;BLUE&#39;</span><span class="p">,</span> <span class="s1">&#39;YELLOW&#39;</span><span class="p">,</span> <span class="s1">&#39;GREEN&#39;</span><span class="p">]}},</span>
-        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;has_car&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;boolean&#39;</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span>
-        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;country&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="s1">&#39;Argentina&#39;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;address&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;null&#39;</span><span class="p">,</span> <span class="s1">&#39;string&#39;</span><span class="p">],</span> <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
-        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;md5&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;fixed&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;md5&#39;</span><span class="p">,</span> <span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">}}</span>
-    <span class="p">]</span>
+<span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;record&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;UserAdvance&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;fields&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;name&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;age&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;long&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pets&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pet&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;accounts&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;map&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;values&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;long&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;account&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;favorite_colors&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;enum&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;FavoriteColor&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;symbols&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="s2">&quot;BLUE&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="s2">&quot;YELLOW&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="s2">&quot;GREEN&quot;</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;has_car&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;boolean&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;country&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Argentina&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;address&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">&quot;null&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;md5&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fixed&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;md5&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">16</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>All the commands can be executed using a <code>path</code> or a <code>url</code></p>
 </div>
-<h2 id="validate-schemas">Validate schemas</h2>
-<p>The previous schema is a valid one. If we assume that we have a <code>schema.avsc</code> in the file system which contains the previous schema we can validate it:</p>
+<p>All the commands can be executed using a <code>path</code> or a <code>url</code></p>
+<h2 id="validate-schema">Validate schema</h2>
+<p>The previous schema is a valid one.
+If we assume that we have a <code>schema.avsc</code> in the file system which contains the previous schema we can validate it:</p>
 <div class="highlight"><pre><span></span><code>dc-avro<span class="w"> </span>validate-schema<span class="w"> </span>--path<span class="w"> </span>schema.avsc
 </code></pre></div>
 <p>resulting in</p>
@@ -497,7 +593,8 @@
 <span class="w">    </span><span class="o">]</span>
 <span class="o">}</span>
 </code></pre></div>
-<p>If the previous schema is stored in a <code>schema registry</code>, for example in <code>https://schema-registry/schema/1</code> we can validate it using the <code>--url</code>:</p>
+<p>If the previous schema is stored in a <code>schema registry</code>, for example in <code>https://schema-registry/schema/1</code> we can
+validate it using the <code>--url</code>:</p>
 <div class="highlight"><pre><span></span><code>dc-avro<span class="w"> </span>validate-schema<span class="w"> </span>--url<span class="w"> </span>https://schema-registry/schema/1
 </code></pre></div>
 <p>resulting in</p>
@@ -519,22 +616,75 @@
 <span class="w">    </span><span class="o">]</span>
 <span class="o">}</span>
 </code></pre></div>
-<p>If an schema is invalid, for example the folling one:</p>
-<div class="highlight"><pre><span></span><code><span class="o">{</span>
-<span class="w">    </span><span class="s2">&quot;type&quot;</span>:<span class="w"> </span><span class="s2">&quot;record&quot;</span>,
-<span class="w">    </span><span class="s2">&quot;name&quot;</span>:<span class="w"> </span><span class="s2">&quot;UserAdvance&quot;</span>,
-<span class="w">    </span><span class="s2">&quot;fields&quot;</span>:<span class="w"> </span><span class="o">[</span>
-<span class="w">      </span><span class="o">{</span><span class="s2">&quot;name&quot;</span>:<span class="w"> </span><span class="s2">&quot;name&quot;</span>,<span class="w"> </span><span class="s2">&quot;type&quot;</span>:<span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="o">}</span>,
-<span class="w">      </span><span class="o">{</span><span class="s2">&quot;name&quot;</span>:<span class="w"> </span><span class="s2">&quot;age&quot;</span>,<span class="w"> </span><span class="s2">&quot;type&quot;</span>:<span class="w"> </span><span class="s2">&quot;long&quot;</span><span class="o">}</span>,
-<span class="w">      </span><span class="o">{</span><span class="s2">&quot;name&quot;</span>:<span class="w"> </span><span class="s2">&quot;pets&quot;</span>,<span class="w"> </span><span class="s2">&quot;type&quot;</span>:<span class="w"> </span><span class="o">{</span><span class="s2">&quot;type&quot;</span>:<span class="w"> </span><span class="s2">&quot;array&quot;</span>,<span class="w"> </span><span class="s2">&quot;items&quot;</span>:<span class="w"> </span><span class="s2">&quot;string&quot;</span>,<span class="w"> </span><span class="s2">&quot;name&quot;</span>:<span class="w"> </span><span class="s2">&quot;pet&quot;</span><span class="o">}}</span>,
-<span class="w">      </span><span class="o">{</span><span class="w"> </span><span class="s2">&quot;name&quot;</span>:<span class="w"> </span><span class="s2">&quot;accounts&quot;</span>,<span class="w"> </span><span class="s2">&quot;type&quot;</span>:<span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="s2">&quot;type&quot;</span>:<span class="w"> </span><span class="s2">&quot;map&quot;</span>,<span class="w"> </span><span class="s2">&quot;values&quot;</span>:<span class="w"> </span><span class="s2">&quot;long&quot;</span>,<span class="w"> </span><span class="s2">&quot;name&quot;</span>:<span class="w"> </span><span class="s2">&quot;account&quot;</span><span class="o">}}</span>,
-<span class="w">      </span><span class="o">{</span><span class="s2">&quot;name&quot;</span>:<span class="w"> </span><span class="s2">&quot;favorite_colors&quot;</span>,<span class="w"> </span><span class="s2">&quot;type&quot;</span>:<span class="w"> </span><span class="o">{</span><span class="s2">&quot;type&quot;</span>:<span class="w"> </span><span class="s2">&quot;enum&quot;</span>,<span class="w"> </span><span class="s2">&quot;name&quot;</span>:<span class="w"> </span><span class="s2">&quot;FavoriteColor&quot;</span>,<span class="w"> </span><span class="s2">&quot;symbols&quot;</span>:<span class="w"> </span><span class="o">[</span><span class="s2">&quot;BLUE&quot;</span>,<span class="w"> </span><span class="s2">&quot;YELLOW&quot;</span>,<span class="w"> </span><span class="s2">&quot;GREEN&quot;</span><span class="o">]}}</span>,
-<span class="w">      </span><span class="o">{</span><span class="s2">&quot;name&quot;</span>:<span class="w"> </span><span class="s2">&quot;has_car&quot;</span>,<span class="w"> </span><span class="s2">&quot;type&quot;</span>:<span class="w"> </span><span class="s2">&quot;boolean&quot;</span>,<span class="w"> </span><span class="s2">&quot;default&quot;</span>:<span class="w"> </span><span class="m">1</span><span class="o">}</span>,<span class="w"> </span><span class="c1"># ERROR!!!!</span>
-<span class="w">      </span><span class="o">{</span><span class="w"> </span><span class="s2">&quot;name&quot;</span>:<span class="w"> </span><span class="s2">&quot;country&quot;</span>,<span class="w"> </span><span class="s2">&quot;type&quot;</span>:<span class="w"> </span><span class="s2">&quot;string&quot;</span>,<span class="w"> </span><span class="s2">&quot;default&quot;</span>:<span class="w"> </span><span class="s2">&quot;Argentina&quot;</span><span class="o">}</span>,
-<span class="w">      </span><span class="o">{</span><span class="s2">&quot;name&quot;</span>:<span class="w"> </span><span class="s2">&quot;address&quot;</span>,<span class="w"> </span><span class="s2">&quot;type&quot;</span>:<span class="w"> </span><span class="o">[</span><span class="s2">&quot;null&quot;</span>,<span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="o">]</span>,<span class="w"> </span><span class="s2">&quot;default&quot;</span>:<span class="w"> </span><span class="m">10</span><span class="o">}</span>,
-<span class="w">      </span><span class="o">{</span><span class="s2">&quot;name&quot;</span>:<span class="w"> </span><span class="s2">&quot;md5&quot;</span>,<span class="w"> </span><span class="s2">&quot;type&quot;</span>:<span class="w"> </span><span class="o">{</span><span class="s2">&quot;type&quot;</span>:<span class="w"> </span><span class="s2">&quot;fixed&quot;</span>,<span class="w"> </span><span class="s2">&quot;name&quot;</span>:<span class="w"> </span><span class="s2">&quot;md5&quot;</span>,<span class="w"> </span><span class="s2">&quot;size&quot;</span>:<span class="w"> </span><span class="m">16</span><span class="o">}}</span>
-<span class="w">    </span><span class="o">]</span>
-<span class="w">  </span><span class="o">}</span>
+<p>If a schema is invalid, for example the following one:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;record&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;UserAdvance&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;fields&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;name&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;age&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;long&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pets&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pet&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;accounts&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;map&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;values&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;long&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;account&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;favorite_colors&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;enum&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;FavoriteColor&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;symbols&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="s2">&quot;BLUE&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="s2">&quot;YELLOW&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="s2">&quot;GREEN&quot;</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;has_car&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;boolean&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="err">#!!!ERROR!!!</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;country&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Argentina&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;address&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">&quot;null&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;md5&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fixed&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;md5&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">16</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>The result will be:</p>
 <div class="highlight"><pre><span></span><code>InvalidSchema:<span class="w"> </span>Schema<span class="w"> </span><span class="o">{</span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span><span class="s1">&#39;record&#39;</span>,<span class="w"> </span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;UserAdvance&#39;</span>,<span class="w"> </span><span class="s1">&#39;fields&#39;</span>:<span class="w"> </span><span class="o">[{</span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;name&#39;</span>,<span class="w"> </span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span><span class="s1">&#39;string&#39;</span><span class="o">}</span>,<span class="w"> </span><span class="o">{</span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;age&#39;</span>,<span class="w"> </span>
@@ -545,8 +695,50 @@
 <span class="s1">&#39;md5&#39;</span>,<span class="w"> </span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span><span class="o">{</span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span><span class="s1">&#39;fixed&#39;</span>,<span class="w"> </span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;md5&#39;</span>,<span class="w"> </span><span class="s1">&#39;size&#39;</span>:<span class="w"> </span><span class="m">16</span><span class="o">}}]}</span><span class="w"> </span>is<span class="w"> </span>not<span class="w"> </span>valid.
 <span class="w"> </span>Error:<span class="w"> </span><span class="sb">`</span>Default<span class="w"> </span>value<span class="w"> </span>&lt;<span class="m">1</span>&gt;<span class="w"> </span>must<span class="w"> </span>match<span class="w"> </span>schema<span class="w"> </span>type:<span class="w"> </span>boolean<span class="sb">`</span>
 </code></pre></div>
+<h2 id="lint">Lint</h2>
+<p>To check several avro schemas you can use following command</p>
+<div class="highlight"><pre><span></span><code>dc-avro<span class="w"> </span>lint<span class="w"> </span>tests/schemas/example.avsc<span class="w"> </span>tests/schemas/example_v2.avsc
+</code></pre></div>
+<p>and get the following output:</p>
+<div class="highlight"><pre><span></span><code>👍 Total valid schemas: 2
+tests/schemas/example.avsc
+tests/schemas/example_v2.avsc
+</code></pre></div>
+<p>For incorrect schema the run is following:</p>
+<div class="highlight"><pre><span></span><code>dc-avro<span class="w"> </span>lint<span class="w"> </span>tests/schemas/invalid_example.avsc
+</code></pre></div>
+<p>and corresponding output:</p>
+<div class="highlight"><pre><span></span><code>💥<span class="w"> </span>File:<span class="w"> </span>tests/schemas/invalid_example.avsc
+Schema<span class="w"> </span><span class="o">{</span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span><span class="s1">&#39;record&#39;</span>,<span class="w"> </span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;UserAdvance&#39;</span>,<span class="w"> </span><span class="s1">&#39;fields&#39;</span>:<span class="w"> </span><span class="o">[{</span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;name&#39;</span>,<span class="w"> </span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span><span class="s1">&#39;string&#39;</span><span class="o">}</span>,<span class="w"> </span><span class="o">{</span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;age&#39;</span>,<span class="w"> </span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span><span class="s1">&#39;long&#39;</span><span class="o">}</span>,<span class="w"> </span><span class="o">{</span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;pets&#39;</span>,<span class="w"> </span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span><span class="o">{</span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span>
+<span class="s1">&#39;array&#39;</span>,<span class="w"> </span><span class="s1">&#39;items&#39;</span>:<span class="w"> </span><span class="s1">&#39;string&#39;</span>,<span class="w"> </span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;pet&#39;</span><span class="o">}}</span>,<span class="w"> </span><span class="o">{</span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;accounts&#39;</span>,<span class="w"> </span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span><span class="o">{</span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span><span class="s1">&#39;map&#39;</span>,<span class="w"> </span><span class="s1">&#39;values&#39;</span>:<span class="w"> </span><span class="s1">&#39;long&#39;</span>,<span class="w"> </span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;account&#39;</span><span class="o">}}</span>,<span class="w"> </span><span class="o">{</span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;favorite_colors&#39;</span>,<span class="w"> </span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span>
+<span class="o">{</span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span><span class="s1">&#39;enum&#39;</span>,<span class="w"> </span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;FavoriteColor&#39;</span>,<span class="w"> </span><span class="s1">&#39;symbols&#39;</span>:<span class="w"> </span><span class="o">[</span><span class="s1">&#39;BLUE&#39;</span>,<span class="w"> </span><span class="s1">&#39;YELLOW&#39;</span>,<span class="w"> </span><span class="s1">&#39;GREEN&#39;</span><span class="o">]}}</span>,<span class="w"> </span><span class="o">{</span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;has_car&#39;</span>,<span class="w"> </span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span><span class="s1">&#39;boolean&#39;</span>,<span class="w"> </span><span class="s1">&#39;default&#39;</span>:<span class="w"> </span><span class="m">1</span><span class="o">}</span>,<span class="w"> </span><span class="o">{</span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;country&#39;</span>,<span class="w"> </span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span>
+<span class="s1">&#39;string&#39;</span>,<span class="w"> </span><span class="s1">&#39;default&#39;</span>:<span class="w"> </span><span class="s1">&#39;Argentina&#39;</span><span class="o">}</span>,<span class="w"> </span><span class="o">{</span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;address&#39;</span>,<span class="w"> </span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span><span class="o">[</span><span class="s1">&#39;null&#39;</span>,<span class="w"> </span><span class="s1">&#39;string&#39;</span><span class="o">]</span>,<span class="w"> </span><span class="s1">&#39;default&#39;</span>:<span class="w"> </span><span class="m">10</span><span class="o">}</span>,<span class="w"> </span><span class="o">{</span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;md5&#39;</span>,<span class="w"> </span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span><span class="o">{</span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span><span class="s1">&#39;fixed&#39;</span>,<span class="w"> </span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;md5&#39;</span>,<span class="w"> </span><span class="s1">&#39;size&#39;</span>:<span class="w"> </span>
+<span class="m">16</span><span class="o">}}]}</span><span class="w"> </span>is<span class="w"> </span>not<span class="w"> </span>valid.
+<span class="w"> </span>Error:<span class="w"> </span><span class="sb">`</span>Default<span class="w"> </span>value<span class="w"> </span>&lt;<span class="m">1</span>&gt;<span class="w"> </span>must<span class="w"> </span>match<span class="w"> </span>schema<span class="w"> </span>type:<span class="w"> </span>boolean<span class="sb">`</span>
+╭───────────────────────────────<span class="w"> </span>Traceback<span class="w"> </span><span class="o">(</span>most<span class="w"> </span>recent<span class="w"> </span>call<span class="w"> </span>last<span class="o">)</span><span class="w"> </span>────────────────────────────────╮
+│<span class="w"> </span>/Users/svd/code/github/forks/dc-avro/dc_avro/main.py:176<span class="w"> </span><span class="k">in</span><span class="w"> </span>lint<span class="w">                                 </span>│
+│<span class="w">                                                                                                  </span>│
+│<span class="w">   </span><span class="m">173</span><span class="w"> </span>│<span class="w">   </span>│<span class="w">   </span>│<span class="w">   </span>console.print<span class="o">(</span><span class="s2">&quot;:boom: File: &quot;</span><span class="w"> </span>+<span class="w"> </span>error_path<span class="o">)</span><span class="w">                                    </span>│
+│<span class="w">   </span><span class="m">174</span><span class="w"> </span>│<span class="w">   </span>│<span class="w">   </span>│<span class="w">   </span>console.print<span class="o">(</span>f<span class="s2">&quot;[red]{error}[/red]&quot;</span><span class="o">)</span><span class="w">                                           </span>│
+│<span class="w">   </span><span class="m">175</span><span class="w"> </span>│<span class="w">   </span>│<span class="w">   </span>app.pretty_exceptions_show_locals<span class="w"> </span><span class="o">=</span><span class="w"> </span>False<span class="w">                                          </span>│
+│<span class="w"> </span>❱<span class="w"> </span><span class="m">176</span><span class="w"> </span>│<span class="w">   </span>│<span class="w">   </span>raise<span class="w"> </span>InvalidSchema<span class="o">(</span>error_msg<span class="o">)</span><span class="w">                                                     </span>│
+│<span class="w">   </span><span class="m">177</span><span class="w">                                                                                            </span>│
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+InvalidSchema:<span class="w"> </span>Total<span class="w"> </span>errors<span class="w"> </span>detected:<span class="w"> </span><span class="m">1</span>
+</code></pre></div>
+<h2 id="pre-commit">Pre-commit</h2>
+<p>Add the following lines to your <code>.pre-commit-config.yaml</code> file to enable avro schemas linting</p>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/svdimchenko/dc-avro.git</span>
+<span class="w">    </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.7.0</span>
+<span class="w">    </span><span class="nt">hooks</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lint-avsc</span>
+<span class="w">        </span><span class="nt">additional_dependencies</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">typing_extensions</span><span class="p p-Indicator">]</span>
+</code></pre></div>
 <h2 id="generate-models-from-schemas">Generate models from schemas</h2>
-<p>Python models can be generated using the command <code>generate-model</code>. This command also works with <code>path</code> and <code>url</code>. It is also possible to provide the <code>base-class</code> that will be use in the <code>models</code>. This base class can be <code>[AvroModel|BaseModel|AvroBaseModel]</code></p>
+<p>Python models can be generated using the command <code>generate-model</code>.
+This command also works with <code>path</code> and <code>url</code>.
+It is also possible to provide the <code>base-class</code> that will be used in the <code>models</code>.
+This base class can be <code>[AvroModel|BaseModel|AvroBaseModel]</code></p>
 <p><a href="https://asciinema.org/a/557200"><img alt="asciicast" src="https://asciinema.org/a/557200.svg" /></a></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Dataclass models</label><label for="__tabbed_1_2">Pydantic models</label></div>
 <div class="tabbed-content">
@@ -610,11 +802,12 @@
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If you want to save the result to a local file you can execute <code>dc-avro generate-model --path schema.avsc &gt; my-models.py</code></p>
 </div>
+<p>If you want to save the result to a local file you can
+execute <code>dc-avro generate-model --path schema.avsc &gt; my-models.py</code></p>
 <h2 id="serialize-data-with-schema">Serialize data with schema</h2>
-<p>We can <code>serialize</code> data with schemas either in <code>avro</code> or <code>avro-json</code>, for example:</p>
-<div class="highlight"><span class="filename">Event</span><pre><span></span><code><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;bond&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s1">&#39;pets&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;dog&#39;</span><span class="p">,</span> <span class="s1">&#39;cat&#39;</span><span class="p">],</span> <span class="s1">&#39;accounts&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="s1">&#39;has_car&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;favorite_colors&#39;</span><span class="p">:</span> <span class="s1">&#39;BLUE&#39;</span><span class="p">,</span> <span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Argentina&#39;</span><span class="p">,</span> <span class="s1">&#39;address&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;md5&#39;</span><span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;u00ffffffffffffx&#39;</span><span class="p">}</span>
+<p>We can <code>serialize</code> the data with schemas either in <code>avro</code> or <code>avro-json</code>, for example:</p>
+<div class="highlight"><span class="filename">Event</span><pre><span></span><code><span class="o">{</span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;bond&#39;</span>,<span class="w"> </span><span class="s1">&#39;age&#39;</span>:<span class="w"> </span><span class="m">50</span>,<span class="w"> </span><span class="s1">&#39;pets&#39;</span>:<span class="w"> </span><span class="o">[</span><span class="s1">&#39;dog&#39;</span>,<span class="w"> </span><span class="s1">&#39;cat&#39;</span><span class="o">]</span>,<span class="w"> </span><span class="s1">&#39;accounts&#39;</span>:<span class="w"> </span><span class="o">{</span><span class="s1">&#39;key&#39;</span>:<span class="w"> </span><span class="m">1</span><span class="o">}</span>,<span class="w"> </span><span class="s1">&#39;has_car&#39;</span>:<span class="w"> </span>False,<span class="w"> </span><span class="s1">&#39;favorite_colors&#39;</span>:<span class="w"> </span><span class="s1">&#39;BLUE&#39;</span>,<span class="w"> </span><span class="s1">&#39;country&#39;</span>:<span class="w"> </span><span class="s1">&#39;Argentina&#39;</span>,<span class="w"> </span><span class="s1">&#39;address&#39;</span>:<span class="w"> </span>None,<span class="w"> </span><span class="s1">&#39;md5&#39;</span>:<span class="w"> </span>b<span class="s1">&#39;u00ffffffffffffx&#39;</span><span class="o">}</span>
 </code></pre></div>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">avro serialization</label><label for="__tabbed_2_2">avro-json serialization</label></div>
 <div class="tabbed-content">
@@ -635,10 +828,11 @@
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The data provided to the command must be wrapped in quotes as it is interpreted as a string and then converted to a python <code>dict</code></p>
 </div>
+<p>The data provided to the command must be wrapped in quotes as it is interpreted as a string and then converted to a
+python <code>dict</code></p>
 <h2 id="deserialize-data-with-schema">Deserialize data with schema</h2>
-<p>We can <code>deserialize</code> data with schemas either in <code>avro</code> or <code>avro-json</code>, for example:</p>
+<p>We can <code>deserialize</code> the data with schemas either in <code>avro</code> or <code>avro-json</code>, for example:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">avro deserialization</label><label for="__tabbed_3_2">avro-json deserialization</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -677,44 +871,145 @@
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>For  <code>avro deserialization</code> you have to include the character <code>b</code> in the string to indicate that the actual value is <code>bytes</code></p>
 </div>
+<p>For  <code>avro deserialization</code> you have to include the character <code>b</code> in the string to indicate that the actual value
+is <code>bytes</code></p>
 <h2 id="view-diff-between-schemas">View diff between schemas</h2>
-<p>Sometimes it is useful to see the difference between <code>avsc</code> files, specially for the <code>avro schema evolution</code>. You need to specify the <code>source</code> and <code>target</code> schema.
+<p>Sometimes it is useful to see the difference between <code>avsc</code> files, specially for the <code>avro schema evolution</code>. You need
+to specify the <code>source</code> and <code>target</code> schema.
 Both of them can be using the <code>path</code> or <code>url</code></p>
 <p>Example:</p>
 <p>The v1 schema version is in the <code>schema registry</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-    <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;record&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;UserAdvance&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;fields&#39;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;long&#39;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;pets&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;array&#39;</span><span class="p">,</span> <span class="s1">&#39;items&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;pet&#39;</span><span class="p">}},</span>
-        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;map&#39;</span><span class="p">,</span> <span class="s1">&#39;values&#39;</span><span class="p">:</span> <span class="s1">&#39;long&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;account&#39;</span><span class="p">}},</span>
-        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;favorite_colors&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;enum&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;FavoriteColor&#39;</span><span class="p">,</span> <span class="s1">&#39;symbols&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;BLUE&#39;</span><span class="p">,</span> <span class="s1">&#39;YELLOW&#39;</span><span class="p">,</span> <span class="s1">&#39;GREEN&#39;</span><span class="p">]}},</span>
-        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;has_car&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;boolean&#39;</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span>
-        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;country&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="s1">&#39;Argentina&#39;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;address&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;null&#39;</span><span class="p">,</span> <span class="s1">&#39;string&#39;</span><span class="p">],</span> <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
-        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;md5&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;fixed&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;md5&#39;</span><span class="p">,</span> <span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">}}</span>
-    <span class="p">]</span>
+<span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;record&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;UserAdvance&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;fields&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;name&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;age&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;long&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pets&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pet&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;accounts&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;map&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;values&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;long&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;account&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;favorite_colors&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;enum&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;FavoriteColor&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;symbols&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="s2">&quot;BLUE&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="s2">&quot;YELLOW&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="s2">&quot;GREEN&quot;</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;has_car&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;boolean&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;country&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Argentina&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;address&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">&quot;null&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;md5&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fixed&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;md5&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">16</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Then a PR has been opened with the <code>UserAdvance v2</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;record&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;UserAdvance&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span>
-      <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;long&quot;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;pets&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;array&quot;</span><span class="p">,</span> <span class="s2">&quot;items&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;pet&quot;</span><span class="p">}},</span>
-      <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;accounts&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;map&quot;</span><span class="p">,</span> <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="s2">&quot;long&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;account&quot;</span><span class="p">}},</span>
-      <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;favorite_colors&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;enum&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;FavoriteColor&quot;</span><span class="p">,</span> <span class="s2">&quot;symbols&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;BLUE&quot;</span><span class="p">,</span> <span class="s2">&quot;YELLOW&quot;</span><span class="p">,</span> <span class="s2">&quot;GREEN&quot;</span><span class="p">]}},</span>
-      <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;has_car&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span>
-      <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;country&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="s2">&quot;Netherlands&quot;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;address&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;null&quot;</span><span class="p">,</span> <span class="s2">&quot;string&quot;</span><span class="p">],</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
-    <span class="p">]</span>
-  <span class="p">}</span>
+<span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;record&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;UserAdvance&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;fields&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;name&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;age&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;long&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pets&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pet&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;accounts&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;map&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;values&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;long&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;account&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;favorite_colors&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;enum&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;FavoriteColor&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;symbols&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="s2">&quot;BLUE&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="s2">&quot;YELLOW&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="s2">&quot;GREEN&quot;</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;has_car&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;boolean&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;country&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Netherlands&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;address&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">&quot;null&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
 </code></pre></div>
 <ul>
 <li>We can see that the <code>default</code> value for <code>country</code> has been updated from <code>Argentina</code> to <code>Netherlads</code></li>
