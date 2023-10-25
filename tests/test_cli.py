@@ -14,26 +14,26 @@ runner = CliRunner()
 url = "https://schema-registry/example.avsc"
 
 
-def test_validate_schema_from_path(SCHEMA_DIR: str):
+def test_validate_schema_from_path(schema_dir: str):
     result = runner.invoke(
-        app, ["validate-schema", "--path", os.path.join(SCHEMA_DIR, "example.avsc")]
+        app, ["validate-schema", "--path", os.path.join(schema_dir, "example.avsc")]
     )
     assert result.exit_code == 0
     assert "Valid schema!!" in result.stdout
 
 
-def test_validate_schema_from_url(example_shema_json: JsonDict):
-    responnse = Response(status_code=codes.OK, json=example_shema_json)
-    with mock.patch("dc_avro.main._schema_utils.httpx.get", return_value=responnse):
+def test_validate_schema_from_url(example_schema_json: JsonDict):
+    response = Response(status_code=codes.OK, json=example_schema_json)
+    with mock.patch("dc_avro.main._schema_utils.httpx.get", return_value=response):
         result = runner.invoke(app, ["validate-schema", "--url", url])
         assert result.exit_code == 0
         assert "Valid schema!!" in result.stdout
 
 
-def test_validate_schema_invalid_path(SCHEMA_DIR):
+def test_validate_schema_invalid_path(schema_dir):
     result = runner.invoke(
         app,
-        ["validate-schema", "--path", os.path.join(SCHEMA_DIR, "invalid_example.avsc")],
+        ["validate-schema", "--path", os.path.join(schema_dir, "invalid_example.avsc")],
     )
     assert result.exit_code == 1
 
@@ -44,13 +44,13 @@ def test_validate_schema_invalid_path(SCHEMA_DIR):
     assert result.exit_code == 1
 
 
-def test_invalid_schema_two_options(SCHEMA_DIR: str):
+def test_invalid_schema_two_options(schema_dir: str):
     result = runner.invoke(
         app,
         [
             "validate-schema",
             "--path",
-            os.path.join(SCHEMA_DIR, "invalid_example.avsc"),
+            os.path.join(schema_dir, "invalid_example.avsc"),
             "--url",
             "https://some.url",
         ],
@@ -58,31 +58,31 @@ def test_invalid_schema_two_options(SCHEMA_DIR: str):
     assert result.exit_code == 2
 
 
-def test_generate_model_from_path(SCHEMA_DIR: str, model_generator_output_command: str):
+def test_generate_model_from_path(schema_dir: str, model_generator_output_command: str):
     result = runner.invoke(
-        app, ["generate-model", "--path", os.path.join(SCHEMA_DIR, "example.avsc")]
+        app, ["generate-model", "--path", os.path.join(schema_dir, "example.avsc")]
     )
     assert result.exit_code == 0
     assert model_generator_output_command == result.stdout
 
 
 def test_generate_model_from_url(
-    example_shema_json: JsonDict, model_generator_output_command: str
+    example_schema_json: JsonDict, model_generator_output_command: str
 ):
-    responnse = Response(status_code=codes.OK, json=example_shema_json)
-    with mock.patch("dc_avro.main._schema_utils.httpx.get", return_value=responnse):
+    response = Response(status_code=codes.OK, json=example_schema_json)
+    with mock.patch("dc_avro.main._schema_utils.httpx.get", return_value=response):
         result = runner.invoke(app, ["generate-model", "--url", url])
         assert result.exit_code == 0
         assert model_generator_output_command == result.stdout
 
 
-def test_generate_model_two_options(SCHEMA_DIR: str):
+def test_generate_model_two_options(schema_dir: str):
     result = runner.invoke(
         app,
         [
             "generate-model",
             "--path",
-            os.path.join(SCHEMA_DIR, "invalid_example.avsc"),
+            os.path.join(schema_dir, "invalid_example.avsc"),
             "--url",
             "https://some.url",
         ],
@@ -106,7 +106,7 @@ def test_generate_model_two_options(SCHEMA_DIR: str):
     ],
 )
 def test_serialize_from_path(
-    SCHEMA_DIR: str, expected_stdout: str, serialization_type: str
+    schema_dir: str, expected_stdout: str, serialization_type: str
 ):
     data = "{'name': 'bond', 'age': 50, 'pets': ['dog', 'cat'], 'accounts': {'key': 1}, 'has_car': False, 'favorite_colors': 'BLUE', 'country': 'Argentina', 'address': None, 'md5': b'u00ffffffffffffx'}"
 
@@ -116,7 +116,7 @@ def test_serialize_from_path(
             "serialize",
             data,
             "--path",
-            os.path.join(SCHEMA_DIR, "example.avsc"),
+            os.path.join(schema_dir, "example.avsc"),
             "--serialization-type",
             serialization_type,
         ],
@@ -140,12 +140,12 @@ def test_serialize_from_path(
     ],
 )
 def test_serialize_from_url(
-    example_shema_json: JsonDict, expected_stdout: str, serialization_type: str
+    example_schema_json: JsonDict, expected_stdout: str, serialization_type: str
 ):
     data = "{'name': 'bond', 'age': 50, 'pets': ['dog', 'cat'], 'accounts': {'key': 1}, 'has_car': False, 'favorite_colors': 'BLUE', 'country': 'Argentina', 'address': None, 'md5': b'u00ffffffffffffx'}"
 
-    responnse = Response(status_code=codes.OK, json=example_shema_json)
-    with mock.patch("dc_avro.main._schema_utils.httpx.get", return_value=responnse):
+    response = Response(status_code=codes.OK, json=example_schema_json)
+    with mock.patch("dc_avro.main._schema_utils.httpx.get", return_value=response):
         result = runner.invoke(
             app,
             [
@@ -161,14 +161,14 @@ def test_serialize_from_url(
         assert expected_stdout == result.stdout
 
 
-def test_serialize_two_options_invalid(SCHEMA_DIR: str):
+def test_serialize_two_options_invalid(schema_dir: str):
     result = runner.invoke(
         app,
         [
             "serialize",
             "{}",
             "--path",
-            os.path.join(SCHEMA_DIR, "invalid_example.avsc"),
+            os.path.join(schema_dir, "invalid_example.avsc"),
             "--url",
             "https://some.url",
         ],
@@ -189,7 +189,7 @@ def test_serialize_two_options_invalid(SCHEMA_DIR: str):
         ),
     ],
 )
-def test_deserialize_from_path(SCHEMA_DIR: str, event: str, serialization_type: str):
+def test_deserialize_from_path(schema_dir: str, event: str, serialization_type: str):
     data = {
         "name": "bond",
         "age": 50,
@@ -207,7 +207,7 @@ def test_deserialize_from_path(SCHEMA_DIR: str, event: str, serialization_type: 
             "deserialize",
             event,
             "--path",
-            os.path.join(SCHEMA_DIR, "example.avsc"),
+            os.path.join(schema_dir, "example.avsc"),
             "--serialization-type",
             serialization_type,
         ],
@@ -230,7 +230,7 @@ def test_deserialize_from_path(SCHEMA_DIR: str, event: str, serialization_type: 
     ],
 )
 def test_deserialize_from_url(
-    example_shema_json: JsonDict, event: bytes, serialization_type: str
+    example_schema_json: JsonDict, event: bytes, serialization_type: str
 ):
     data = {
         "name": "bond",
@@ -244,8 +244,8 @@ def test_deserialize_from_url(
         "md5": b"u00ffffffffffffx",
     }
 
-    responnse = Response(status_code=codes.OK, json=example_shema_json)
-    with mock.patch("dc_avro.main._schema_utils.httpx.get", return_value=responnse):
+    response = Response(status_code=codes.OK, json=example_schema_json)
+    with mock.patch("dc_avro.main._schema_utils.httpx.get", return_value=response):
         result = runner.invoke(
             app,
             [
@@ -261,16 +261,49 @@ def test_deserialize_from_url(
         assert data == ast.literal_eval(result.stdout)
 
 
-def test_deserialize_two_options_invalid(SCHEMA_DIR: str):
+def test_deserialize_two_options_invalid(schema_dir: str):
     result = runner.invoke(
         app,
         [
             "deserialize",
             "{}",
             "--path",
-            os.path.join(SCHEMA_DIR, "invalid_example.avsc"),
+            os.path.join(schema_dir, "invalid_example.avsc"),
             "--url",
             "https://some.url",
         ],
     )
     assert result.exit_code == 2
+
+
+def test_lint_valid(schema_dir: str):
+    result = runner.invoke(
+        app,
+        [
+            "lint",
+            os.path.join(schema_dir, "example.avsc"),
+        ],
+    )
+    assert result.exit_code == 0
+
+
+def test_lint_invalid_resource(schema_dir: str):
+    result = runner.invoke(
+        app,
+        [
+            "lint",
+            os.path.join(schema_dir, "invalid_resource.txt"),
+        ],
+    )
+    assert result.exit_code == 1
+
+
+def test_lint_invalid_schema(schema_dir: str):
+    result = runner.invoke(
+        app,
+        [
+            "lint",
+            os.path.join(schema_dir, "invalid_example.avsc"),
+        ],
+    )
+    assert result.exit_code == 1

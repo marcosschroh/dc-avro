@@ -18,17 +18,17 @@ def load_json(file_name):
 
 
 @pytest.fixture
-def SCHEMA_DIR():
+def schema_dir():
     return AVRO_SCHEMAS_DIR
 
 
 @pytest.fixture
-def example_shema_json():
+def example_schema_json():
     return load_json("example.avsc")
 
 
 @pytest.fixture
-def invalid_example_shema_json():
+def invalid_example_schema_json():
     return load_json("invalid_example.avsc")
 
 

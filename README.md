@@ -17,7 +17,7 @@ https://marcosschroh.github.io/dc-avro/
 
 ## Usage
 
-You can validate `avro schemas` either from a `local file` or `url`:
+You can validate one `avro schema` either from a `local file` or `url`:
 
 Assuming that we have a local file `schema.avsc` that contains an `avro schema`, we can check whether it is valid
 
@@ -43,16 +43,39 @@ Valid schema!! 👍
 }
 ```
 
+You can validate several `.avsc` files with `lint` command
+
+```bash
+dc-avro lint tests/schemas/example.avsc tests/schemas/example_v2.avsc
+
+👍 Total valid schemas: 2
+tests/schemas/example.avsc
+tests/schemas/example_v2.avsc
+```
+
 To see all the commands execute `dc-avro --help`
+
+## Usage in pre-commit
+
+Add the following lines to your `.pre-commit-config.yaml` file to enable avro schemas linting
+
+```yaml
+  - repo: https://github.com/svdimchenko/dc-avro.git
+    rev: 0.7.0
+    hooks:
+      - id: lint-avsc
+        additional_dependencies: [typing_extensions]
+```
 
 ## Features
 
-* [x] Validate `schemas`
+* [x] Validate `schema`
+* [x] Lint `schemas`
 * [x] Generate `models` from `schemas`
 * [x] Data deserialization with `schema`
 * [x] Data serialization with `schema`
 * [x] View diff between `schemas`
-* [] Generate fake data from `schema`
+* [ ] Generate fake data from `schema`
 
 ## Development
 

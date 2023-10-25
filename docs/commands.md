@@ -1,31 +1,97 @@
 # Commands
 
-This section describes all the commands supported by this library together with `dataclasses-avroschema`. To show the commands we will work with the following schema:
+<!-- TOC -->
+  * [Validate schema](#validate-schema)
+  * [Lint](#lint)
+  * [Pre-commit](#pre-commit)
+  * [Generate models from schemas](#generate-models-from-schemas)
+  * [Serialize data with schema](#serialize-data-with-schema)
+  * [Deserialize data with schema](#deserialize-data-with-schema)
+  * [View diff between schemas](#view-diff-between-schemas)
+  * [Generate fake data from schema](#generate-fake-data-from-schema)
+<!-- TOC -->
 
-```python
+This section describes all the commands supported by this library together with `dataclasses-avroschema`.
+To show the commands we will work with the following schema:
+
+```json
 {
-    'type': 'record',
-    'name': 'UserAdvance',
-    'fields': [
-        {'name': 'name', 'type': 'string'},
-        {'name': 'age', 'type': 'long'},
-        {'name': 'pets', 'type': {'type': 'array', 'items': 'string', 'name': 'pet'}},
-        {'name': 'accounts', 'type': {'type': 'map', 'values': 'long', 'name': 'account'}},
-        {'name': 'favorite_colors', 'type': {'type': 'enum', 'name': 'FavoriteColor', 'symbols': ['BLUE', 'YELLOW', 'GREEN']}},
-        {'name': 'has_car', 'type': 'boolean', 'default': False},
-        {'name': 'country', 'type': 'string', 'default': 'Argentina'},
-        {'name': 'address', 'type': ['null', 'string'], 'default': None},
-        {'name': 'md5', 'type': {'type': 'fixed', 'name': 'md5', 'size': 16}}
-    ]
+  "type": "record",
+  "name": "UserAdvance",
+  "fields": [
+    {
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "name": "age",
+      "type": "long"
+    },
+    {
+      "name": "pets",
+      "type": {
+        "type": "array",
+        "items": "string",
+        "name": "pet"
+      }
+    },
+    {
+      "name": "accounts",
+      "type": {
+        "type": "map",
+        "values": "long",
+        "name": "account"
+      }
+    },
+    {
+      "name": "favorite_colors",
+      "type": {
+        "type": "enum",
+        "name": "FavoriteColor",
+        "symbols": [
+          "BLUE",
+          "YELLOW",
+          "GREEN"
+        ]
+      }
+    },
+    {
+      "name": "has_car",
+      "type": "boolean",
+      "default": false
+    },
+    {
+      "name": "country",
+      "type": "string",
+      "default": "Argentina"
+    },
+    {
+      "name": "address",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    },
+    {
+      "name": "md5",
+      "type": {
+        "type": "fixed",
+        "name": "md5",
+        "size": 16
+      }
+    }
+  ]
 }
 ```
 
 !!! note
-    All the commands can be executed using a `path` or a `url`
+All the commands can be executed using a `path` or a `url`
 
-## Validate schemas
+## Validate schema
 
-The previous schema is a valid one. If we assume that we have a `schema.avsc` in the file system which contains the previous schema we can validate it:
+The previous schema is a valid one.
+If we assume that we have a `schema.avsc` in the file system which contains the previous schema we can validate it:
 
 ```bash
 dc-avro validate-schema --path schema.avsc
@@ -53,7 +119,8 @@ Valid schema!! 👍
 }
 ```
 
-If the previous schema is stored in a `schema registry`, for example in `https://schema-registry/schema/1` we can validate it using the `--url`:
+If the previous schema is stored in a `schema registry`, for example in `https://schema-registry/schema/1` we can
+validate it using the `--url`:
 
 ```bash
 dc-avro validate-schema --url https://schema-registry/schema/1
@@ -81,24 +148,77 @@ Valid schema!! 👍
 }
 ```
 
-If an schema is invalid, for example the folling one:
+If a schema is invalid, for example the following one:
 
-```bash
+```json
 {
-    "type": "record",
-    "name": "UserAdvance",
-    "fields": [
-      {"name": "name", "type": "string"},
-      {"name": "age", "type": "long"},
-      {"name": "pets", "type": {"type": "array", "items": "string", "name": "pet"}},
-      { "name": "accounts", "type": { "type": "map", "values": "long", "name": "account"}},
-      {"name": "favorite_colors", "type": {"type": "enum", "name": "FavoriteColor", "symbols": ["BLUE", "YELLOW", "GREEN"]}},
-      {"name": "has_car", "type": "boolean", "default": 1}, # ERROR!!!!
-      { "name": "country", "type": "string", "default": "Argentina"},
-      {"name": "address", "type": ["null", "string"], "default": 10},
-      {"name": "md5", "type": {"type": "fixed", "name": "md5", "size": 16}}
-    ]
-  }
+  "type": "record",
+  "name": "UserAdvance",
+  "fields": [
+    {
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "name": "age",
+      "type": "long"
+    },
+    {
+      "name": "pets",
+      "type": {
+        "type": "array",
+        "items": "string",
+        "name": "pet"
+      }
+    },
+    {
+      "name": "accounts",
+      "type": {
+        "type": "map",
+        "values": "long",
+        "name": "account"
+      }
+    },
+    {
+      "name": "favorite_colors",
+      "type": {
+        "type": "enum",
+        "name": "FavoriteColor",
+        "symbols": [
+          "BLUE",
+          "YELLOW",
+          "GREEN"
+        ]
+      }
+    },
+    {
+      "name": "has_car",
+      "type": "boolean",
+      "default": 1 #!!!ERROR!!!
+    },
+    {
+      "name": "country",
+      "type": "string",
+      "default": "Argentina"
+    },
+    {
+      "name": "address",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": 10
+    },
+    {
+      "name": "md5",
+      "type": {
+        "type": "fixed",
+        "name": "md5",
+        "size": 16
+      }
+    }
+  ]
+}
 ```
 
 The result will be:
@@ -113,9 +233,68 @@ InvalidSchema: Schema {'type': 'record', 'name': 'UserAdvance', 'fields': [{'nam
  Error: `Default value <1> must match schema type: boolean`
 ```
 
+## Lint
+
+To check several avro schemas you can use following command
+
+```bash
+dc-avro lint tests/schemas/example.avsc tests/schemas/example_v2.avsc
+```
+
+and get the following output:
+
+```
+👍 Total valid schemas: 2
+tests/schemas/example.avsc
+tests/schemas/example_v2.avsc
+```
+
+For incorrect schema the run is following:
+
+```bash
+dc-avro lint tests/schemas/invalid_example.avsc
+```
+
+and corresponding output:
+
+```bash
+💥 File: tests/schemas/invalid_example.avsc
+Schema {'type': 'record', 'name': 'UserAdvance', 'fields': [{'name': 'name', 'type': 'string'}, {'name': 'age', 'type': 'long'}, {'name': 'pets', 'type': {'type': 
+'array', 'items': 'string', 'name': 'pet'}}, {'name': 'accounts', 'type': {'type': 'map', 'values': 'long', 'name': 'account'}}, {'name': 'favorite_colors', 'type': 
+{'type': 'enum', 'name': 'FavoriteColor', 'symbols': ['BLUE', 'YELLOW', 'GREEN']}}, {'name': 'has_car', 'type': 'boolean', 'default': 1}, {'name': 'country', 'type': 
+'string', 'default': 'Argentina'}, {'name': 'address', 'type': ['null', 'string'], 'default': 10}, {'name': 'md5', 'type': {'type': 'fixed', 'name': 'md5', 'size': 
+16}}]} is not valid.
+ Error: `Default value <1> must match schema type: boolean`
+╭─────────────────────────────── Traceback (most recent call last) ────────────────────────────────╮
+│ /Users/svd/code/github/forks/dc-avro/dc_avro/main.py:176 in lint                                 │
+│                                                                                                  │
+│   173 │   │   │   console.print(":boom: File: " + error_path)                                    │
+│   174 │   │   │   console.print(f"[red]{error}[/red]")                                           │
+│   175 │   │   app.pretty_exceptions_show_locals = False                                          │
+│ ❱ 176 │   │   raise InvalidSchema(error_msg)                                                     │
+│   177                                                                                            │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+InvalidSchema: Total errors detected: 1
+```
+
+## Pre-commit
+
+Add the following lines to your `.pre-commit-config.yaml` file to enable avro schemas linting
+
+```yaml
+  - repo: https://github.com/svdimchenko/dc-avro.git
+    rev: 0.7.0
+    hooks:
+      - id: lint-avsc
+        additional_dependencies: [typing_extensions]
+```
+
 ## Generate models from schemas
 
-Python models can be generated using the command `generate-model`. This command also works with `path` and `url`. It is also possible to provide the `base-class` that will be use in the `models`. This base class can be `[AvroModel|BaseModel|AvroBaseModel]`
+Python models can be generated using the command `generate-model`.
+This command also works with `path` and `url`.
+It is also possible to provide the `base-class` that will be used in the `models`.
+This base class can be `[AvroModel|BaseModel|AvroBaseModel]`
 
 [![asciicast](https://asciinema.org/a/557200.svg)](https://asciinema.org/a/557200)
 
@@ -180,13 +359,14 @@ Python models can be generated using the command `generate-model`. This command 
     ```
 
 !!! note
-    If you want to save the result to a local file you can execute `dc-avro generate-model --path schema.avsc > my-models.py`
+If you want to save the result to a local file you can
+execute `dc-avro generate-model --path schema.avsc > my-models.py`
 
 ## Serialize data with schema
 
-We can `serialize` data with schemas either in `avro` or `avro-json`, for example:
+We can `serialize` the data with schemas either in `avro` or `avro-json`, for example:
 
-```python title="Event"
+```bash title="Event"
 {'name': 'bond', 'age': 50, 'pets': ['dog', 'cat'], 'accounts': {'key': 1}, 'has_car': False, 'favorite_colors': 'BLUE', 'country': 'Argentina', 'address': None, 'md5': b'u00ffffffffffffx'}
 ```
 
@@ -208,11 +388,12 @@ We can `serialize` data with schemas either in `avro` or `avro-json`, for exampl
     ```
 
 !!! note
-    The data provided to the command must be wrapped in quotes as it is interpreted as a string and then converted to a python `dict`
+The data provided to the command must be wrapped in quotes as it is interpreted as a string and then converted to a
+python `dict`
 
 ## Deserialize data with schema
 
-We can `deserialize` data with schemas either in `avro` or `avro-json`, for example:
+We can `deserialize` the data with schemas either in `avro` or `avro-json`, for example:
 
 === "avro deserialization"
 
@@ -251,52 +432,153 @@ We can `deserialize` data with schemas either in `avro` or `avro-json`, for exam
     ```
 
 !!! note
-    For  `avro deserialization` you have to include the character `b` in the string to indicate that the actual value is `bytes`
+For  `avro deserialization` you have to include the character `b` in the string to indicate that the actual value
+is `bytes`
 
 ## View diff between schemas
 
-Sometimes it is useful to see the difference between `avsc` files, specially for the `avro schema evolution`. You need to specify the `source` and `target` schema.
+Sometimes it is useful to see the difference between `avsc` files, specially for the `avro schema evolution`. You need
+to specify the `source` and `target` schema.
 Both of them can be using the `path` or `url`
 
 Example:
 
 The v1 schema version is in the `schema registry`:
 
-```python
+```json
 {
-    'type': 'record',
-    'name': 'UserAdvance',
-    'fields': [
-        {'name': 'name', 'type': 'string'},
-        {'name': 'age', 'type': 'long'},
-        {'name': 'pets', 'type': {'type': 'array', 'items': 'string', 'name': 'pet'}},
-        {'name': 'accounts', 'type': {'type': 'map', 'values': 'long', 'name': 'account'}},
-        {'name': 'favorite_colors', 'type': {'type': 'enum', 'name': 'FavoriteColor', 'symbols': ['BLUE', 'YELLOW', 'GREEN']}},
-        {'name': 'has_car', 'type': 'boolean', 'default': False},
-        {'name': 'country', 'type': 'string', 'default': 'Argentina'},
-        {'name': 'address', 'type': ['null', 'string'], 'default': None},
-        {'name': 'md5', 'type': {'type': 'fixed', 'name': 'md5', 'size': 16}}
-    ]
+  "type": "record",
+  "name": "UserAdvance",
+  "fields": [
+    {
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "name": "age",
+      "type": "long"
+    },
+    {
+      "name": "pets",
+      "type": {
+        "type": "array",
+        "items": "string",
+        "name": "pet"
+      }
+    },
+    {
+      "name": "accounts",
+      "type": {
+        "type": "map",
+        "values": "long",
+        "name": "account"
+      }
+    },
+    {
+      "name": "favorite_colors",
+      "type": {
+        "type": "enum",
+        "name": "FavoriteColor",
+        "symbols": [
+          "BLUE",
+          "YELLOW",
+          "GREEN"
+        ]
+      }
+    },
+    {
+      "name": "has_car",
+      "type": "boolean",
+      "default": false
+    },
+    {
+      "name": "country",
+      "type": "string",
+      "default": "Argentina"
+    },
+    {
+      "name": "address",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    },
+    {
+      "name": "md5",
+      "type": {
+        "type": "fixed",
+        "name": "md5",
+        "size": 16
+      }
+    }
+  ]
 }
 ```
 
 Then a PR has been opened with the `UserAdvance v2`:
 
-```python
+```json
 {
-    "type": "record",
-    "name": "UserAdvance",
-    "fields": [
-      {"name": "name", "type": "string"},
-      {"name": "age", "type": "long"},
-      {"name": "pets", "type": { "type": "array", "items": "string", "name": "pet"}},
-      {"name": "accounts", "type": { "type": "map", "values": "long", "name": "account"}},
-      {"name": "favorite_colors", "type": {"type": "enum", "name": "FavoriteColor", "symbols": ["BLUE", "YELLOW", "GREEN"]}},
-      {"name": "has_car", "type": "boolean", "default": False},
-      {"name": "country", "type": "string", "default": "Netherlands"},
-      {"name": "address", "type": ["null", "string"], "default": None}
-    ]
-  }
+  "type": "record",
+  "name": "UserAdvance",
+  "fields": [
+    {
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "name": "age",
+      "type": "long"
+    },
+    {
+      "name": "pets",
+      "type": {
+        "type": "array",
+        "items": "string",
+        "name": "pet"
+      }
+    },
+    {
+      "name": "accounts",
+      "type": {
+        "type": "map",
+        "values": "long",
+        "name": "account"
+      }
+    },
+    {
+      "name": "favorite_colors",
+      "type": {
+        "type": "enum",
+        "name": "FavoriteColor",
+        "symbols": [
+          "BLUE",
+          "YELLOW",
+          "GREEN"
+        ]
+      }
+    },
+    {
+      "name": "has_car",
+      "type": "boolean",
+      "default": false
+    },
+    {
+      "name": "country",
+      "type": "string",
+      "default": "Netherlands"
+    },
+    {
+      "name": "address",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    }
+  ]
+}
 ```
 
 - We can see that the `default` value for `country` has been updated from `Argentina` to `Netherlads`
