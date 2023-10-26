@@ -60,7 +60,7 @@ To see all the commands execute `dc-avro --help`
 Add the following lines to your `.pre-commit-config.yaml` file to enable avro schemas linting
 
 ```yaml
-  - repo: https://github.com/svdimchenko/dc-avro.git
+  - repo: https://github.com/marcosschroh/dc-avro.git
     rev: 0.7.0
     hooks:
       - id: lint-avsc
