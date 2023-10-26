@@ -1,3 +1,9 @@
+## 0.7.1 (2023-10-26)
+
+### Fix
+
+- Rename repos referrences in docs
+
 ## 0.7.0 (2023-10-25)
 
 ### Feat

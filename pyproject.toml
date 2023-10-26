@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dc-avro"
-version = "0.7.0"
+version = "0.7.1"
 description = ""
 authors = ["Marcos Schroh <marcos.schroh@kpn.com>"]
 readme = "README.md"
@@ -24,7 +24,7 @@ python = "^3.8"
 aiofiles = "^22.1.0" # remove this
 httpx = "^0.23.3"
 dataclasses-avroschema = "^0"
-typer = {extras = ["all"], version = "^0.7.0"}
+typer = {extras = ["all"], version = "^0.7.1"}
 deepdiff = "^6.2.3"
 
 [tool.poetry.group.dev.dependencies]
@@ -79,7 +79,7 @@ exclude = [
 convention = "google"
 
 [tool.commitizen]
-version = "0.7.0"
+version = "0.7.1"
 tag_format = "$version"
 version_files = [
     "pyproject.toml:version",
