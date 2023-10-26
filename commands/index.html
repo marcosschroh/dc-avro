@@ -716,7 +716,7 @@ Schema<span class="w"> </span><span class="o">{</span><span class="s1">&#39;type
 <span class="m">16</span><span class="o">}}]}</span><span class="w"> </span>is<span class="w"> </span>not<span class="w"> </span>valid.
 <span class="w"> </span>Error:<span class="w"> </span><span class="sb">`</span>Default<span class="w"> </span>value<span class="w"> </span>&lt;<span class="m">1</span>&gt;<span class="w"> </span>must<span class="w"> </span>match<span class="w"> </span>schema<span class="w"> </span>type:<span class="w"> </span>boolean<span class="sb">`</span>
 ╭───────────────────────────────<span class="w"> </span>Traceback<span class="w"> </span><span class="o">(</span>most<span class="w"> </span>recent<span class="w"> </span>call<span class="w"> </span>last<span class="o">)</span><span class="w"> </span>────────────────────────────────╮
-│<span class="w"> </span>/Users/svd/code/github/forks/dc-avro/dc_avro/main.py:176<span class="w"> </span><span class="k">in</span><span class="w"> </span>lint<span class="w">                                 </span>│
+│<span class="w"> </span>~/dc-avro/dc_avro/main.py:176<span class="w"> </span><span class="k">in</span><span class="w"> </span>lint<span class="w">                                 </span>│
 │<span class="w">                                                                                                  </span>│
 │<span class="w">   </span><span class="m">173</span><span class="w"> </span>│<span class="w">   </span>│<span class="w">   </span>│<span class="w">   </span>console.print<span class="o">(</span><span class="s2">&quot;:boom: File: &quot;</span><span class="w"> </span>+<span class="w"> </span>error_path<span class="o">)</span><span class="w">                                    </span>│
 │<span class="w">   </span><span class="m">174</span><span class="w"> </span>│<span class="w">   </span>│<span class="w">   </span>│<span class="w">   </span>console.print<span class="o">(</span>f<span class="s2">&quot;[red]{error}[/red]&quot;</span><span class="o">)</span><span class="w">                                           </span>│
@@ -728,7 +728,7 @@ InvalidSchema:<span class="w"> </span>Total<span class="w"> </span>errors<span c
 </code></pre></div>
 <h2 id="pre-commit">Pre-commit</h2>
 <p>Add the following lines to your <code>.pre-commit-config.yaml</code> file to enable avro schemas linting</p>
-<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/svdimchenko/dc-avro.git</span>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/marcosschroh/dc-avro.git</span>
 <span class="w">    </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.7.0</span>
 <span class="w">    </span><span class="nt">hooks</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lint-avsc</span>
