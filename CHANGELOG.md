@@ -1,3 +1,9 @@
+## 0.8.0 (2024-01-02)
+
+### Feat
+
+- add generate fake data command
+
 ## 0.7.1 (2023-10-26)
 
 ### Fix

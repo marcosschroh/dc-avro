@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dc-avro"
-version = "0.7.1"
+version = "0.8.0"
 description = ""
 authors = ["Marcos Schroh <marcos.schroh@kpn.com>"]
 readme = "README.md"
