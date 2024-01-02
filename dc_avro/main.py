@@ -60,14 +60,6 @@ def generate_model(
 
 
 @app.command()
-def generate_fake(
-    path: str = typer.Option(None),
-    url: str = typer.Option(None),
-):
-    print("Hello!!")
-
-
-@app.command()
 def schema_diff(
     source_path: str = typer.Option(None, help="Source path to the local schema"),
     source_url: str = typer.Option(None, help="Source schema url"),
@@ -174,3 +166,15 @@ def lint(files: List[str]) -> None:
             console.print(f"[red]{error}[/red]")
         app.pretty_exceptions_show_locals = False
         raise InvalidSchema(error_msg)
+
+
+@app.command(help="Generate fake data for a given avsc schema")
+def generate_data(
+    resource: str = typer.Argument(None, help="Path or URL to the avro schema"),
+    count: int = typer.Option(
+        1, help="Number of data to generate, more than one prints a list"
+    ),
+):
+    schema = _schema_utils.get_schema(resource=resource)
+    data = _schema_utils.generate_data(schema=schema, count=count)
+    console.print(data)

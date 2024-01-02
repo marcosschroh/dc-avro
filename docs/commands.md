@@ -100,7 +100,7 @@ dc-avro validate-schema --path schema.avsc
 resulting in
 
 ```bash
-Valid schema!! 👍 
+Valid schema!! 👍
 
 {
     'type': 'record',
@@ -129,7 +129,7 @@ dc-avro validate-schema --url https://schema-registry/schema/1
 resulting in
 
 ```bash
-Valid schema!! 👍 
+Valid schema!! 👍
 
 {
     'type': 'record',
@@ -224,11 +224,11 @@ If a schema is invalid, for example the following one:
 The result will be:
 
 ```bash
-InvalidSchema: Schema {'type': 'record', 'name': 'UserAdvance', 'fields': [{'name': 'name', 'type': 'string'}, {'name': 'age', 
-'type': 'long'}, {'name': 'pets', 'type': {'type': 'array', 'items': 'string', 'name': 'pet'}}, {'name': 'accounts', 'type': 
-{'type': 'map', 'values': 'long', 'name': 'account'}}, {'name': 'favorite_colors', 'type': {'type': 'enum', 'name': 
-'FavoriteColor', 'symbols': ['BLUE', 'YELLOW', 'GREEN']}}, {'name': 'has_car', 'type': 'boolean', 'default': 1}, {'name': 
-'country', 'type': 'string', 'default': 'Argentina'}, {'name': 'address', 'type': ['null', 'string'], 'default': 10}, {'name': 
+InvalidSchema: Schema {'type': 'record', 'name': 'UserAdvance', 'fields': [{'name': 'name', 'type': 'string'}, {'name': 'age',
+'type': 'long'}, {'name': 'pets', 'type': {'type': 'array', 'items': 'string', 'name': 'pet'}}, {'name': 'accounts', 'type':
+{'type': 'map', 'values': 'long', 'name': 'account'}}, {'name': 'favorite_colors', 'type': {'type': 'enum', 'name':
+'FavoriteColor', 'symbols': ['BLUE', 'YELLOW', 'GREEN']}}, {'name': 'has_car', 'type': 'boolean', 'default': 1}, {'name':
+'country', 'type': 'string', 'default': 'Argentina'}, {'name': 'address', 'type': ['null', 'string'], 'default': 10}, {'name':
 'md5', 'type': {'type': 'fixed', 'name': 'md5', 'size': 16}}]} is not valid.
  Error: `Default value <1> must match schema type: boolean`
 ```
@@ -376,14 +376,14 @@ We can `serialize` the data with schemas either in `avro` or `avro-json`, for ex
     dc-avro serialize "{'name': 'bond', 'age': 50, 'pets': ['dog', 'cat'], 'accounts': {'key': 1}, 'has_car': False, 'favorite_colors': 'BLUE', 'country': 'Argentina', 'address': None, 'md5': b'u00ffffffffffffx'}" --path ./tests/schemas/example.avsc
 
     b'\x08bondd\x04\x06dog\x06cat\x00\x02\x06key\x02\x00\x00\x00\x12Argentina\x00u00ffffffffffffx'
-    ``` 
+    ```
 
 === "avro-json serialization"
 
     ```python
     dc-avro serialize "{'name': 'bond', 'age': 50, 'pets': ['dog', 'cat'], 'accounts': {'key': 1}, 'has_car': False, 'favorite_colors': 'BLUE', 'country': 'Argentina', 'address': None, 'md5': b'u00ffffffffffffx'}" --path ./tests/schemas/example.avsc --serialization-type avro-json
 
-    b'{"name": "bond", "age": 50, "pets": ["dog", "cat"], "accounts": {"key": 1}, "favorite_colors": "BLUE", "has_car": false, "country": 
+    b'{"name": "bond", "age": 50, "pets": ["dog", "cat"], "accounts": {"key": 1}, "favorite_colors": "BLUE", "has_car": false, "country":
     "Argentina", "address": null, "md5": "u00ffffffffffffx"}'
     ```
 
@@ -411,7 +411,7 @@ We can `deserialize` the data with schemas either in `avro` or `avro-json`, for 
         'address': None,
         'md5': b'u00ffffffffffffx'
     }
-    ``` 
+    ```
 
 === "avro-json deserialization"
 
@@ -597,4 +597,34 @@ dc-avro schema-diff --source-path ./tests/schemas/example.avsc --target-path  ./
 
 ## Generate fake data from schema
 
-🚧🚧🚧🚧🚧
+Generate one sample from a given schema:
+
+```bash
+dc-avro generate-data ./tests/schemas/example.avsc
+```
+
+To generate many fake data, add the `count` parameter:
+
+```bash
+dc-avro generate-data ./tests/schemas/example.avsc --count 3
+```
+
+Keep in mind that you can provide a filepath or a url
+
+Help:
+
+```bash
+$ dc-avro generate-data --help
+
+Usage: dc-avro generate-data [OPTIONS] [RESOURCE]
+
+ Generate fake data for a given avsc schema
+
+╭─ Arguments ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│   resource      [RESOURCE]  Path or URL to the avro schema [default: None]                                                              │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ --count        INTEGER  Number of data to generate, more than one prints a list [default: 1]                                            │
+│ --help                  Show this message and exit.                                                                                     │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+```

@@ -1,7 +1,11 @@
 import json
+from typing import Any, Iterable
+from urllib.parse import urlparse
 
 import httpx
 from fastavro import _schema_common, parse_schema
+from fastavro.types import Schema
+from fastavro.utils import generate_many, generate_one
 
 from ._types import JsonDict
 from .exceptions import InvalidSchema, JsonRequired
@@ -38,3 +42,24 @@ def validate(*, schema: JsonDict) -> bool:
         raise InvalidSchema(
             f"Schema {schema} is an unknown type.\n Make sure that its type is a python dictionary"
         ) from exc
+
+
+def is_url(resource: str) -> bool:
+    return urlparse(resource).scheme in (
+        "http",
+        "https",
+    )
+
+
+def get_schema(resource: str) -> Schema:
+    """Get a schema from a uri or path."""
+    if is_url(resource):
+        return parse_schema(get_resource_from_url(resource))
+    return parse_schema(get_resource_from_path(resource))
+
+
+def generate_data(schema: Schema, count: int = 1) -> Iterable[Any]:
+    """Generate data from a schema."""
+    if count == 1:
+        return generate_one(schema)
+    return list(generate_many(schema, count=count))
