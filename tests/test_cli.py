@@ -307,3 +307,10 @@ def test_lint_invalid_schema(schema_dir: str):
         ],
     )
     assert result.exit_code == 1
+
+
+def test_generate_data_from_path(schema_dir: str):
+    result = runner.invoke(
+        app, ["generate-data", os.path.join(schema_dir, "example.avsc")]
+    )
+    assert result.exit_code == 0

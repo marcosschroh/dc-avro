@@ -7,8 +7,11 @@ from httpx import Response, codes
 
 from dc_avro import JsonDict, exceptions
 from dc_avro._schema_utils import (
+    generate_data,
     get_resource_from_path,
     get_resource_from_url,
+    get_schema,
+    is_url,
     validate,
 )
 
@@ -79,3 +82,32 @@ def test_invalid_schema(invalid_example_schema_json) -> None:
         f"Error: `Default value <1> must match schema type: boolean`"
     )
     assert exc_info.value.args[0] == expected_error
+
+
+def test_is_url() -> None:
+    url = "https://schema-registry.com/example.avsc"
+    assert is_url(url)
+    path = "./example.avsc"
+    assert not is_url(path)
+
+
+def test_get_schema(schema_dir: str, example_schema_json: JsonDict) -> None:
+    path = os.path.join(schema_dir, "example.avsc")
+    assert get_schema(path)
+
+    url = "https://schema-registry/example.avsc"
+
+    responnse = Response(status_code=codes.OK, json=example_schema_json)
+    with mock.patch("dc_avro._schema_utils.httpx.get", return_value=responnse):
+        assert get_schema(url)
+
+
+def test_generate_data(schema_dir: str) -> None:
+    path = os.path.join(schema_dir, "example.avsc")
+    schema = get_schema(path)
+
+    data = generate_data(schema=schema)
+    assert isinstance(data, dict)
+
+    data = generate_data(schema=schema, count=2)
+    assert isinstance(data, list)
