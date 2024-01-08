@@ -40,7 +40,8 @@ def validate(*, schema: JsonDict) -> bool:
         ) from exc
     except _schema_common.UnknownType as exc:
         raise InvalidSchema(
-            f"Schema {schema} is an unknown type.\n Make sure that its type is a python dictionary"
+            f"Schema {schema} is an unknown type.\n "
+            "Make sure that its type is a python dictionary"
         ) from exc
 
 
