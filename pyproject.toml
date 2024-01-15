@@ -30,7 +30,7 @@ deepdiff = "^6.2.3"
 [tool.poetry.group.dev.dependencies]
 commitizen = "^3.0.0"
 ruff = "^0.1"
-black = "^22.12.0"
+black = ">=22.12,<24.0"
 mypy = "^1"
 mkdocs = "^1.4.2"
 pytest = "^7.2.0"
