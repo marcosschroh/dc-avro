@@ -301,7 +301,7 @@ This base class can be `[AvroModel|BaseModel|AvroBaseModel]`
 === "Dataclass models"
 
     ```python
-    dc-avro generate-model --path schema.avsc
+    dc-avro generate-model --path tests/schemas/example.avsc
 
     from dataclasses_avroschema import AvroModel
     from dataclasses_avroschema import types
@@ -327,12 +327,15 @@ This base class can be `[AvroModel|BaseModel|AvroBaseModel]`
         has_car: bool = False
         country: str = "Argentina"
         address: typing.Optional = None
+
+        class Meta:
+            field_order = ['name', 'age', 'pets', 'accounts', 'favorite_colors', 'has_car', 'country', 'address', 'md5']
     ```
 
 === "Pydantic models"
 
     ```python
-    dc-avro generate-model --path schema.avsc --base-class BaseModel
+    dc-avro generate-model --path tests/schemas/example.avsc --base-class BaseModel
 
     from dataclasses_avroschema import types
     from pydantic import BaseModel
@@ -356,11 +359,45 @@ This base class can be `[AvroModel|BaseModel|AvroBaseModel]`
         has_car: bool = False
         country: str = "Argentina"
         address: typing.Optional = None
+
+        class Meta:
+            field_order = ['name', 'age', 'pets', 'accounts', 'favorite_colors', 'has_car', 'country', 'address', 'md5']
+    ```
+
+=== "AvroBaseModel (avro + pydantic)"
+
+    ```python
+    dc-avro generate-model --path tests/schemas/example.avsc --base-class AvroBaseModel
+
+    from dataclasses_avroschema import types
+    from pydantic import BaseModel
+    import enum
+    import typing
+
+
+    class FavoriteColor(enum.Enum):
+        BLUE = "BLUE"
+        YELLOW = "YELLOW"
+        GREEN = "GREEN"
+
+
+    class UserAdvance(AvroBaseModel):
+        name: str
+        age: int
+        pets: typing.List
+        accounts: typing.Dict
+        favorite_colors: FavoriteColor
+        md5: types.Fixed = types.Fixed(16)
+        has_car: bool = False
+        country: str = "Argentina"
+        address: typing.Optional = None
+
+        class Meta:
+            field_order = ['name', 'age', 'pets', 'accounts', 'favorite_colors', 'has_car', 'country', 'address', 'md5']
     ```
 
 !!! note
-If you want to save the result to a local file you can
-execute `dc-avro generate-model --path schema.avsc > my-models.py`
+    If you want to save the result to a local file you can execute `dc-avro generate-model --path schema.avsc > my-models.py`
 
 ## Serialize data with schema
 

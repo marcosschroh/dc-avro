@@ -83,13 +83,13 @@ select = [
 ignore = ["E402"]
 
 
-[tool.ruff.extend-per-file-ignores]
+[tool.ruff.lint.extend-per-file-ignores]
 "tests/test_cli.py" = ["E501"]
 "tests/conftest.py" = ["E501"]
 "tests/test_schema_utils.py" = ["E501"]
 
 
-[tool.ruff.pydocstyle]
+[tool.ruff.lint.pydocstyle]
 convention = "google"
 
 [tool.commitizen]
