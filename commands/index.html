@@ -774,10 +774,10 @@ This command also works with <code>path</code> and <code>url</code>.
 It is also possible to provide the <code>base-class</code> that will be used in the <code>models</code>.
 This base class can be <code>[AvroModel|BaseModel|AvroBaseModel]</code></p>
 <p><a href="https://asciinema.org/a/557200"><img alt="asciicast" src="https://asciinema.org/a/557200.svg" /></a></p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Dataclass models</label><label for="__tabbed_1_2">Pydantic models</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Dataclass models</label><label for="__tabbed_1_2">Pydantic models</label><label for="__tabbed_1_3">AvroBaseModel (avro + pydantic)</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><span class="n">dc</span><span class="o">-</span><span class="n">avro</span> <span class="n">generate</span><span class="o">-</span><span class="n">model</span> <span class="o">--</span><span class="n">path</span> <span class="n">schema</span><span class="o">.</span><span class="n">avsc</span>
+<div class="highlight"><pre><span></span><code><span class="n">dc</span><span class="o">-</span><span class="n">avro</span> <span class="n">generate</span><span class="o">-</span><span class="n">model</span> <span class="o">--</span><span class="n">path</span> <span class="n">tests</span><span class="o">/</span><span class="n">schemas</span><span class="o">/</span><span class="n">example</span><span class="o">.</span><span class="n">avsc</span>
 
 <span class="kn">from</span> <span class="nn">dataclasses_avroschema</span> <span class="kn">import</span> <span class="n">AvroModel</span>
 <span class="kn">from</span> <span class="nn">dataclasses_avroschema</span> <span class="kn">import</span> <span class="n">types</span>
@@ -803,10 +803,13 @@ This base class can be <code>[AvroModel|BaseModel|AvroBaseModel]</code></p>
     <span class="n">has_car</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">country</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Argentina&quot;</span>
     <span class="n">address</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">field_order</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;pets&#39;</span><span class="p">,</span> <span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;favorite_colors&#39;</span><span class="p">,</span> <span class="s1">&#39;has_car&#39;</span><span class="p">,</span> <span class="s1">&#39;country&#39;</span><span class="p">,</span> <span class="s1">&#39;address&#39;</span><span class="p">,</span> <span class="s1">&#39;md5&#39;</span><span class="p">]</span>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><span class="n">dc</span><span class="o">-</span><span class="n">avro</span> <span class="n">generate</span><span class="o">-</span><span class="n">model</span> <span class="o">--</span><span class="n">path</span> <span class="n">schema</span><span class="o">.</span><span class="n">avsc</span> <span class="o">--</span><span class="n">base</span><span class="o">-</span><span class="k">class</span> <span class="nc">BaseModel</span>
+<div class="highlight"><pre><span></span><code><span class="n">dc</span><span class="o">-</span><span class="n">avro</span> <span class="n">generate</span><span class="o">-</span><span class="n">model</span> <span class="o">--</span><span class="n">path</span> <span class="n">tests</span><span class="o">/</span><span class="n">schemas</span><span class="o">/</span><span class="n">example</span><span class="o">.</span><span class="n">avsc</span> <span class="o">--</span><span class="n">base</span><span class="o">-</span><span class="k">class</span> <span class="nc">BaseModel</span>
 
 <span class="kn">from</span> <span class="nn">dataclasses_avroschema</span> <span class="kn">import</span> <span class="n">types</span>
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
@@ -830,15 +833,47 @@ This base class can be <code>[AvroModel|BaseModel|AvroBaseModel]</code></p>
     <span class="n">has_car</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">country</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Argentina&quot;</span>
     <span class="n">address</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">field_order</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;pets&#39;</span><span class="p">,</span> <span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;favorite_colors&#39;</span><span class="p">,</span> <span class="s1">&#39;has_car&#39;</span><span class="p">,</span> <span class="s1">&#39;country&#39;</span><span class="p">,</span> <span class="s1">&#39;address&#39;</span><span class="p">,</span> <span class="s1">&#39;md5&#39;</span><span class="p">]</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="n">dc</span><span class="o">-</span><span class="n">avro</span> <span class="n">generate</span><span class="o">-</span><span class="n">model</span> <span class="o">--</span><span class="n">path</span> <span class="n">tests</span><span class="o">/</span><span class="n">schemas</span><span class="o">/</span><span class="n">example</span><span class="o">.</span><span class="n">avsc</span> <span class="o">--</span><span class="n">base</span><span class="o">-</span><span class="k">class</span> <span class="nc">AvroBaseModel</span>
+
+<span class="kn">from</span> <span class="nn">dataclasses_avroschema</span> <span class="kn">import</span> <span class="n">types</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">import</span> <span class="nn">enum</span>
+<span class="kn">import</span> <span class="nn">typing</span>
+
+
+<span class="k">class</span> <span class="nc">FavoriteColor</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">BLUE</span> <span class="o">=</span> <span class="s2">&quot;BLUE&quot;</span>
+    <span class="n">YELLOW</span> <span class="o">=</span> <span class="s2">&quot;YELLOW&quot;</span>
+    <span class="n">GREEN</span> <span class="o">=</span> <span class="s2">&quot;GREEN&quot;</span>
+
+
+<span class="k">class</span> <span class="nc">UserAdvance</span><span class="p">(</span><span class="n">AvroBaseModel</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">age</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">pets</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span>
+    <span class="n">accounts</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Dict</span>
+    <span class="n">favorite_colors</span><span class="p">:</span> <span class="n">FavoriteColor</span>
+    <span class="n">md5</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">Fixed</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">Fixed</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
+    <span class="n">has_car</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">country</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Argentina&quot;</span>
+    <span class="n">address</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">field_order</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;pets&#39;</span><span class="p">,</span> <span class="s1">&#39;accounts&#39;</span><span class="p">,</span> <span class="s1">&#39;favorite_colors&#39;</span><span class="p">,</span> <span class="s1">&#39;has_car&#39;</span><span class="p">,</span> <span class="s1">&#39;country&#39;</span><span class="p">,</span> <span class="s1">&#39;address&#39;</span><span class="p">,</span> <span class="s1">&#39;md5&#39;</span><span class="p">]</span>
 </code></pre></div>
 </div>
 </div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
+<p>If you want to save the result to a local file you can execute <code>dc-avro generate-model --path schema.avsc &gt; my-models.py</code></p>
 </div>
-<p>If you want to save the result to a local file you can
-execute <code>dc-avro generate-model --path schema.avsc &gt; my-models.py</code></p>
 <h2 id="serialize-data-with-schema">Serialize data with schema</h2>
 <p>We can <code>serialize</code> the data with schemas either in <code>avro</code> or <code>avro-json</code>, for example:</p>
 <div class="highlight"><span class="filename">Event</span><pre><span></span><code><span class="o">{</span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;bond&#39;</span>,<span class="w"> </span><span class="s1">&#39;age&#39;</span>:<span class="w"> </span><span class="m">50</span>,<span class="w"> </span><span class="s1">&#39;pets&#39;</span>:<span class="w"> </span><span class="o">[</span><span class="s1">&#39;dog&#39;</span>,<span class="w"> </span><span class="s1">&#39;cat&#39;</span><span class="o">]</span>,<span class="w"> </span><span class="s1">&#39;accounts&#39;</span>:<span class="w"> </span><span class="o">{</span><span class="s1">&#39;key&#39;</span>:<span class="w"> </span><span class="m">1</span><span class="o">}</span>,<span class="w"> </span><span class="s1">&#39;has_car&#39;</span>:<span class="w"> </span>False,<span class="w"> </span><span class="s1">&#39;favorite_colors&#39;</span>:<span class="w"> </span><span class="s1">&#39;BLUE&#39;</span>,<span class="w"> </span><span class="s1">&#39;country&#39;</span>:<span class="w"> </span><span class="s1">&#39;Argentina&#39;</span>,<span class="w"> </span><span class="s1">&#39;address&#39;</span>:<span class="w"> </span>None,<span class="w"> </span><span class="s1">&#39;md5&#39;</span>:<span class="w"> </span>b<span class="s1">&#39;u00ffffffffffffx&#39;</span><span class="o">}</span>
