@@ -99,7 +99,9 @@ def serialize(
     _schema_utils.validate(schema=resource)
 
     output = serialization.serialize(
-        data, resource, serialization_type=serialization_type  # type: ignore
+        data,  # type: ignore
+        resource,
+        serialization_type=serialization_type,  # type: ignore
     )
     console.print(output)
 
