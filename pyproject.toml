@@ -30,7 +30,6 @@ deepdiff = "^6.2.3"
 [tool.poetry.group.dev.dependencies]
 commitizen = "^3.0.0"
 ruff = ">=0.1,<0.3"
-black = "^22.12.0"
 mypy = "^1"
 mkdocs = "^1.4.2"
 pytest = ">=7.2,<9.0"
@@ -82,12 +81,10 @@ select = [
 ]
 ignore = ["E402"]
 
-
 [tool.ruff.lint.extend-per-file-ignores]
 "tests/test_cli.py" = ["E501"]
 "tests/conftest.py" = ["E501"]
 "tests/test_schema_utils.py" = ["E501"]
-
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
