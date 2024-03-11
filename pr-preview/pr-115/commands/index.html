@@ -769,11 +769,8 @@ InvalidSchema:<span class="w"> </span>Total<span class="w"> </span>errors<span c
 <span class="w">        </span><span class="nt">additional_dependencies</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">typing_extensions</span><span class="p p-Indicator">]</span>
 </code></pre></div>
 <h2 id="generate-models-from-schemas">Generate models from schemas</h2>
-<p>Python models can be generated using the command <code>generate-model</code>.
-This command also works with <code>path</code> and <code>url</code>.
-It is also possible to provide the <code>base-class</code> that will be used in the <code>models</code>.
-This base class can be <code>[AvroModel|BaseModel|AvroBaseModel]</code></p>
-<p><a href="https://asciinema.org/a/557200"><img alt="asciicast" src="https://asciinema.org/a/557200.svg" /></a></p>
+<p>Python models can be generated using the command <code>generate-model</code>. This command also works with <code>path</code> and <code>url</code>.
+It is also possible to provide the <code>--model-type</code> that will be used in the <code>models</code>. This models can be <code>[dataclass|pydantic|avrodantic]</code></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Dataclass models</label><label for="__tabbed_1_2">Pydantic models</label><label for="__tabbed_1_3">Avrodantic (avro + pydantic)</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
