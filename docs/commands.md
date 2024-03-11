@@ -291,12 +291,8 @@ Add the following lines to your `.pre-commit-config.yaml` file to enable avro sc
 
 ## Generate models from schemas
 
-Python models can be generated using the command `generate-model`.
-This command also works with `path` and `url`.
-It is also possible to provide the `base-class` that will be used in the `models`.
-This base class can be `[AvroModel|BaseModel|AvroBaseModel]`
-
-[![asciicast](https://asciinema.org/a/557200.svg)](https://asciinema.org/a/557200)
+Python models can be generated using the command `generate-model`. This command also works with `path` and `url`.
+It is also possible to provide the `--model-type` that will be used in the `models`. This models can be `[dataclass|pydantic|avrodantic]`
 
 === "Dataclass models"
 
@@ -335,7 +331,7 @@ This base class can be `[AvroModel|BaseModel|AvroBaseModel]`
 === "Pydantic models"
 
     ```python
-    dc-avro generate-model --path tests/schemas/example.avsc --base-class BaseModel
+    dc-avro generate-model --path tests/schemas/example.avsc --model-type pydantic
 
     from dataclasses_avroschema import types
     from pydantic import BaseModel
@@ -364,10 +360,10 @@ This base class can be `[AvroModel|BaseModel|AvroBaseModel]`
             field_order = ['name', 'age', 'pets', 'accounts', 'favorite_colors', 'has_car', 'country', 'address', 'md5']
     ```
 
-=== "AvroBaseModel (avro + pydantic)"
+=== "Avrodantic (avro + pydantic)"
 
     ```python
-    dc-avro generate-model --path tests/schemas/example.avsc --base-class AvroBaseModel
+    dc-avro generate-model --path tests/schemas/example.avsc --model-type avrodantic
 
     from dataclasses_avroschema import types
     from pydantic import BaseModel
