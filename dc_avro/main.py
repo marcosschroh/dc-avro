@@ -3,7 +3,11 @@ from typing import Dict, List, Optional
 
 import rich
 import typer
-from dataclasses_avroschema import BaseClassEnum, ModelGenerator, serialization
+from dataclasses_avroschema import (
+    ModelGenerator,
+    ModelType,
+    serialization,
+)
 from deepdiff import DeepDiff
 
 from . import _schema_utils
@@ -45,16 +49,16 @@ def get_resource(
 def generate_model(
     path: str = typer.Option(None),
     url: str = typer.Option(None),
-    base_class: BaseClassEnum = typer.Option(
-        BaseClassEnum.AVRO_MODEL,
-        help="Model base class",
+    model_type: ModelType = typer.Option(
+        ModelType.DATACLASS,
+        help="Model Type",
     ),
 ):
     resource = get_resource(path=path, url=url)
     _schema_utils.validate(schema=resource)
 
-    model_generator = ModelGenerator(base_class=base_class.value)
-    result = model_generator.render(schema=resource)
+    model_generator = ModelGenerator()
+    result = model_generator.render(schema=resource, model_type=model_type.value)
 
     print(result)
 

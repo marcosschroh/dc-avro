@@ -23,7 +23,7 @@ classifiers = [
 python = "^3.8"
 aiofiles = ">=22.1,<24.0" # remove this
 httpx = ">=0.23.3,<0.28.0"
-dataclasses-avroschema = "^0"
+dataclasses-avroschema = "^0.57.2"
 typer = {extras = ["all"], version = "^0.9.0"}
 deepdiff = "^6.2.3"
 
@@ -44,30 +44,10 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry.scripts]
 dc-avro = "dc_avro.main:app"
 
-[tool.ruff]
-exclude = [
-    ".bzr",
-    ".direnv",
-    ".eggs",
-    ".git",
-    ".hg",
-    ".mypy_cache",
-    ".nox",
-    ".pants.d",
-    ".ruff_cache",
-    ".svn",
-    ".tox",
-    ".venv",
-    "__pypackages__",
-    "_build",
-    "buck-out",
-    "build",
-    "dist",
-    "node_modules",
-    ".venv",
-]
-
 [tool.ruff.lint]
+ignore = ["E402"]
+fixable = ["ALL"]
+unfixable = []
 select = [
     # pycodestyle"
     "E4",
@@ -79,7 +59,6 @@ select = [
     # isort
     "I001"
 ]
-ignore = ["E402"]
 
 [tool.ruff.lint.extend-per-file-ignores]
 "tests/test_cli.py" = ["E501"]

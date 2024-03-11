@@ -3,6 +3,7 @@ import os
 from unittest import mock
 
 import pytest
+from dataclasses_avroschema import ModelType
 from httpx import Response, codes
 from typer.testing import CliRunner
 
@@ -58,22 +59,47 @@ def test_invalid_schema_two_options(schema_dir: str):
     assert result.exit_code == 2
 
 
-def test_generate_model_from_path(schema_dir: str, model_generator_output_command: str):
+@pytest.mark.parametrize(
+    "model_type, expected_output",
+    [
+        (ModelType.DATACLASS.value, "model_generator_output_dataclass"),
+        (ModelType.PYDANTIC.value, "model_generator_output_pydantic"),
+        (ModelType.AVRODANTIC.value, "model_generator_output_avrodantic"),
+    ],
+)
+def test_generate_model_from_path(
+    schema_dir: str, model_type: str, expected_output: str, request
+):
+    expected_output = request.getfixturevalue(expected_output)
     result = runner.invoke(
-        app, ["generate-model", "--path", os.path.join(schema_dir, "example.avsc")]
+        app,
+        [
+            "generate-model",
+            "--path",
+            os.path.join(schema_dir, "example.avsc"),
+            "--model-type",
+            model_type,
+        ],
     )
     assert result.exit_code == 0
-    assert model_generator_output_command == result.stdout
+    assert expected_output == result.stdout
 
 
+@pytest.mark.parametrize(
+    "model_type, expected_output",
+    [(ModelType.DATACLASS.value, "model_generator_output_dataclass")],
+)
 def test_generate_model_from_url(
-    example_schema_json: JsonDict, model_generator_output_command: str
+    example_schema_json: JsonDict, model_type: str, expected_output: str, request
 ):
+    expected_output = request.getfixturevalue(expected_output)
     response = Response(status_code=codes.OK, json=example_schema_json)
     with mock.patch("dc_avro.main._schema_utils.httpx.get", return_value=response):
-        result = runner.invoke(app, ["generate-model", "--url", url])
+        result = runner.invoke(
+            app, ["generate-model", "--url", url, "--model-type", model_type]
+        )
         assert result.exit_code == 0
-        assert model_generator_output_command == result.stdout
+        assert expected_output == result.stdout
 
 
 def test_generate_model_two_options(schema_dir: str):

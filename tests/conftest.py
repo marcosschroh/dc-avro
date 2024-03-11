@@ -38,7 +38,7 @@ def invalid_resource():
 
 
 @pytest.fixture
-def model_generator_output_command():
+def model_generator_output_dataclass():
     result = """from dataclasses_avroschema import AvroModel
 from dataclasses_avroschema import types
 import dataclasses
@@ -54,6 +54,72 @@ class FavoriteColor(enum.Enum):
 
 @dataclasses.dataclass
 class UserAdvance(AvroModel):
+    name: str
+    age: int
+    pets: typing.List[str]
+    accounts: typing.Dict[str, int]
+    favorite_colors: FavoriteColor
+    md5: types.confixed(size=16)
+    has_car: bool = False
+    country: str = "Argentina"
+    address: typing.Optional[str] = None
+
+    class Meta:
+        field_order = ['name', 'age', 'pets', 'accounts', 'favorite_colors', 'has_car', 'country', 'address', 'md5']
+
+"""
+    return result
+
+
+@pytest.fixture
+def model_generator_output_pydantic():
+    result = """from dataclasses_avroschema import types
+from pydantic import BaseModel
+import enum
+import typing
+
+
+class FavoriteColor(enum.Enum):
+    BLUE = "BLUE"
+    YELLOW = "YELLOW"
+    GREEN = "GREEN"
+
+
+
+class UserAdvance(BaseModel):
+    name: str
+    age: int
+    pets: typing.List[str]
+    accounts: typing.Dict[str, int]
+    favorite_colors: FavoriteColor
+    md5: types.confixed(size=16)
+    has_car: bool = False
+    country: str = "Argentina"
+    address: typing.Optional[str] = None
+
+    class Meta:
+        field_order = ['name', 'age', 'pets', 'accounts', 'favorite_colors', 'has_car', 'country', 'address', 'md5']
+
+"""
+    return result
+
+
+@pytest.fixture
+def model_generator_output_avrodantic():
+    result = """from dataclasses_avroschema import types
+from dataclasses_avroschema.pydantic import AvroBaseModel
+import enum
+import typing
+
+
+class FavoriteColor(enum.Enum):
+    BLUE = "BLUE"
+    YELLOW = "YELLOW"
+    GREEN = "GREEN"
+
+
+
+class UserAdvance(AvroBaseModel):
     name: str
     age: int
     pets: typing.List[str]
