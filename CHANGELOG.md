@@ -1,3 +1,13 @@
+## 0.9.0 (2024-03-11)
+
+### BREAKING CHANGE
+
+- Now we use --model-type to know the type of Model that has to be generated: https://marcosschroh.github.io/dataclasses-avroschema/model_generator/#usage
+
+### Refactor
+
+- --base-class replaced by --model-type when generating models from schemas
+
 ## 0.8.0 (2024-01-02)
 
 ### Feat
