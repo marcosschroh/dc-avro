@@ -24,7 +24,7 @@ python = "^3.8"
 aiofiles = ">=22.1,<24.0" # remove this
 httpx = ">=0.23.3,<0.28.0"
 dataclasses-avroschema = "^0.57.2"
-typer = {extras = ["all"], version = "^0.9.0"}
+typer = {extras = ["all"], version = ">=0.9,<0.11"}
 deepdiff = "^6.2.3"
 
 [tool.poetry.group.dev.dependencies]
