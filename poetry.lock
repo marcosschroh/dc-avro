@@ -316,13 +316,13 @@ dev = ["black", "coveralls", "mypy", "pre-commit", "pylint", "pytest (>=5)", "py
 
 [[package]]
 name = "dataclasses-avroschema"
-version = "0.58.0"
+version = "0.58.2"
 description = "Generate Avro Schemas from Python classes. Serialize/Deserialize python instances with avro schemas"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "dataclasses_avroschema-0.58.0-py3-none-any.whl", hash = "sha256:0b3f529a7b106e09fec15cb6ddc7c94c28e551d0ff72286f68b6fcf60337c1cf"},
-    {file = "dataclasses_avroschema-0.58.0.tar.gz", hash = "sha256:a718afc834dafe509f8ccc1e61fb00b093f30dfe50d11371a87a6e45f9345d7d"},
+    {file = "dataclasses_avroschema-0.58.2-py3-none-any.whl", hash = "sha256:dad731e3f0e8cf0775e9cd0d0e9e2a6070e7dd07d5c56a0870d0c7d7a85726ef"},
+    {file = "dataclasses_avroschema-0.58.2.tar.gz", hash = "sha256:a4c952e64572ba815ce923e38072b93a05ce7d82ddca9f5409f81395bad77fe3"},
 ]
 
 [package.dependencies]
@@ -334,7 +334,7 @@ typing-extensions = ">=4.2.0,<5.0.0"
 
 [package.extras]
 faker = ["faker (>=18.3.1,<25.0.0)"]
-faust = ["faust-streaming (>=0.10.11,<0.11.0)"]
+faust = ["faust-streaming (>=0.10.11,<0.12.0)"]
 pydantic = ["pydantic[email] (>=2.4.2,<3.0.0)"]
 
 [[package]]
