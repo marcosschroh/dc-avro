@@ -70,6 +70,7 @@ def schema_diff(
     target_path: str = typer.Option(None, help="Target path to the local schema"),
     target_url: str = typer.Option(None, help="Target schema url"),
 ):
+    print("test action")
     source_resource = get_resource(
         path=source_path,
         url=source_url,
