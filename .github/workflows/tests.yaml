@@ -55,10 +55,11 @@ jobs:
         git config --global user.name "GitHub Action"
         ./scripts/test
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v4
-      with:
-        file: ./coverage.xml
-        flags: unittests
-        name: kstreams
-        fail_ci_if_error: true
-        token: ${{secrets.CODECOV_TOKEN}}
+      - uses: actions/checkout@v4
+      - uses: codecov/codecov-action@v4.4.0
+        with:
+          files: ./coverage.xml
+          name: dc-avro
+          fail_ci_if_error: true
+          token: ${{secrets.CODECOV_TOKEN}}
+          verbose: true
