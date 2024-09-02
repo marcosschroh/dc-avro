@@ -25,7 +25,7 @@ aiofiles = ">=24.1.0,<25.0" # remove this
 httpx = ">=0.23.3,<0.28.0"
 dataclasses-avroschema = ">=0.57.2,<0.61.0"
 typer = {extras = ["all"], version = ">=0.9,<0.13"}
-deepdiff = "^6.2.3"
+deepdiff = ">=6.2.3,<9.0.0"
 
 [tool.poetry.group.dev.dependencies]
 commitizen = "^3.0.0"
