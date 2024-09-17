@@ -351,20 +351,20 @@ files = [
 
 [[package]]
 name = "deepdiff"
-version = "6.7.1"
+version = "8.0.1"
 description = "Deep Difference and Search of any Python object/data. Recreate objects by adding adding deltas to each other."
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "deepdiff-6.7.1-py3-none-any.whl", hash = "sha256:58396bb7a863cbb4ed5193f548c56f18218060362311aa1dc36397b2f25108bd"},
-    {file = "deepdiff-6.7.1.tar.gz", hash = "sha256:b367e6fa6caac1c9f500adc79ada1b5b1242c50d5f716a1a4362030197847d30"},
+    {file = "deepdiff-8.0.1-py3-none-any.whl", hash = "sha256:42e99004ce603f9a53934c634a57b04ad5900e0d8ed0abb15e635767489cbc05"},
+    {file = "deepdiff-8.0.1.tar.gz", hash = "sha256:245599a4586ab59bb599ca3517a9c42f3318ff600ded5e80a3432693c8ec3c4b"},
 ]
 
 [package.dependencies]
-ordered-set = ">=4.0.2,<4.2.0"
+orderly-set = "5.2.2"
 
 [package.extras]
-cli = ["click (==8.1.3)", "pyyaml (==6.0.1)"]
+cli = ["click (==8.1.7)", "pyyaml (==6.0.1)"]
 optimize = ["orjson"]
 
 [[package]]
@@ -850,18 +850,15 @@ files = [
 ]
 
 [[package]]
-name = "ordered-set"
-version = "4.1.0"
-description = "An OrderedSet is a custom MutableSet that remembers its order, so that every"
+name = "orderly-set"
+version = "5.2.2"
+description = "Orderly set"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "ordered-set-4.1.0.tar.gz", hash = "sha256:694a8e44c87657c59292ede72891eb91d34131f6531463aab3009191c77364a8"},
-    {file = "ordered_set-4.1.0-py3-none-any.whl", hash = "sha256:046e1132c71fcf3330438a539928932caf51ddbc582496833e23de611de14562"},
+    {file = "orderly_set-5.2.2-py3-none-any.whl", hash = "sha256:f7a37c95a38c01cdfe41c3ffb62925a318a2286ea0a41790c057fc802aec54da"},
+    {file = "orderly_set-5.2.2.tar.gz", hash = "sha256:52a18b86aaf3f5d5a498bbdb27bf3253a4e5c57ab38e5b7a56fa00115cd28448"},
 ]
-
-[package.extras]
-dev = ["black", "mypy", "pytest"]
 
 [[package]]
 name = "packaging"
@@ -1485,4 +1482,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "9c65ccae78938e770297329734e84075c0d057156ae4cdd263c5675f5bbf74f9"
+content-hash = "91bca343917912ed6886b7d37f5f33ced5734025ee5a8a289d1fc7512f907c01"
