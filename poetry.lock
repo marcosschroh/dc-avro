@@ -316,25 +316,26 @@ dev = ["black", "coveralls", "mypy", "pre-commit", "pylint", "pytest (>=5)", "py
 
 [[package]]
 name = "dataclasses-avroschema"
-version = "0.60.2"
+version = "0.63.2"
 description = "Generate Avro Schemas from Python classes. Serialize/Deserialize python instances with avro schemas"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "dataclasses_avroschema-0.60.2-py3-none-any.whl", hash = "sha256:5552ef2bf76d490ac6d3029371b5224a5af301bb7e20a9a3f0192e419bc47eec"},
-    {file = "dataclasses_avroschema-0.60.2.tar.gz", hash = "sha256:b72b9cf819a1f795c77c10e8a150073ec0d754f88e79b18079473b7a32d15cc6"},
+    {file = "dataclasses_avroschema-0.63.2-py3-none-any.whl", hash = "sha256:03ffa7fe2d9ac6d7424766b4fae1cd64d7596224d87be2b83dd44d1ab6f9ac5c"},
+    {file = "dataclasses_avroschema-0.63.2.tar.gz", hash = "sha256:6e5f25c9db874a071874f05d6d46d2afd5c7417630fde2f8153cea25667e1296"},
 ]
 
 [package.dependencies]
 casefy = ">=0.1.7,<0.2.0"
 dacite = ">=1.8.0,<2.0.0"
 fastavro = ">=1.7.3,<2.0.0"
-inflector = ">=3.1.1,<4.0.0"
-python-dateutil = ">=2.9.0.post0,<3.0.0"
+inflection = ">=0.5.1,<0.6.0"
+python-dateutil = ">=2.7,<3.0"
 typing-extensions = ">=4.2.0,<5.0.0"
 
 [package.extras]
-faker = ["faker (>=18.3.1,<26.0.0)"]
+cli = ["dc-avro (>=0.6.4,<0.9.0)"]
+faker = ["faker (>=26.0.0,<29.0.0)"]
 faust = ["faust-streaming (>=0.10.11,<0.12.0)"]
 pydantic = ["pydantic[email] (>=2.4.2,<3.0.0)"]
 
@@ -532,14 +533,14 @@ perf = ["ipython"]
 test = ["flufl.flake8", "importlib-resources (>=1.3)", "jaraco.test (>=5.4)", "packaging", "pyfakefs", "pytest (>=6,!=8.1.*)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)", "pytest-mypy", "pytest-perf (>=0.9.2)", "pytest-ruff (>=0.2.1)"]
 
 [[package]]
-name = "inflector"
-version = "3.1.1"
-description = "Inflector for Python"
+name = "inflection"
+version = "0.5.1"
+description = "A port of Ruby on Rails inflector to Python"
 optional = false
-python-versions = "*"
+python-versions = ">=3.5"
 files = [
-    {file = "Inflector-3.1.1-py3-none-any.whl", hash = "sha256:b158010b9c400382a9792dcaa05a02c198b27d17fb52a23262e8226c91b13c97"},
-    {file = "Inflector-3.1.1.tar.gz", hash = "sha256:1835ccc74ea8b5bea93cee9f7802b5cbbaaa937e268a197a937394aa47dee6d5"},
+    {file = "inflection-0.5.1-py2.py3-none-any.whl", hash = "sha256:f38b2b640938a4f35ade69ac3d053042959b62a0f1076a5bbaa1b9526605a8a2"},
+    {file = "inflection-0.5.1.tar.gz", hash = "sha256:1a29730d366e996aaacffb2f1f1cb9593dc38e2ddd30c91250c6dde09ea9b417"},
 ]
 
 [[package]]
@@ -1482,4 +1483,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "91bca343917912ed6886b7d37f5f33ced5734025ee5a8a289d1fc7512f907c01"
+content-hash = "776803ae0eb509b3b317a8965a360f47300d8889a08600bdf4b0f5577bf70473"
