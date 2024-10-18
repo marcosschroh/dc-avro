@@ -2,6 +2,9 @@ import json
 import os
 
 import pytest
+from dataclasses_avroschema.model_generator.lang.python.avro_to_python_utils import (
+    templates,
+)
 
 AVRO_SCHEMAS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "schemas")
 
@@ -39,14 +42,14 @@ def invalid_resource():
 
 @pytest.fixture
 def model_generator_output_dataclass():
-    result = """from dataclasses_avroschema import AvroModel
+    result = f"""from dataclasses_avroschema import AvroModel
 from dataclasses_avroschema import types
 import dataclasses
 import enum
 import typing
 
 
-class FavoriteColor(enum.Enum):
+class FavoriteColor({templates.ENUM_PYTHON_VERSION}):
     BLUE = "BLUE"
     YELLOW = "YELLOW"
     GREEN = "GREEN"
@@ -64,29 +67,29 @@ class UserAdvance(AvroModel):
     country: str = "Argentina"
     address: typing.Optional[str] = None
 
+    
     class Meta:
         field_order = ['name', 'age', 'pets', 'accounts', 'favorite_colors', 'has_car', 'country', 'address', 'md5']
-
 """
     return result
 
 
 @pytest.fixture
 def model_generator_output_pydantic():
-    result = """from dataclasses_avroschema import types
-from pydantic import BaseModel
+    result = f"""from dataclasses_avroschema import types
 import enum
+import pydantic
 import typing
 
 
-class FavoriteColor(enum.Enum):
+class FavoriteColor({templates.ENUM_PYTHON_VERSION}):
     BLUE = "BLUE"
     YELLOW = "YELLOW"
     GREEN = "GREEN"
 
 
 
-class UserAdvance(BaseModel):
+class UserAdvance(pydantic.BaseModel):
     name: str
     age: int
     pets: typing.List[str]
@@ -97,22 +100,23 @@ class UserAdvance(BaseModel):
     country: str = "Argentina"
     address: typing.Optional[str] = None
 
+    
     class Meta:
         field_order = ['name', 'age', 'pets', 'accounts', 'favorite_colors', 'has_car', 'country', 'address', 'md5']
-
 """
     return result
 
 
 @pytest.fixture
 def model_generator_output_avrodantic():
-    result = """from dataclasses_avroschema import types
+    result = f"""from dataclasses_avroschema import types
 from dataclasses_avroschema.pydantic import AvroBaseModel
 import enum
+import pydantic
 import typing
 
 
-class FavoriteColor(enum.Enum):
+class FavoriteColor({templates.ENUM_PYTHON_VERSION}):
     BLUE = "BLUE"
     YELLOW = "YELLOW"
     GREEN = "GREEN"
@@ -130,8 +134,8 @@ class UserAdvance(AvroBaseModel):
     country: str = "Argentina"
     address: typing.Optional[str] = None
 
+    
     class Meta:
         field_order = ['name', 'age', 'pets', 'accounts', 'favorite_colors', 'has_car', 'country', 'address', 'md5']
-
 """
     return result

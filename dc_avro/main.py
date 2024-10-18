@@ -128,8 +128,9 @@ def deserialize(
         if serialization_type == SerializationType.AVRO.value
         else event.encode()
     )
+
     output = serialization.deserialize(
-        data, resource, serialization_type=serialization_type
+        data=data, schema=resource, serialization_type=serialization_type  # type: ignore
     )
     console.print(output)
 
