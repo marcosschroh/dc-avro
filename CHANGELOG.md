@@ -1,3 +1,9 @@
+## 0.9.1 (2024-10-18)
+
+### Fix
+
+- updated to latest dataclases-avroschemas
+
 ## 0.9.0 (2024-03-11)
 
 ### BREAKING CHANGE
