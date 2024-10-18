@@ -82,6 +82,8 @@ def test_generate_model_from_path(
         ],
     )
     assert result.exit_code == 0
+    print(result.stdout, "dkdks")
+
     assert expected_output == result.stdout
 
 
