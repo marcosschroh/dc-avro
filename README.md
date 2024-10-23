@@ -5,11 +5,11 @@ Command line interface from [dataclasses-avroschema](https://github.com/marcossc
 [![Tests](https://github.com/marcosschroh/dc-avro/actions/workflows/tests.yaml/badge.svg)](https://github.com/marcosschroh/dc-avro/actions/workflows/tests.yaml)
 [![GitHub license](https://img.shields.io/github/license/marcosschroh/dc-avro.svg)](https://github.com/marcosschroh/dc-avro/blob/master/LICENSE)
 [![codecov](https://codecov.io/gh/marcosschroh/dc-avro/branch/master/graph/badge.svg)](https://codecov.io/gh/marcosschroh/dc-avro)
-![python version](https://img.shields.io/badge/python-3.8%2B-yellowgreen)
+![python version](https://img.shields.io/badge/python-3.9%2B-yellowgreen)
 
 ## Requirements
 
-`python 3.8+`
+`python 3.9+`
 
 ## Documentation
 
