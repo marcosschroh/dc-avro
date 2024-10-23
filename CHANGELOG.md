@@ -1,3 +1,9 @@
+## 0.9.2 (2024-10-23)
+
+### Fix
+
+- make more flexible dataclasses-avroschema dependency
+
 ## 0.9.1 (2024-10-18)
 
 ### Fix
