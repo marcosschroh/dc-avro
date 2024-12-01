@@ -34,7 +34,7 @@ mypy = "^1"
 mkdocs = "^1.4.2"
 pytest = ">=7.2,<9.0"
 pytest-cov = ">=4,<7"
-mkdocs-material = "^9.5.44"
+mkdocs-material = "^9.5.46"
 types-attrs = "^19.1.0"
 
 [build-system]
