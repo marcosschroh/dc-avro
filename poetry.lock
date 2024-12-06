@@ -338,13 +338,13 @@ dev = ["black", "coveralls", "mypy", "pre-commit", "pylint", "pytest (>=5)", "py
 
 [[package]]
 name = "dataclasses-avroschema"
-version = "0.63.10"
+version = "0.65.6"
 description = "Generate Avro Schemas from Python classes. Serialize/Deserialize python instances with avro schemas"
 optional = false
 python-versions = "<4.0,>=3.9"
 files = [
-    {file = "dataclasses_avroschema-0.63.10-py3-none-any.whl", hash = "sha256:77b27ce76667a80d0a249ed6779807cb9fa3af7ba92afdee9a647171847a2331"},
-    {file = "dataclasses_avroschema-0.63.10.tar.gz", hash = "sha256:74d910a5978024c556f4cf010a768c1a01ed711b8db7d43950b63d06e2d0420e"},
+    {file = "dataclasses_avroschema-0.65.6-py3-none-any.whl", hash = "sha256:a4527afb3d1fe83fa4b811a77e5ed200cad776c11635868edd68626e46814515"},
+    {file = "dataclasses_avroschema-0.65.6.tar.gz", hash = "sha256:96d09278e9d770229c2f6e6eb58656d0b59f460d6098f2761d1c04faf96f6a40"},
 ]
 
 [package.dependencies]
