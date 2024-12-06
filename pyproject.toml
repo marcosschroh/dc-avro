@@ -29,7 +29,7 @@ deepdiff = ">=6.2.3,<9.0.0"
 
 [tool.poetry.group.dev.dependencies]
 commitizen = "^3.30.0"
-ruff = ">=0.5.0,<0.8"
+ruff = ">=0.5.0,<0.9"
 mypy = "^1"
 mkdocs = "^1.4.2"
 pytest = ">=7.2,<9.0"
