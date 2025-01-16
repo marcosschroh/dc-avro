@@ -1,5 +1,5 @@
 import ast
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Sequence
 
 import rich
 import typer
@@ -8,9 +8,9 @@ from dataclasses_avroschema import (
     ModelType,
     serialization,
 )
-from deepdiff import DeepDiff
 
 from . import _schema_utils
+from ._diff import diff_resources
 from ._types import JsonDict, SerializationType
 from .exceptions import InvalidSchema, JsonRequired
 
@@ -45,6 +45,24 @@ def get_resource(
         raise typer.BadParameter(error_messages["required"])
 
 
+def get_raw_resource(
+    *,
+    path: Optional[str] = None,
+    url: Optional[str] = None,
+    error_messages: Optional[Dict[str, str]] = None,
+) -> Sequence[str]:
+    error_messages = error_messages or generate_error_messages()
+
+    if all([path, url]):
+        raise typer.BadParameter(error_messages["all_specified"])
+    elif path is not None:
+        return _schema_utils.get_raw_resource_from_path(path=path)
+    elif url is not None:
+        return _schema_utils.get_raw_resource_from_url(url=url)
+    else:
+        raise typer.BadParameter(error_messages["required"])
+
+
 @app.command()
 def generate_model(
     path: str = typer.Option(None),
@@ -69,26 +87,40 @@ def schema_diff(
     source_url: str = typer.Option(None, help="Source schema url"),
     target_path: str = typer.Option(None, help="Target path to the local schema"),
     target_url: str = typer.Option(None, help="Target schema url"),
-):
-    print("test action")
-    source_resource = get_resource(
+    only_deltas: bool = typer.Option(
+        help=(
+            "Whether to include only deltas. If set to True then only deltas are "
+            "included rather than the whole resource in the diff result. "
+            "Default to False."
+        ),
+        default=False,
+    ),
+) -> None:
+    source_resource = get_raw_resource(
         path=source_path,
         url=source_url,
         error_messages=generate_error_messages(
             path_name="--source-path", url_name="--source-url"
         ),
     )
-    target_resource = get_resource(
+
+    target_resource = get_raw_resource(
         path=target_path,
         url=target_url,
         error_messages=generate_error_messages(
-            path_name="--path-path", url_name="--path-url"
+            path_name="--target-path", url_name="--target-url"
         ),
     )
-    _schema_utils.validate(schema=source_resource)
-    _schema_utils.validate(schema=target_resource)
 
-    console.print(DeepDiff(source_resource, target_resource))
+    console.print(
+        diff_resources(
+            source_resource=source_resource,
+            source_name=source_path or source_url,
+            target_resource=target_resource,
+            target_name=target_path or target_url,
+            only_deltas=only_deltas,
+        )
+    )
 
 
 @app.command()
@@ -99,7 +131,7 @@ def serialize(
     serialization_type: SerializationType = typer.Option(
         SerializationType.AVRO,
     ),
-):
+) -> None:
     resource = get_resource(path=path, url=url)
     _schema_utils.validate(schema=resource)
 
@@ -119,7 +151,7 @@ def deserialize(
     serialization_type: SerializationType = typer.Option(
         SerializationType.AVRO,
     ),
-):
+) -> None:
     resource = get_resource(path=path, url=url)
     _schema_utils.validate(schema=resource)
 
@@ -130,7 +162,9 @@ def deserialize(
     )
 
     output = serialization.deserialize(
-        data=data, schema=resource, serialization_type=serialization_type  # type: ignore
+        data=data,
+        schema=resource,
+        serialization_type=serialization_type,  # type: ignore
     )
     console.print(output)
 
@@ -139,7 +173,7 @@ def deserialize(
 def validate_schema(
     path: Optional[str] = typer.Option(None, help="Path to the local schema"),
     url: Optional[str] = typer.Option(None, help="Schema url"),
-):
+) -> None:
     resource = get_resource(path=path, url=url)
 
     if _schema_utils.validate(schema=resource):
@@ -182,7 +216,7 @@ def generate_data(
     count: int = typer.Option(
         1, help="Number of data to generate, more than one prints a list"
     ),
-):
+) -> None:
     schema = _schema_utils.get_schema(resource=resource)
     data = _schema_utils.generate_data(schema=schema, count=count)
     console.print(data)

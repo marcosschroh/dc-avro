@@ -47,3 +47,5 @@ markdown_extensions:
   - pymdownx.tabbed:
       alternate_style: true 
 
+plugins:
+  - mkdocs-video
