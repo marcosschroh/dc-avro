@@ -1083,17 +1083,15 @@ Both of them can be using the <code>path</code> or <code>url</code></p>
 <p>If we run the <code>schema-diff</code> command we have the following result:</p>
 <div class="highlight"><pre><span></span><code>dc-avro<span class="w"> </span>schema-diff<span class="w"> </span>--source-path<span class="w"> </span>./tests/schemas/example.avsc<span class="w"> </span>--target-path<span class="w">  </span>./tests/schemas/example_v2.avsc
 </code></pre></div>
-<video src="statics/schema_diff.mp4" controls=""></video>
-
 <video controls="">
-  <source src="https://github.com/marcosschroh/dc-avro/blob/feat/improve-diff/docs/statics/schema_diff.mp4" type="video/mp4">
+  <source src="https://github.com/marcosschroh/dc-avro/blob/master/docs/statics/schema_diff.mp4" type="video/mp4">
 </video>
 
 <p>By default the whole files are shown. You can provide the option <code>--only-deltas</code> to see only the lines that has changed:</p>
 <div class="highlight"><pre><span></span><code>dc-avro<span class="w"> </span>schema-diff<span class="w"> </span>--source-path<span class="w"> </span>./tests/schemas/example.avsc<span class="w"> </span>--target-path<span class="w">  </span>./tests/schemas/example_v2.avsc<span class="w"> </span>--only-deltas
 </code></pre></div>
 <video controls="">
-  <source src="statics/schema_diff_deltas.mp4" type="video/mp4">
+  <source src="https://github.com/marcosschroh/dc-avro/blob/master/docs/statics/schema_diff_deltas.mp4" type="video/mp4">
 </video>
 
 <h2 id="generate-fake-data-from-schema">Generate fake data from schema</h2>
