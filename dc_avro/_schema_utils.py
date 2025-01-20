@@ -30,6 +30,18 @@ def get_resource_from_path(path: str) -> JsonDict:
             ) from exc
 
 
+def get_raw_resource_from_url(url: str) -> list[str]:
+    response = httpx.get(url)
+    return [line for line in response.iter_lines()]
+
+
+def get_raw_resource_from_path(path: str) -> list[str]:
+    with open(path, mode="r") as resource:
+        schema = resource.readlines()
+
+    return schema
+
+
 def validate(*, schema: JsonDict) -> bool:
     try:
         parse_schema(schema=schema)

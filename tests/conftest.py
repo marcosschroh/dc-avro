@@ -1,10 +1,14 @@
 import json
 import os
+from typing import Callable
 
 import pytest
 from dataclasses_avroschema.model_generator.lang.python.avro_to_python_utils import (
     templates,
 )
+from rich.table import Table
+
+from dc_avro._diff import TableDiff
 
 AVRO_SCHEMAS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "schemas")
 
@@ -139,3 +143,19 @@ class UserAdvance(AvroBaseModel):
         field_order = ['name', 'age', 'pets', 'accounts', 'favorite_colors', 'has_car', 'country', 'address', 'md5']
 """
     return result
+
+
+@pytest.fixture
+def create_table() -> Callable:
+    def table(title: str, source_name: str, target_name: str, rows: list[str]) -> Table:
+        table = TableDiff(
+            title=title,
+            source_name=source_name,
+            target_name=target_name,
+        ).table
+
+        for row in rows:
+            table.add_row(*row)
+        return table
+
+    return table

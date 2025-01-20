@@ -470,8 +470,7 @@ is `bytes`
 
 ## View diff between schemas
 
-Sometimes it is useful to see the difference between `avsc` files, specially for the `avro schema evolution`. You need
-to specify the `source` and `target` schema.
+Sometimes it is useful to see the difference between `avsc` files, specially for the `avro schema evolution`. You need to specify the `source` and `target` schema.
 Both of them can be using the `path` or `url`
 
 Example:
@@ -621,12 +620,17 @@ If we run the `schema-diff` command we have the following result:
 
 ```bash
 dc-avro schema-diff --source-path ./tests/schemas/example.avsc --target-path  ./tests/schemas/example_v2.avsc
-
-{
-    'values_changed': {"root['fields'][6]['default']": {'new_value': 'Netherlands', 'old_value': 'Argentina'}},
-    'iterable_item_removed': {"root['fields'][8]": {'name': 'md5', 'type': {'type': 'fixed', 'name': 'md5', 'size': 16}}}
-}
 ```
+
+![type:video](statics/schema_diff.mp4)
+
+By default the whole files are shown. You can provide the option `--only-deltas` to see only the lines that has changed:
+
+```bash
+dc-avro schema-diff --source-path ./tests/schemas/example.avsc --target-path  ./tests/schemas/example_v2.avsc --only-deltas
+```
+
+![type:video](statics/schema_diff_deltas.mp4)
 
 ## Generate fake data from schema
 

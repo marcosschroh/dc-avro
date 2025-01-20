@@ -6,4 +6,4 @@ if [ -d '.venv' ] ; then
 fi
 
 ${PREFIX}ruff format dc_avro tests
-${PREFIX}ruff dc_avro tests --fix
+${PREFIX}ruff check dc_avro tests --fix

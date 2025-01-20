@@ -7,6 +7,6 @@ fi
 
 tests=${1-"./tests"}
 
-${PREFIX}pytest --cov=dc_avro ${tests} ${2} --cov-fail-under=92 --cov-report html  --cov-report term-missing  --cov-report xml
+${PREFIX}pytest --cov=dc_avro ${tests} ${2} --cov-fail-under=96 --cov-report html  --cov-report term-missing  --cov-report xml
 ${PREFIX}ruff check dc_avro 
 ${PREFIX}mypy dc_avro

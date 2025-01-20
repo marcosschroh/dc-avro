@@ -37,6 +37,7 @@ pytest-cov = ">=4,<7"
 mkdocs-material = "^9.5.46"
 types-attrs = "^19.1.0"
 
+mkdocs-video = "^1.5.0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

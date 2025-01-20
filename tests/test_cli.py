@@ -82,8 +82,6 @@ def test_generate_model_from_path(
         ],
     )
     assert result.exit_code == 0
-    print(result.stdout, "dkdks")
-
     assert expected_output == result.stdout
 
 
@@ -102,6 +100,26 @@ def test_generate_model_from_url(
         )
         assert result.exit_code == 0
         assert expected_output == result.stdout
+
+
+@pytest.mark.parametrize("only_deltas, total_output_len", ((True, 1134), (False, 6075)))
+def test_schema_diff_from_path(
+    only_deltas: bool, total_output_len: int, schema_dir: str
+):
+    result = runner.invoke(
+        app,
+        [
+            "schema-diff",
+            "--source-path",
+            os.path.join(schema_dir, "example.avsc"),
+            "--target-path",
+            os.path.join(schema_dir, "example_v2.avsc"),
+            "--only-deltas" if only_deltas else "--no-only-deltas",
+        ],
+    )
+    assert result.exit_code == 0
+    assert "Schema Diff" in result.stdout
+    assert len(result.stdout) == total_output_len
 
 
 def test_generate_model_two_options(schema_dir: str):
