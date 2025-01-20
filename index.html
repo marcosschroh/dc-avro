@@ -146,45 +146,6 @@
     
     
     
-      <label class="md-header__button md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
-      </label>
-      <div class="md-search" data-md-component="search" role="dialog">
-  <label class="md-search__overlay" for="__search"></label>
-  <div class="md-search__inner" role="search">
-    <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
-      <label class="md-search__icon md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
-      </label>
-      <nav class="md-search__options" aria-label="Search">
-        
-        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
-          
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-        </button>
-      </nav>
-      
-        <div class="md-search__suggest" data-md-component="search-suggest"></div>
-      
-    </form>
-    <div class="md-search__output">
-      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="search-result">
-          <div class="md-search-result__meta">
-            Initializing search
-          </div>
-          <ol class="md-search-result__list" role="presentation"></ol>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-    
     
       <div class="md-header__source">
         <a href="https://github.com/marcosschroh/dc-avro" title="Go to repository" class="md-source" data-md-component="source">
@@ -424,12 +385,12 @@
   
 
 
-<h1 id="dataclasses-avro-schema-cli">Dataclasses Avro Schema CLI</h1>
+<div><h1 id="dataclasses-avro-schema-cli">Dataclasses Avro Schema CLI</h1>
 <p>Command line interface from <a href="https://github.com/marcosschroh/dataclasses-avroschema">dataclasses-avroschema</a> to work with <code>avsc</code> resources</p>
-<p><a href="https://github.com/marcosschroh/dc-avro/actions/workflows/tests.yaml"><img alt="Tests" src="https://github.com/marcosschroh/dc-avro/actions/workflows/tests.yaml/badge.svg" /></a>
-<a href="https://github.com/marcosschroh/dc-avro/blob/master/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/marcosschroh/dc-avro.svg" /></a>
-<a href="https://codecov.io/gh/marcosschroh/dc-avro"><img alt="codecov" src="https://codecov.io/gh/marcosschroh/dc-avro/branch/master/graph/badge.svg" /></a>
-<img alt="python version" src="https://img.shields.io/badge/python-3.9%2B-yellowgreen" /></p>
+<p><a href="https://github.com/marcosschroh/dc-avro/actions/workflows/tests.yaml"><img alt="Tests" src="https://github.com/marcosschroh/dc-avro/actions/workflows/tests.yaml/badge.svg"></a>
+<a href="https://github.com/marcosschroh/dc-avro/blob/master/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/marcosschroh/dc-avro.svg"></a>
+<a href="https://codecov.io/gh/marcosschroh/dc-avro"><img alt="codecov" src="https://codecov.io/gh/marcosschroh/dc-avro/branch/master/graph/badge.svg"></a>
+<img alt="python version" src="https://img.shields.io/badge/python-3.9%2B-yellowgreen"></p>
 <h2 id="requirements">Requirements</h2>
 <p><code>python 3.9+</code></p>
 <h2 id="usage">Usage</h2>
@@ -440,18 +401,18 @@
 Valid<span class="w"> </span>schema!!<span class="w"> </span>👍<span class="w"> </span>
 
 <span class="o">{</span>
-<span class="w">    </span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span><span class="s1">&#39;record&#39;</span>,
-<span class="w">    </span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;UserAdvance&#39;</span>,
-<span class="w">    </span><span class="s1">&#39;fields&#39;</span>:<span class="w"> </span><span class="o">[</span>
-<span class="w">        </span><span class="o">{</span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;name&#39;</span>,<span class="w"> </span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span><span class="s1">&#39;string&#39;</span><span class="o">}</span>,
-<span class="w">        </span><span class="o">{</span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;age&#39;</span>,<span class="w"> </span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span><span class="s1">&#39;long&#39;</span><span class="o">}</span>,
-<span class="w">        </span><span class="o">{</span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;pets&#39;</span>,<span class="w"> </span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span><span class="o">{</span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span><span class="s1">&#39;array&#39;</span>,<span class="w"> </span><span class="s1">&#39;items&#39;</span>:<span class="w"> </span><span class="s1">&#39;string&#39;</span>,<span class="w"> </span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;pet&#39;</span><span class="o">}}</span>,
-<span class="w">        </span><span class="o">{</span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;accounts&#39;</span>,<span class="w"> </span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span><span class="o">{</span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span><span class="s1">&#39;map&#39;</span>,<span class="w"> </span><span class="s1">&#39;values&#39;</span>:<span class="w"> </span><span class="s1">&#39;long&#39;</span>,<span class="w"> </span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;account&#39;</span><span class="o">}}</span>,
-<span class="w">        </span><span class="o">{</span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;favorite_colors&#39;</span>,<span class="w"> </span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span><span class="o">{</span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span><span class="s1">&#39;enum&#39;</span>,<span class="w"> </span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;FavoriteColor&#39;</span>,<span class="w"> </span><span class="s1">&#39;symbols&#39;</span>:<span class="w"> </span><span class="o">[</span><span class="s1">&#39;BLUE&#39;</span>,<span class="w"> </span><span class="s1">&#39;YELLOW&#39;</span>,<span class="w"> </span><span class="s1">&#39;GREEN&#39;</span><span class="o">]}}</span>,
-<span class="w">        </span><span class="o">{</span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;has_car&#39;</span>,<span class="w"> </span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span><span class="s1">&#39;boolean&#39;</span>,<span class="w"> </span><span class="s1">&#39;default&#39;</span>:<span class="w"> </span>False<span class="o">}</span>,
-<span class="w">        </span><span class="o">{</span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;country&#39;</span>,<span class="w"> </span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span><span class="s1">&#39;string&#39;</span>,<span class="w"> </span><span class="s1">&#39;default&#39;</span>:<span class="w"> </span><span class="s1">&#39;Argentina&#39;</span><span class="o">}</span>,
-<span class="w">        </span><span class="o">{</span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;address&#39;</span>,<span class="w"> </span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span><span class="o">[</span><span class="s1">&#39;null&#39;</span>,<span class="w"> </span><span class="s1">&#39;string&#39;</span><span class="o">]</span>,<span class="w"> </span><span class="s1">&#39;default&#39;</span>:<span class="w"> </span>None<span class="o">}</span>,
-<span class="w">        </span><span class="o">{</span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;md5&#39;</span>,<span class="w"> </span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span><span class="o">{</span><span class="s1">&#39;type&#39;</span>:<span class="w"> </span><span class="s1">&#39;fixed&#39;</span>,<span class="w"> </span><span class="s1">&#39;name&#39;</span>:<span class="w"> </span><span class="s1">&#39;md5&#39;</span>,<span class="w"> </span><span class="s1">&#39;size&#39;</span>:<span class="w"> </span><span class="m">16</span><span class="o">}}</span>
+<span class="w">    </span><span class="s1">'type'</span>:<span class="w"> </span><span class="s1">'record'</span>,
+<span class="w">    </span><span class="s1">'name'</span>:<span class="w"> </span><span class="s1">'UserAdvance'</span>,
+<span class="w">    </span><span class="s1">'fields'</span>:<span class="w"> </span><span class="o">[</span>
+<span class="w">        </span><span class="o">{</span><span class="s1">'name'</span>:<span class="w"> </span><span class="s1">'name'</span>,<span class="w"> </span><span class="s1">'type'</span>:<span class="w"> </span><span class="s1">'string'</span><span class="o">}</span>,
+<span class="w">        </span><span class="o">{</span><span class="s1">'name'</span>:<span class="w"> </span><span class="s1">'age'</span>,<span class="w"> </span><span class="s1">'type'</span>:<span class="w"> </span><span class="s1">'long'</span><span class="o">}</span>,
+<span class="w">        </span><span class="o">{</span><span class="s1">'name'</span>:<span class="w"> </span><span class="s1">'pets'</span>,<span class="w"> </span><span class="s1">'type'</span>:<span class="w"> </span><span class="o">{</span><span class="s1">'type'</span>:<span class="w"> </span><span class="s1">'array'</span>,<span class="w"> </span><span class="s1">'items'</span>:<span class="w"> </span><span class="s1">'string'</span>,<span class="w"> </span><span class="s1">'name'</span>:<span class="w"> </span><span class="s1">'pet'</span><span class="o">}}</span>,
+<span class="w">        </span><span class="o">{</span><span class="s1">'name'</span>:<span class="w"> </span><span class="s1">'accounts'</span>,<span class="w"> </span><span class="s1">'type'</span>:<span class="w"> </span><span class="o">{</span><span class="s1">'type'</span>:<span class="w"> </span><span class="s1">'map'</span>,<span class="w"> </span><span class="s1">'values'</span>:<span class="w"> </span><span class="s1">'long'</span>,<span class="w"> </span><span class="s1">'name'</span>:<span class="w"> </span><span class="s1">'account'</span><span class="o">}}</span>,
+<span class="w">        </span><span class="o">{</span><span class="s1">'name'</span>:<span class="w"> </span><span class="s1">'favorite_colors'</span>,<span class="w"> </span><span class="s1">'type'</span>:<span class="w"> </span><span class="o">{</span><span class="s1">'type'</span>:<span class="w"> </span><span class="s1">'enum'</span>,<span class="w"> </span><span class="s1">'name'</span>:<span class="w"> </span><span class="s1">'FavoriteColor'</span>,<span class="w"> </span><span class="s1">'symbols'</span>:<span class="w"> </span><span class="o">[</span><span class="s1">'BLUE'</span>,<span class="w"> </span><span class="s1">'YELLOW'</span>,<span class="w"> </span><span class="s1">'GREEN'</span><span class="o">]}}</span>,
+<span class="w">        </span><span class="o">{</span><span class="s1">'name'</span>:<span class="w"> </span><span class="s1">'has_car'</span>,<span class="w"> </span><span class="s1">'type'</span>:<span class="w"> </span><span class="s1">'boolean'</span>,<span class="w"> </span><span class="s1">'default'</span>:<span class="w"> </span>False<span class="o">}</span>,
+<span class="w">        </span><span class="o">{</span><span class="s1">'name'</span>:<span class="w"> </span><span class="s1">'country'</span>,<span class="w"> </span><span class="s1">'type'</span>:<span class="w"> </span><span class="s1">'string'</span>,<span class="w"> </span><span class="s1">'default'</span>:<span class="w"> </span><span class="s1">'Argentina'</span><span class="o">}</span>,
+<span class="w">        </span><span class="o">{</span><span class="s1">'name'</span>:<span class="w"> </span><span class="s1">'address'</span>,<span class="w"> </span><span class="s1">'type'</span>:<span class="w"> </span><span class="o">[</span><span class="s1">'null'</span>,<span class="w"> </span><span class="s1">'string'</span><span class="o">]</span>,<span class="w"> </span><span class="s1">'default'</span>:<span class="w"> </span>None<span class="o">}</span>,
+<span class="w">        </span><span class="o">{</span><span class="s1">'name'</span>:<span class="w"> </span><span class="s1">'md5'</span>,<span class="w"> </span><span class="s1">'type'</span>:<span class="w"> </span><span class="o">{</span><span class="s1">'type'</span>:<span class="w"> </span><span class="s1">'fixed'</span>,<span class="w"> </span><span class="s1">'name'</span>:<span class="w"> </span><span class="s1">'md5'</span>,<span class="w"> </span><span class="s1">'size'</span>:<span class="w"> </span><span class="m">16</span><span class="o">}}</span>
 <span class="w">    </span><span class="o">]</span>
 <span class="o">}</span>
 </code></pre></div>
@@ -461,7 +422,7 @@ Valid<span class="w"> </span>schema!!<span class="w"> </span>👍<span class="w"
 <li>Install requirements: <code>poetry install</code></li>
 <li>Code linting: <code>./scripts/format</code></li>
 <li>Run tests: <code>./scripts/test</code></li>
-</ol>
+</ol></div>
 
 
 
