@@ -1,7 +1,29 @@
 import difflib
-from typing import Sequence
+from dataclasses import dataclass
+from typing import Dict, NamedTuple, Optional, Sequence
 
+from rich.style import Style
 from rich.table import Table
+from rich.text import Text
+
+DELETE_COLOR = "red"
+ADD_COLOR = "green"
+
+
+@dataclass
+class Content:
+    line_number: int
+    sequence: str
+
+    @property
+    def diff_format(self) -> str:
+        return f"{self.line_number} {self.sequence}".replace("\t", "").replace("\n", "")
+
+
+class DiffLine(NamedTuple):
+    content_one: Content
+    content_two: Content
+    has_diff: bool
 
 
 class TableDiff:
@@ -24,73 +46,49 @@ class TableDiff:
                 whole resource in the diff result. Default to False.
         """
         self.table = Table(title=title, highlight=True)
-        self.table.add_column(source_name, style="cyan")
-        self.table.add_column(target_name, style="magenta")
-        self.content: list[str] = []
+        self.table.add_column(source_name)
+        self.table.add_column(target_name)
         self.only_deltas = only_deltas
-        self.line_number = 1
 
-    def add_content(self, content: str) -> None:
+    def add_content(self, diff_line: DiffLine) -> None:
         """
-        If the line starts with a "-" character, it is added to the left column.
-        If the line starts with a "+" character, it is added to the right column.
-        If the line starts with a space character, it is added to both columns.
-        If the line starts with a "?" character, it is ignored.
+        If diff_line has differences, add a new row to the table with
+        the differences styles, othewrise add a new row without sytles
+        """
 
-        Args:
-            content (str): new content to be added to the table
-        """
-        if content.startswith("?"):
-            # Ignore the line
-            self.line_number += 1
-            return
-        elif content.startswith(" "):
-            if self.only_deltas:
-                self.line_number += 1
-                return
-            content = f"{self.line_number} {content}"
-            self.add_row(source_colum=content, target_column=content)
+        if diff_line.has_diff:
+            self.add_row(
+                source_colum=self.build_text(
+                    text=diff_line.content_one.diff_format,
+                    style={"color": DELETE_COLOR},
+                ),
+                target_column=self.build_text(
+                    text=diff_line.content_two.diff_format,
+                    style={"color": ADD_COLOR},
+                ),
+            )
         else:
-            # add the content to check later
-            self.content.append(content)
+            self.add_row(
+                source_colum=self.build_text(
+                    text=diff_line.content_one.diff_format,
+                ),
+                target_column=self.build_text(
+                    text=diff_line.content_two.diff_format,
+                ),
+            )
 
-        if len(self.content) == 2:
-            # here we are in the situation where we have a complete row
-            # the combination can be: ("-", "+"), ("-", "-") or ("+", "+")
-            content_one, content_two = self.content
+    @staticmethod
+    def build_text(text: str, style: Optional[Dict[str, str]] = None) -> Text:
+        style = style or {}
+        return Text(text=text, style=Style(**style))  # type: ignore
 
-            if content_one.startswith("-") and content_two.startswith("+"):
-                self.add_row(
-                    source_colum=f"{self.line_number} {content_one}",
-                    target_column=f"{self.line_number} {content_two}",
-                )
-            elif content_one.startswith("-") and content_two.startswith("-"):
-                self.add_row(
-                    source_colum=f"{self.line_number} {content_one}",
-                    target_column=f"{self.line_number}",
-                )
-                self.add_row(
-                    source_colum=f"{self.line_number} {content_two}",
-                    target_column=f"{self.line_number}",
-                )
-            else:
-                self.add_row(
-                    source_colum=f"{self.line_number}",
-                    target_column=f"{self.line_number} {content_one}",
-                )
-                self.add_row(
-                    source_colum=f"{self.line_number}",
-                    target_column=f"{self.line_number} {content_two}",
-                )
-
-            self.content = []
-
-    def add_row(self, *, source_colum: str, target_column: str) -> None:
+    def add_row(
+        self, *, source_colum: Text, target_column: Text, style: Optional[str] = None
+    ) -> None:
         """
         Add new row to table.
         """
-        self.table.add_row(source_colum, target_column)
-        self.line_number += 1
+        self.table.add_row(source_colum, target_column, style=style)
 
 
 def diff_resources(
@@ -100,15 +98,28 @@ def diff_resources(
     source_name: str,
     target_name: str,
     only_deltas: bool = False,
+    num_lines: int = 5,
 ) -> Table:
     table_diff = TableDiff(
         title="Schema Diff",
         source_name=source_name,
         target_name=target_name,
-        only_deltas=only_deltas,
     )
-    diff = difflib.ndiff(source_resource, target_resource)
+
+    if only_deltas and num_lines >= 0:
+        context_lines = num_lines
+    else:
+        context_lines = None
+
+    diff = difflib._mdiff(source_resource, target_resource, context=context_lines)  # type: ignore
 
     for line in diff:
-        table_diff.add_content(line.replace("\n", "").replace("\t", ""))
+        if None not in line:
+            content_one, content_two, has_diff = line
+            diff_line = DiffLine(
+                content_one=Content(content_one[0], sequence=content_one[1]),
+                content_two=Content(content_two[0], sequence=content_two[1]),
+                has_diff=has_diff,
+            )
+            table_diff.add_content(diff_line=diff_line)
     return table_diff.table

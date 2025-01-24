@@ -4,7 +4,7 @@ from typing import Callable
 import pytest
 from rich.table import Table
 
-from dc_avro._diff import diff_resources
+from dc_avro._diff import ADD_COLOR, DELETE_COLOR, TableDiff, diff_resources
 
 
 @pytest.mark.parametrize(
@@ -19,50 +19,106 @@ from dc_avro._diff import diff_resources
             ["First line", "Second line"],
             [],
             (
-                ["1 - First line", "1"],
-                ["2 - Second line", "2"],
+                [
+                    TableDiff.build_text(
+                        text="1 \x00-First line\x01", style={"color": DELETE_COLOR}
+                    ),
+                    TableDiff.build_text(text=" ", style={"color": ADD_COLOR}),
+                ],
+                [
+                    TableDiff.build_text(
+                        text="2 \x00-Second line\x01", style={"color": DELETE_COLOR}
+                    ),
+                    TableDiff.build_text(text=" ", style={"color": ADD_COLOR}),
+                ],
             ),  # only source resource
         ),
         (
             [],
             ["First line", "Second line"],
             (
-                ["1", "1 + First line"],
-                ["2", "2 + Second line"],
+                [
+                    TableDiff.build_text(text=" ", style={"color": DELETE_COLOR}),
+                    TableDiff.build_text(
+                        text="1 \x00+First line\x01", style={"color": ADD_COLOR}
+                    ),
+                ],
+                [
+                    TableDiff.build_text(text=" ", style={"color": DELETE_COLOR}),
+                    TableDiff.build_text(
+                        text="2 \x00+Second line\x01", style={"color": ADD_COLOR}
+                    ),
+                ],
             ),  # only target resource
         ),
         (
             ["First line", "Second line"],
             ["First line", "Second line"],
             (
-                ["1   First line", "1   First line"],
-                ["2   Second line", "2   Second line"],
+                [
+                    TableDiff.build_text(text="1 First line"),
+                    TableDiff.build_text(text="1 First line"),
+                ],  # noqa: E501
+                [
+                    TableDiff.build_text(text="2 Second line"),
+                    TableDiff.build_text(text="2 Second line"),
+                ],
             ),  # same resources
         ),
         (
             ["First line", "Second line"],
             ["First line", ""],
             (
-                ["1   First line", "1   First line"],
-                ["2 - Second line", "2 + "],
+                [
+                    TableDiff.build_text(text="1 First line"),
+                    TableDiff.build_text(text="1 First line"),
+                ],
+                [
+                    TableDiff.build_text(
+                        text="2 \x00-Second line\x01", style={"color": DELETE_COLOR}
+                    ),
+                    TableDiff.build_text(
+                        text="2 \x00+ \x01", style={"color": ADD_COLOR}
+                    ),
+                ],
             ),  # different resources
         ),
         (
             ["First line", ""],
             ["First line", "Second line"],
             (
-                ["1   First line", "1   First line"],
-                ["2 - ", "2 + Second line"],
+                [
+                    TableDiff.build_text(text="1 First line"),
+                    TableDiff.build_text(text="1 First line"),
+                ],
+                [
+                    TableDiff.build_text(text="2 \x00- \x01"),
+                    TableDiff.build_text(
+                        text="2 \x00+Second line\x01", style={"color": ADD_COLOR}
+                    ),
+                ],
             ),  # different resources
         ),
         (
             ["First line", "Second line"],
             ["Not related", "No clue line"],
             (
-                ["1 - First line", "1"],
-                ["2 - Second line", "2"],
-                ["3", "3 + Not related"],
-                ["4", "4 + No clue line"],
+                [
+                    TableDiff.build_text(
+                        text="1 \x00-First line\x01", style={"color": DELETE_COLOR}
+                    ),
+                    TableDiff.build_text(
+                        text="1 \x00+Not related\x01", style={"color": ADD_COLOR}
+                    ),
+                ],
+                [
+                    TableDiff.build_text(
+                        text="2 \x00-Second line\x01", style={"color": DELETE_COLOR}
+                    ),
+                    TableDiff.build_text(
+                        text="2 \x00+No clue line\x01", style={"color": ADD_COLOR}
+                    ),
+                ],
             ),  # completely different resources
         ),
     ),
@@ -93,7 +149,7 @@ def test_diff(
     assert result.columns == table.columns
 
 
-@pytest.mark.parametrize("only_deltas, total_rows", ((True, 9), (False, 68)))
+@pytest.mark.parametrize("only_deltas, total_rows", ((True, 26), (False, 69)))
 def test_diff_with_and_without_deltas(
     only_deltas: bool, total_rows: int, schema_dir: str
 ) -> None:
