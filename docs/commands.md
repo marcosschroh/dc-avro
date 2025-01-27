@@ -622,7 +622,7 @@ If we run the `schema-diff` command we have the following result:
 dc-avro schema-diff --source-path ./tests/schemas/example.avsc --target-path  ./tests/schemas/example_v2.avsc
 ```
 
-![type:video](statics/schema_diff.mov)
+![type:video](statics/schema_diff.mp4)
 
 By default the whole files are shown. You can provide the option `--only-deltas` to see only the lines that has changed. The command gives a `default` context of `5` lines. To provide more or less context you can use the parameter `--num-lines`
 
@@ -630,7 +630,7 @@ By default the whole files are shown. You can provide the option `--only-deltas`
 dc-avro schema-diff --source-path ./tests/schemas/example.avsc --target-path  ./tests/schemas/example_v2.avsc --only-deltas --num-lines 3
 ```
 
-![type:video](statics/schema_diff_deltas.mov)
+![type:video](statics/schema_diff_deltas.mp4)
 
 ## Generate fake data from schema
 
