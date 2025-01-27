@@ -74,6 +74,7 @@ class UserAdvance(AvroModel):
     
     class Meta:
         field_order = ['name', 'age', 'pets', 'accounts', 'favorite_colors', 'has_car', 'country', 'address', 'md5']
+
 """
     return result
 
@@ -107,6 +108,7 @@ class UserAdvance(pydantic.BaseModel):
     
     class Meta:
         field_order = ['name', 'age', 'pets', 'accounts', 'favorite_colors', 'has_car', 'country', 'address', 'md5']
+
 """
     return result
 
@@ -141,6 +143,7 @@ class UserAdvance(AvroBaseModel):
     
     class Meta:
         field_order = ['name', 'age', 'pets', 'accounts', 'favorite_colors', 'has_car', 'country', 'address', 'md5']
+
 """
     return result
 
