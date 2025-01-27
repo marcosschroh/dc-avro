@@ -95,6 +95,9 @@ def schema_diff(
         ),
         default=False,
     ),
+    num_lines: int = typer.Option(
+        5, help="Number of lines to show in the diff when context is set to True"
+    ),
 ) -> None:
     source_resource = get_raw_resource(
         path=source_path,
@@ -119,6 +122,7 @@ def schema_diff(
             target_resource=target_resource,
             target_name=target_path or target_url,
             only_deltas=only_deltas,
+            num_lines=num_lines,
         )
     )
 

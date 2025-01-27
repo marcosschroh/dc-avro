@@ -102,9 +102,12 @@ def test_generate_model_from_url(
         assert expected_output == result.stdout
 
 
-@pytest.mark.parametrize("only_deltas, total_output_len", ((True, 1134), (False, 6075)))
+@pytest.mark.parametrize(
+    "only_deltas, num_lines, total_output_len",
+    ((True, 5, 2535), (True, 10, 2940), (False, 0, 6018)),
+)
 def test_schema_diff_from_path(
-    only_deltas: bool, total_output_len: int, schema_dir: str
+    only_deltas: bool, num_lines: int, total_output_len: int, schema_dir: str
 ):
     result = runner.invoke(
         app,
@@ -115,6 +118,8 @@ def test_schema_diff_from_path(
             "--target-path",
             os.path.join(schema_dir, "example_v2.avsc"),
             "--only-deltas" if only_deltas else "--no-only-deltas",
+            "--num-lines",
+            str(num_lines),
         ],
     )
     assert result.exit_code == 0
