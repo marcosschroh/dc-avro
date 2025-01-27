@@ -1,3 +1,9 @@
+## 0.11.0 (2025-01-27)
+
+### Feat
+
+- **diff**: diff improved. Parameter --num-lines introduced when --only-deltas is set to True. Diff styles improved
+
 ## 0.10.0 (2025-01-20)
 
 ### Feat
