@@ -10,7 +10,7 @@ from dataclasses_avroschema import (
 )
 
 from . import _schema_utils
-from ._diff import diff_resources
+from ._diff import DiffTypes, context_diff, table_diff, unified_diff
 from ._types import JsonDict, SerializationType
 from .exceptions import InvalidSchema, JsonRequired
 
@@ -98,6 +98,9 @@ def schema_diff(
     num_lines: int = typer.Option(
         5, help="Number of lines to show in the diff when context is set to True"
     ),
+    type: DiffTypes = typer.Option(
+        "table", help="Type of diff to display: table, context or unified"
+    ),
 ) -> None:
     source_resource = get_raw_resource(
         path=source_path,
@@ -115,16 +118,39 @@ def schema_diff(
         ),
     )
 
-    console.print(
-        diff_resources(
-            source_resource=source_resource,
-            source_name=source_path or source_url,
-            target_resource=target_resource,
-            target_name=target_path or target_url,
-            only_deltas=only_deltas,
-            num_lines=num_lines,
+    if type == DiffTypes.TABLE:
+        console.print(
+            table_diff(
+                source_resource=source_resource,
+                source_name=source_path or source_url,
+                target_resource=target_resource,
+                target_name=target_path or target_url,
+                only_deltas=only_deltas,
+                num_lines=num_lines,
+            )
         )
-    )
+    elif type == DiffTypes.CONTEXT:
+        console.print(
+            context_diff(
+                source_resource=source_resource,
+                source_name=source_path or source_url,
+                target_resource=target_resource,
+                target_name=target_path or target_url,
+                only_deltas=only_deltas,
+                num_lines=num_lines,
+            )
+        )
+    else:
+        console.print(
+            unified_diff(
+                source_resource=source_resource,
+                source_name=source_path or source_url,
+                target_resource=target_resource,
+                target_name=target_path or target_url,
+                only_deltas=only_deltas,
+                num_lines=num_lines,
+            )
+        )
 
 
 @app.command()

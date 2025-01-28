@@ -470,14 +470,13 @@ is `bytes`
 
 ## View diff between schemas
 
-Sometimes it is useful to see the difference between `avsc` files, specially for the `avro schema evolution`. You need to specify the `source` and `target` schema.
-Both of them can be using the `path` or `url`
+Sometimes it is useful to see the difference between `avsc` files, specially for the `avro schema evolution`. You need to specify the `source` and `target` schema. Both of them can be using the `path` or `url`.
 
-Example:
+There are three different kind of diff that you can select from: `table`, `context` and `unified`. Each diff have the option to be a `full` diff or `only-delta` with a `n` number of lines.
 
-The v1 schema version is in the `schema registry`:
+We will use the following schema to show the three different diffs:
 
-```json
+```json title="Version v1"
 {
   "type": "record",
   "name": "UserAdvance",
@@ -550,7 +549,7 @@ The v1 schema version is in the `schema registry`:
 
 Then a PR has been opened with the `UserAdvance v2`:
 
-```json
+```json title="Version: v2"
 {
   "type": "record",
   "name": "UserAdvance",
@@ -618,6 +617,10 @@ Then a PR has been opened with the `UserAdvance v2`:
 
 If we run the `schema-diff` command we have the following result:
 
+### Table diff
+
+Table diff is just a diff represented with a `rich` python extension. It is useful when seing the diff in your own terminal
+
 ```bash
 dc-avro schema-diff --source-path ./tests/schemas/example.avsc --target-path  ./tests/schemas/example_v2.avsc
 ```
@@ -631,6 +634,65 @@ dc-avro schema-diff --source-path ./tests/schemas/example.avsc --target-path  ./
 ```
 
 ![type:video](statics/schema_diff_deltas.mp4)
+
+### Context diff
+
+Context diffs are a compact way of showing line changes and a few lines of context.  The number of context lines is set by `--num-lines` which defaults to three. By default, the diff control lines (those with `***` or `---`) are created with a trailing newline.
+
+```bash
+dc-avro schema-diff --source-path ./tests/schemas/example.avsc --target-path  ./tests/schemas/example_v2.avsc --only-deltas --num-lines 0 --type context
+
+*** ./tests/schemas/example.avsc
+--- ./tests/schemas/example_v2.avsc
+***************
+*** 49 ****
+!       "default": "Argentina"
+--- 49 ----
+!       "default": "Netherlands"
+***************
+*** 55 ****
+!         "string"
+--- 55,56 ----
+!         "string",
+!         "int"
+***************
+*** 58,65 ****
+-     },
+-     {
+-       "name": "md5",
+-       "type": {
+-         "type": "fixed",
+-         "name": "md5",
+-         "size": 16
+-       }
+--- 58 ----
+```
+
+### Unified diff
+
+Unified diffs are a compact way of showing line changes and a few lines of context.  The number of context lines is set by `--num-lines` which defaults to three. By default, the diff control lines (those with `---`, `+++`, or `@@`) are created with a trailing newline.
+
+```bash
+dc-avro schema-diff --source-path ./tests/schemas/example.avsc --target-path  ./tests/schemas/example_v2.avsc --only-deltas --num-lines 0 --type unified
+--- ./tests/schemas/example.avsc
++++ ./tests/schemas/example_v2.avsc
+@@ -49 +49 @@
+-      "default": "Argentina"
++      "default": "Netherlands"
+@@ -55 +55,2 @@
+-        "string"
++        "string",
++        "int"
+@@ -58,8 +58,0 @@
+-    },
+-    {
+-      "name": "md5",
+-      "type": {
+-        "type": "fixed",
+-        "name": "md5",
+-        "size": 16
+-      }
+```
 
 ## Generate fake data from schema
 

@@ -106,7 +106,7 @@ def test_generate_model_from_url(
     "only_deltas, num_lines, total_output_len",
     ((True, 5, 2535), (True, 10, 2940), (False, 0, 6018)),
 )
-def test_schema_diff_from_path(
+def test_schema_table_diff(
     only_deltas: bool, num_lines: int, total_output_len: int, schema_dir: str
 ):
     result = runner.invoke(
@@ -125,6 +125,64 @@ def test_schema_diff_from_path(
     assert result.exit_code == 0
     assert "Schema Diff" in result.stdout
     assert len(result.stdout) == total_output_len
+
+
+@pytest.mark.parametrize(
+    "only_deltas, num_lines, total_output_len",
+    ((True, 5, 902), (True, 10, 1064), (False, 0, 2502)),
+)
+def test_schema_context_diff(
+    only_deltas: bool,
+    num_lines: int,
+    total_output_len: int,
+    schema_dir: str,
+):
+    result = runner.invoke(
+        app,
+        [
+            "schema-diff",
+            "--source-path",
+            os.path.join(schema_dir, "example.avsc"),
+            "--target-path",
+            os.path.join(schema_dir, "example_v2.avsc"),
+            "--only-deltas" if only_deltas else "--no-only-deltas",
+            "--num-lines",
+            str(num_lines),
+            "--type",
+            "context",
+        ],
+    )
+    assert result.exit_code == 0
+    assert len(result.stdout) <= total_output_len
+
+
+@pytest.mark.parametrize(
+    "only_deltas, num_lines, total_output_len",
+    ((True, 5, 620), (True, 10, 696), (False, 0, 1376)),
+)
+def test_schema_unified_diff(
+    only_deltas: bool,
+    num_lines: int,
+    total_output_len: int,
+    schema_dir: str,
+):
+    result = runner.invoke(
+        app,
+        [
+            "schema-diff",
+            "--source-path",
+            os.path.join(schema_dir, "example.avsc"),
+            "--target-path",
+            os.path.join(schema_dir, "example_v2.avsc"),
+            "--only-deltas" if only_deltas else "--no-only-deltas",
+            "--num-lines",
+            str(num_lines),
+            "--type",
+            "unified",
+        ],
+    )
+    assert result.exit_code == 0
+    assert len(result.stdout) <= total_output_len
 
 
 def test_generate_model_two_options(schema_dir: str):
