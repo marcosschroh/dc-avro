@@ -1,5 +1,6 @@
 import difflib
 from dataclasses import dataclass
+from enum import Enum
 from typing import Dict, NamedTuple, Optional, Sequence
 
 from rich.style import Style
@@ -8,6 +9,12 @@ from rich.text import Text
 
 DELETE_COLOR = "red"
 ADD_COLOR = "green"
+
+
+class DiffTypes(str, Enum):
+    TABLE = "table"
+    CONTEXT = "context"
+    UNIFIED = "unified"
 
 
 @dataclass
@@ -91,7 +98,59 @@ class TableDiff:
         self.table.add_row(source_colum, target_column, style=style)
 
 
-def diff_resources(
+def unified_diff(
+    *,
+    source_resource: Sequence[str],
+    target_resource: Sequence[str],
+    source_name: str,
+    target_name: str,
+    only_deltas: bool = False,
+    num_lines: int = 5,
+) -> str:
+    if only_deltas and num_lines >= 0:
+        context_lines = num_lines
+    else:
+        # make sure to show all the diff
+        context_lines = 10000000
+
+    diff = difflib.unified_diff(
+        source_resource,
+        target_resource,
+        fromfile=source_name,
+        tofile=target_name,
+        n=context_lines,
+    )
+
+    return "".join(diff)
+
+
+def context_diff(
+    *,
+    source_resource: Sequence[str],
+    target_resource: Sequence[str],
+    source_name: str,
+    target_name: str,
+    only_deltas: bool = False,
+    num_lines: int = 5,
+) -> str:
+    if only_deltas and num_lines >= 0:
+        context_lines = num_lines
+    else:
+        # make sure to show all the diff
+        context_lines = 10000000
+
+    diff = difflib.context_diff(
+        source_resource,
+        target_resource,
+        fromfile=source_name,
+        tofile=target_name,
+        n=context_lines,
+    )
+
+    return "".join(diff)
+
+
+def table_diff(
     *,
     source_resource: Sequence[str],
     target_resource: Sequence[str],
