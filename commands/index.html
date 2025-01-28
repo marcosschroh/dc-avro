@@ -340,6 +340,39 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="View diff between schemas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#table-diff" class="md-nav__link">
+    <span class="md-ellipsis">
+      Table diff
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#context-diff" class="md-nav__link">
+    <span class="md-ellipsis">
+      Context diff
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unified-diff" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unified diff
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -445,6 +478,39 @@
       View diff between schemas
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="View diff between schemas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#table-diff" class="md-nav__link">
+    <span class="md-ellipsis">
+      Table diff
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#context-diff" class="md-nav__link">
+    <span class="md-ellipsis">
+      Context diff
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unified-diff" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unified diff
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -902,11 +968,10 @@ python <code>dict</code></p>
 <p>For  <code>avro deserialization</code> you have to include the character <code>b</code> in the string to indicate that the actual value
 is <code>bytes</code></p>
 <h2 id="view-diff-between-schemas">View diff between schemas</h2>
-<p>Sometimes it is useful to see the difference between <code>avsc</code> files, specially for the <code>avro schema evolution</code>. You need to specify the <code>source</code> and <code>target</code> schema.
-Both of them can be using the <code>path</code> or <code>url</code></p>
-<p>Example:</p>
-<p>The v1 schema version is in the <code>schema registry</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<p>Sometimes it is useful to see the difference between <code>avsc</code> files, specially for the <code>avro schema evolution</code>. You need to specify the <code>source</code> and <code>target</code> schema. Both of them can be using the <code>path</code> or <code>url</code>.</p>
+<p>There are three different kind of diff that you can select from: <code>table</code>, <code>context</code> and <code>unified</code>. Each diff have the option to be a <code>full</code> diff or <code>only-delta</code> with a <code>n</code> number of lines.</p>
+<p>We will use the following schema to show the three different diffs:</p>
+<div class="highlight"><span class="filename">Version v1</span><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"record"</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UserAdvance"</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">"fields"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
@@ -976,7 +1041,7 @@ Both of them can be using the <code>path</code> or <code>url</code></p>
 <span class="p">}</span>
 </code></pre></div>
 <p>Then a PR has been opened with the <code>UserAdvance v2</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<div class="highlight"><span class="filename">Version: v2</span><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"record"</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UserAdvance"</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">"fields"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
@@ -1042,6 +1107,8 @@ Both of them can be using the <code>path</code> or <code>url</code></p>
 <li>The field <code>md5</code> has been removed</li>
 </ul>
 <p>If we run the <code>schema-diff</code> command we have the following result:</p>
+<h3 id="table-diff">Table diff</h3>
+<p>Table diff is just a diff represented with a <code>rich</code> python extension. It is useful when seing the diff in your own terminal</p>
 <div class="highlight"><pre><span></span><code>dc-avro<span class="w"> </span>schema-diff<span class="w"> </span>--source-path<span class="w"> </span>./tests/schemas/example.avsc<span class="w"> </span>--target-path<span class="w">  </span>./tests/schemas/example_v2.avsc
 </code></pre></div>
 <p><div class="video-container"><iframe src="../statics/schema_diff.mp4" style="position:relative;width:100%;height:22.172vw" frameborder="0" allowfullscreen alt="type:video"></iframe></div></p>
@@ -1049,6 +1116,57 @@ Both of them can be using the <code>path</code> or <code>url</code></p>
 <div class="highlight"><pre><span></span><code>dc-avro<span class="w"> </span>schema-diff<span class="w"> </span>--source-path<span class="w"> </span>./tests/schemas/example.avsc<span class="w"> </span>--target-path<span class="w">  </span>./tests/schemas/example_v2.avsc<span class="w"> </span>--only-deltas<span class="w"> </span>--num-lines<span class="w"> </span><span class="m">3</span>
 </code></pre></div>
 <p><div class="video-container"><iframe src="../statics/schema_diff_deltas.mp4" style="position:relative;width:100%;height:22.172vw" frameborder="0" allowfullscreen alt="type:video"></iframe></div></p>
+<h3 id="context-diff">Context diff</h3>
+<p>Context diffs are a compact way of showing line changes and a few lines of context.  The number of context lines is set by <code>--num-lines</code> which defaults to three. By default, the diff control lines (those with <code>***</code> or <code>---</code>) are created with a trailing newline.</p>
+<div class="highlight"><pre><span></span><code>dc-avro<span class="w"> </span>schema-diff<span class="w"> </span>--source-path<span class="w"> </span>./tests/schemas/example.avsc<span class="w"> </span>--target-path<span class="w">  </span>./tests/schemas/example_v2.avsc<span class="w"> </span>--only-deltas<span class="w"> </span>--num-lines<span class="w"> </span><span class="m">0</span><span class="w"> </span>--type<span class="w"> </span>context
+
+***<span class="w"> </span>./tests/schemas/example.avsc
+---<span class="w"> </span>./tests/schemas/example_v2.avsc
+***************
+***<span class="w"> </span><span class="m">49</span><span class="w"> </span>****
+!<span class="w">       </span><span class="s2">"default"</span>:<span class="w"> </span><span class="s2">"Argentina"</span>
+---<span class="w"> </span><span class="m">49</span><span class="w"> </span>----
+!<span class="w">       </span><span class="s2">"default"</span>:<span class="w"> </span><span class="s2">"Netherlands"</span>
+***************
+***<span class="w"> </span><span class="m">55</span><span class="w"> </span>****
+!<span class="w">         </span><span class="s2">"string"</span>
+---<span class="w"> </span><span class="m">55</span>,56<span class="w"> </span>----
+!<span class="w">         </span><span class="s2">"string"</span>,
+!<span class="w">         </span><span class="s2">"int"</span>
+***************
+***<span class="w"> </span><span class="m">58</span>,65<span class="w"> </span>****
+-<span class="w">     </span><span class="o">}</span>,
+-<span class="w">     </span><span class="o">{</span>
+-<span class="w">       </span><span class="s2">"name"</span>:<span class="w"> </span><span class="s2">"md5"</span>,
+-<span class="w">       </span><span class="s2">"type"</span>:<span class="w"> </span><span class="o">{</span>
+-<span class="w">         </span><span class="s2">"type"</span>:<span class="w"> </span><span class="s2">"fixed"</span>,
+-<span class="w">         </span><span class="s2">"name"</span>:<span class="w"> </span><span class="s2">"md5"</span>,
+-<span class="w">         </span><span class="s2">"size"</span>:<span class="w"> </span><span class="m">16</span>
+-<span class="w">       </span><span class="o">}</span>
+---<span class="w"> </span><span class="m">58</span><span class="w"> </span>----
+</code></pre></div>
+<h3 id="unified-diff">Unified diff</h3>
+<p>Unified diffs are a compact way of showing line changes and a few lines of context.  The number of context lines is set by <code>--num-lines</code> which defaults to three. By default, the diff control lines (those with <code>---</code>, <code>+++</code>, or <code>@@</code>) are created with a trailing newline.</p>
+<div class="highlight"><pre><span></span><code>dc-avro<span class="w"> </span>schema-diff<span class="w"> </span>--source-path<span class="w"> </span>./tests/schemas/example.avsc<span class="w"> </span>--target-path<span class="w">  </span>./tests/schemas/example_v2.avsc<span class="w"> </span>--only-deltas<span class="w"> </span>--num-lines<span class="w"> </span><span class="m">0</span><span class="w"> </span>--type<span class="w"> </span>unified
+---<span class="w"> </span>./tests/schemas/example.avsc
++++<span class="w"> </span>./tests/schemas/example_v2.avsc
+@@<span class="w"> </span>-49<span class="w"> </span>+49<span class="w"> </span>@@
+-<span class="w">      </span><span class="s2">"default"</span>:<span class="w"> </span><span class="s2">"Argentina"</span>
++<span class="w">      </span><span class="s2">"default"</span>:<span class="w"> </span><span class="s2">"Netherlands"</span>
+@@<span class="w"> </span>-55<span class="w"> </span>+55,2<span class="w"> </span>@@
+-<span class="w">        </span><span class="s2">"string"</span>
++<span class="w">        </span><span class="s2">"string"</span>,
++<span class="w">        </span><span class="s2">"int"</span>
+@@<span class="w"> </span>-58,8<span class="w"> </span>+58,0<span class="w"> </span>@@
+-<span class="w">    </span><span class="o">}</span>,
+-<span class="w">    </span><span class="o">{</span>
+-<span class="w">      </span><span class="s2">"name"</span>:<span class="w"> </span><span class="s2">"md5"</span>,
+-<span class="w">      </span><span class="s2">"type"</span>:<span class="w"> </span><span class="o">{</span>
+-<span class="w">        </span><span class="s2">"type"</span>:<span class="w"> </span><span class="s2">"fixed"</span>,
+-<span class="w">        </span><span class="s2">"name"</span>:<span class="w"> </span><span class="s2">"md5"</span>,
+-<span class="w">        </span><span class="s2">"size"</span>:<span class="w"> </span><span class="m">16</span>
+-<span class="w">      </span><span class="o">}</span>
+</code></pre></div>
 <h2 id="generate-fake-data-from-schema">Generate fake data from schema</h2>
 <p>Generate one sample from a given schema:</p>
 <div class="highlight"><pre><span></span><code>dc-avro<span class="w"> </span>generate-data<span class="w"> </span>./tests/schemas/example.avsc
