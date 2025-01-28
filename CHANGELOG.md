@@ -1,3 +1,9 @@
+## 0.12.0 (2025-01-28)
+
+### Feat
+
+- **diff**: context and unified type diff added
+
 ## 0.11.0 (2025-01-27)
 
 ### Feat
