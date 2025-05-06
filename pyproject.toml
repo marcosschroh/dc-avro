@@ -28,7 +28,7 @@ typer = {extras = ["all"], version = ">=0.9,<0.16"}
 deepdiff = ">=6.2.3,<9.0.0"
 
 [tool.poetry.group.dev.dependencies]
-commitizen = "^4.3.0"
+commitizen = "^4.6.2"
 ruff = ">=0.5.0,<0.10"
 mypy = "^1"
 mkdocs = "^1.4.2"
