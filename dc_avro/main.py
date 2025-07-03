@@ -14,6 +14,13 @@ from ._diff import DiffTypes, context_diff, table_diff, unified_diff
 from ._types import JsonDict, SerializationType
 from .exceptions import InvalidSchema, JsonRequired
 
+try:
+    import truststore
+    truststore.inject_into_ssl()
+except ImportError:
+    # truststore is not available, continue without it
+    ...
+
 app = typer.Typer()
 console = rich.console.Console()
 
