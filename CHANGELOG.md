@@ -1,3 +1,9 @@
+## 0.12.1 (2025-07-03)
+
+### Fix
+
+- add truststore dep for python = ^3.10
+
 ## 0.12.0 (2025-01-28)
 
 ### Feat
