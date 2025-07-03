@@ -26,6 +26,7 @@ httpx = ">=0.23.3,<0.29.0"
 dataclasses-avroschema = ">=0.57.2"
 typer = {extras = ["all"], version = ">=0.9,<0.17"}
 deepdiff = ">=6.2.3,<9.0.0"
+truststore = {version = "^0.10.1", python = "^3.10"}
 
 [tool.poetry.group.dev.dependencies]
 commitizen = "^4.8.3"
