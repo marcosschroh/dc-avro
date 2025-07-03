@@ -1,3 +1,9 @@
+## 0.12.2 (2025-07-03)
+
+### Fix
+
+- inject_into_ssl if truststore is available (#275)
+
 ## 0.12.1 (2025-07-03)
 
 ### Fix
