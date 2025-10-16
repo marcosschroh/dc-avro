@@ -1,3 +1,13 @@
+## 0.13.0 (2025-10-16)
+
+### BREAKING CHANGE
+
+- python 3.9 support dropped
+
+### Fix
+
+- small twaks (#290)
+
 ## 0.12.2 (2025-07-03)
 
 ### Fix
