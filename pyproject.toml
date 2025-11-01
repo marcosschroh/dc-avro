@@ -29,7 +29,7 @@ truststore = {version = "^0.10.1", python = "^3.10"}
 
 [tool.poetry.group.dev.dependencies]
 commitizen = "^4.8.3"
-ruff = ">=0.5.0,<0.13"
+ruff = ">=0.5.0,<0.15"
 mypy = "^1"
 mkdocs = "^1.4.2"
 pytest = ">=7.2,<9.0"
